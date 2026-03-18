@@ -1,0 +1,66 @@
+name: Auto Version Bump
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '.claude-plugin/marketplace.json'
+      - 'plugins/ideation-copilot/.claude-plugin/plugin.json'
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, 'chore: bump version')"
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine version bump
+        id: bump
+        run: |
+          CURRENT=$(jq -r '.plugins[0].version' .claude-plugin/marketplace.json)
+          echo "current=$CURRENT" >> "$GITHUB_OUTPUT"
+
+          # Check commit messages since last version bump
+          COMMITS=$(git log --oneline $(git log --all --grep="chore: bump version" --format="%H" -1 2>/dev/null || echo "HEAD~10")..HEAD --format="%s")
+
+          MAJOR=0; MINOR=0; PATCH=0
+          while IFS= read -r msg; do
+            case "$msg" in
+              *"BREAKING CHANGE"*|*"!"*) MAJOR=1 ;;
+              feat*) MINOR=1 ;;
+              *) PATCH=1 ;;
+            esac
+          done <<< "$COMMITS"
+
+          IFS='.' read -r CUR_MAJOR CUR_MINOR CUR_PATCH <<< "$CURRENT"
+          if [ "$MAJOR" -eq 1 ]; then
+            NEW="$((CUR_MAJOR + 1)).0.0"
+          elif [ "$MINOR" -eq 1 ]; then
+            NEW="${CUR_MAJOR}.$((CUR_MINOR + 1)).0"
+          else
+            NEW="${CUR_MAJOR}.${CUR_MINOR}.$((CUR_PATCH + 1))"
+          fi
+          echo "new=$NEW" >> "$GITHUB_OUTPUT"
+
+      - name: Update version in all files
+        run: |
+          OLD="${{ steps.bump.outputs.current }}"
+          NEW="${{ steps.bump.outputs.new }}"
+
+          # marketplace.json (both occurrences)
+          jq --arg v "$NEW" '.metadata.version = $v | .plugins[0].version = $v' .claude-plugin/marketplace.json > tmp.json && mv tmp.json .claude-plugin/marketplace.json
+
+          # plugin.json
+          jq --arg v "$NEW" '.version = $v' plugins/ideation-copilot/.claude-plugin/plugin.json > tmp.json && mv tmp.json plugins/ideation-copilot/.claude-plugin/plugin.json
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .claude-plugin/marketplace.json plugins/ideation-copilot/.claude-plugin/plugin.json
+          git commit -m "chore: bump version to ${{ steps.bump.outputs.new }} [skip ci]"
+          git push
