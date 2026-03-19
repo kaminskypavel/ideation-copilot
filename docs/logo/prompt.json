@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "aspect_ratio": "1:1",
+    "quality": "standard",
+    "guidance_scale": 14.0,
+    "steps": 50
+  },
+  "subject": {
+    "description": "Geometric pilot head with aviator helmet and opaque visor, simplified to basic shapes, printed in two-color risograph style with visible ink grain and slight misregistration between color layers"
+  },
+  "scene": {
+    "location": "off-white textured paper background with subtle fiber texture",
+    "background_elements": [
+      "circular arrow loop surrounding pilot head with four stations",
+      "every station icon is solid color with orange background",
+      "add spacing between the pilot and the circular arrow loop",
+      "lightbulb icon at top",
+      "magnifying glass icon at right",
+      "hammer icon at the bottom",
+      "anvil with hammer icon at left",
+      "arrows connecting icons clockwise"
+    ]
+  },
+  "composition": {
+    "framing": "close_up",
+    "angle": "eye_level",
+    "focus_point": "face"
+  },
+  "style_modifiers": {
+    "medium": "risograph print",
+    "aesthetic": "retro_80s",
+    "artist_reference": ["Tadanori Yokoo", "Sister Corita Kent"]
+  },
+  "advanced": {
+    "negative_prompt": [
+      "neon glow",
+      "3d",
+      "glossy",
+      "photorealistic",
+      "gradient",
+      "text",
+      "watermark",
+      "multiple people",
+      "hands",
+      "lens flare",
+      "bloom"
+    ],
+    "magic_prompt_enhancer": false,
+    "hdr_mode": false,
+    "color_restriction": "two-color risograph only: deep navy blue ink and warm burnt orange ink on off-white paper, halftone dot grain visible, no other colors"
+  }
+}

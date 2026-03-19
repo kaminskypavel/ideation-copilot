@@ -3,7 +3,7 @@
 A structured repo for developing disruptive business ideas — from raw spark to validated concept.
 
 <p align="center">
-  <img src="./logo.jpg" width="280" alt="Ideation Copilot" />
+  <img src="./docs/logo/logo.png" width="280" alt="Ideation Copilot" />
 </p>
 
 ## Workflow
