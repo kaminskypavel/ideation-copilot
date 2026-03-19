@@ -9,27 +9,42 @@ A structured repo for developing disruptive business ideas — from raw spark to
 ## Workflow
 
 ```
-/idea:new → /idea:challenge → /idea:forge → repeat
+/idea:new → /idea:pushback → /idea:evaluate → /idea:forge → repeat
+              (stress-test)    (score)          (integrate)
 ```
 
-| Command                          | What it does                                                                                                        |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `/idea:new [name "description"]` | Scaffold a new idea with 6 structured docs                                                                          |
-| `/idea:challenge [idea-name]`    | Stress-test across 7 lenses (problem, customer, market, competition, business model, execution, hidden assumptions) |
-| `/idea:forge [idea-name]`        | Integrate challenge results, new data, and experiment outcomes back into the docs                                   |
+| Command | What it does |
+| --- | --- |
+| `/idea:new [name "description"]` | Scaffold a new idea with 6 structured docs |
+| `/idea:pushback [idea-name]` | Conversational stress-test — breaks idea into claims, challenges each through dialogue with web research |
+| `/idea:evaluate [idea-name]` | Score the idea across VC investability and market opportunity using parallel evaluation agents |
+| `/idea:forge [idea-name]` | Integrate findings, new data, and experiment outcomes back into the docs |
+
+### Evaluation Agents
+
+`/idea:evaluate` dispatches two agents in parallel:
+
+| Agent | Dimensions | What it scores |
+| --- | --- | --- |
+| **VC** | 8 (weighted) | Team, Timing, TAM, Technology, Competition/Moat, Business Model, GTM, Traction |
+| **Market Analyst** | 5 | Market Size & Growth, Competitive Landscape, Timing & Tailwinds, Customer Accessibility, Regulatory Risk |
+
+Run a single agent: `/idea:evaluate my-idea vc` or `/idea:evaluate my-idea market`
+
+Output: machine-readable evaluation file with YAML scores in the idea folder.
 
 ## Idea Structure
 
 Each idea lives in `ideas/YYYY-MM-DD-idea-name/` with:
 
-| File                 | Purpose                                                   |
-| -------------------- | --------------------------------------------------------- |
-| `00-overview.md`     | Problem, insight, solution, target customer               |
-| `01-brainstorm.md`   | Problem/solution space exploration                        |
-| `02-lean-canvas.md`  | Lean Canvas with UVP, channels, revenue, costs            |
-| `03-assumptions.md`  | Hidden assumptions ranked by risk, with evidence tracking |
-| `04-pmf-strategy.md` | PMF ladder, go-to-market, milestones                      |
-| `05-experiments.md`  | Experiment backlog, results, pivot/persevere criteria     |
+| File | Purpose |
+| --- | --- |
+| `00-overview.md` | Problem, insight, solution, target customer |
+| `01-brainstorm.md` | Problem/solution space exploration |
+| `02-lean-canvas.md` | Lean Canvas with UVP, channels, revenue, costs |
+| `03-assumptions.md` | Hidden assumptions ranked by risk, with evidence tracking |
+| `04-pmf-strategy.md` | PMF ladder, go-to-market, milestones |
+| `05-experiments.md` | Experiment backlog, results, pivot/persevere criteria |
 
 ## Installed Skills
 
@@ -65,8 +80,11 @@ codex install github:kaminskypavel/ideation-copilot
 # Create your first idea
 /idea:new smart-spin "AI-powered spinning bike that adapts resistance to your fitness goals"
 
-# Challenge it
-/idea:challenge smart-spin
+# Stress-test it
+/idea:pushback smart-spin
+
+# Score it
+/idea:evaluate smart-spin
 
 # Integrate findings
 /idea:forge smart-spin

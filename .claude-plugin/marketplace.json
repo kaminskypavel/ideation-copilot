@@ -5,13 +5,13 @@
     "url": "https://github.com/kaminskypavel"
   },
   "metadata": {
-    "description": "Business idea development toolkit — scaffold, pushback, and forge disruptive ideas",
+    "description": "Business idea development toolkit — scaffold, pushback, evaluate, and forge disruptive ideas",
     "version": "0.2.0"
   },
   "plugins": [
     {
       "name": "ideation-copilot",
-      "description": "Structured business idea development with /idea:new (scaffold), /idea:pushback (stress-test), and /idea:forge (iterate). Includes lean canvas, assumption tracking, PMF strategy, and experiment planning.",
+      "description": "Structured business idea development with /idea:new (scaffold), /idea:pushback (stress-test), /idea:evaluate (score), and /idea:forge (iterate). Includes VC and market evaluation agents, lean canvas, assumption tracking, PMF strategy, and experiment planning.",
       "version": "0.2.0",
       "author": {
         "name": "Pavel 'PK' Kaminsky",
