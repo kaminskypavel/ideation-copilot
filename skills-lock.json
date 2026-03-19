@@ -11,6 +11,11 @@
       "sourceType": "github",
       "computedHash": "9486c69f242b917183970fe5ed23f21595e69b10e934cdd9f4924b9d5bc6b61f"
     },
+    "excalidraw-diagram-generator": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "e24e3c4cab4b5a07bc1d1801db14868f3a1cd184f7f28f5dd2c4a2b234bf2f2d"
+    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
