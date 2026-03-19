@@ -10,34 +10,9 @@ Turn a raw idea into a validated, investor-ready concept — using AI agents tha
 
 You start with an idea. The copilot guides you through a loop of testing, scoring, and improving until the idea is solid — or killed.
 
-```mermaid
-graph TD
-    NEW["/idea:new — Scaffold your idea"]
-    EVAL["/idea:evaluate — Score your idea"]
-    PUSH["/idea:pushback — Stress-test via dialogue"]
-    UPDATE["/idea:update — Fix what's weak"]
-    FORGE["/idea:forge — Synthesize everything"]
-
-    VC(["VC · 8 dims"])
-    MARKET(["Market · 5 dims"])
-    YC(["YC Fit · 10 dims"])
-
-    NEW --> EVAL
-    EVAL --> PUSH
-    PUSH --> UPDATE
-    UPDATE -->|repeat| EVAL
-    UPDATE -->|ready| FORGE
-    EVAL -..-> VC & MARKET & YC
-
-    style NEW fill:#a5d8ff,stroke:#1e1e1e,stroke-width:2px,color:#1e1e1e
-    style EVAL fill:#ffd43b,stroke:#1e1e1e,stroke-width:2px,color:#1e1e1e
-    style PUSH fill:#b2f2bb,stroke:#1e1e1e,stroke-width:2px,color:#1e1e1e
-    style UPDATE fill:#d0bfff,stroke:#1e1e1e,stroke-width:2px,color:#1e1e1e
-    style FORGE fill:#ffec99,stroke:#1e1e1e,stroke-width:2px,color:#1e1e1e
-    style VC fill:#ffc9c9,stroke:#e03131,color:#1e1e1e
-    style MARKET fill:#ffc9c9,stroke:#e03131,color:#1e1e1e
-    style YC fill:#ffc9c9,stroke:#e03131,color:#1e1e1e
-```
+<p align="center">
+  <img src="./docs/readme/flow.png" alt="Ideation Copilot Workflow" />
+</p>
 
 ### Step 1: Pitch your idea
 
