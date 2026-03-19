@@ -64,3 +64,55 @@ For each dimension being scored, use this format:
 | 3 | Adequate | Reasonable content with some supporting evidence. Standard approach. |
 | 4 | Strong | Clear, specific, well-supported. Shows depth of understanding. |
 | 5 | Exceptional | Comprehensive, evidence-backed, demonstrates unique insight or unfair advantage. |
+
+## Changelog Format
+
+All skills that modify idea documents (forge, improve, pushback) must append a changelog entry to each document they update. This is the idea's history — there is no git dependency.
+
+### Standard Changelog Entry
+
+Append to the bottom of each modified document under a `## Changelog` section (create the section if it doesn't exist):
+
+```markdown
+### [Action]: [YYYY-MM-DD] [mode]
+**Trigger:** [what caused this update]
+**Changes:**
+- [specific change 1]
+- [specific change 2]
+**Source:** [where the evidence came from — interview, experiment, web research, evaluation score]
+**Confidence delta:** [stronger / weaker / pivoted — one sentence why]
+```
+
+### Action Types
+
+| Action | Mode | Trigger |
+|--------|------|---------|
+| Forge | (manual) | Human brings new data, experiment results, or challenge feedback |
+| Improve | (auto) | Evaluation scores — targets weakest dimension via research |
+| Pushback | (session) | Claim sparring revealed new assumptions or invalidated existing ones |
+
+### Examples
+
+```markdown
+### Forge: 2026-03-19 (manual)
+**Trigger:** 12 customer interviews completed
+**Changes:**
+- Updated target customer from "all gym owners" to "boutique gym owners with 50+ members"
+- Revised TAM from 200K to 12K gyms
+- Added 3 new validated assumptions
+**Source:** Customer interview transcripts #1-12
+**Confidence delta:** Stronger — target customer is now specific and validated
+
+### Improve: 2026-03-19 (auto)
+**Trigger:** evaluation score 42/100, weakest: Team (1/5)
+**Changes:**
+- Added founding team section with domain expertise gaps
+- Added advisor recruitment plan targeting fitness-tech operators
+**Source:** Web research — similar startups that succeeded had industry-specific advisors
+**Confidence delta:** Stronger — team gap is now acknowledged with a concrete plan to address it
+**Score delta:** 42 → 58
+```
+
+### Evaluation Timeline
+
+Evaluation files (`evaluation-YYYYMMDD-HHmmss.md`) naturally create a score timeline across iterations. Compare YAML frontmatter across files to see which dimensions improved, which regressed, and what the overall trajectory looks like.

@@ -69,18 +69,23 @@ Work through documents in order, making targeted updates:
 - Update the Decision Log with pivot/persevere decisions
 - Re-prioritize the experiment backlog
 
-### Step 4: Add Forge Entry
+### Step 4: Add Changelog Entries
 
-Append to `00-overview.md` changelog:
+Read the changelog format from `references/evaluation-framework.md`.
+
+For **every document you modified**, append a changelog entry at the bottom using the standard format:
 
 ```markdown
-### Forge: {YYYY-MM-DD}
+### Forge: {YYYY-MM-DD} (manual)
 **Trigger:** {post-challenge / new-data / pivot / iteration}
-**Key changes:**
-- {change 1}
-- {change 2}
-**Confidence delta:** {idea is stronger/weaker/pivoted because...}
+**Changes:**
+- {specific change 1}
+- {specific change 2}
+**Source:** {where the evidence came from — interview, experiment, market report, challenge session}
+**Confidence delta:** {stronger / weaker / pivoted — one sentence why}
 ```
+
+Create the `## Changelog` section at the bottom of each doc if it doesn't exist yet.
 
 ### Step 5: Summary
 
