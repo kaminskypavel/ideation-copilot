@@ -9,16 +9,19 @@ A structured repo for developing disruptive business ideas — from raw spark to
 ## Workflow
 
 ```
-/idea:new → /idea:pushback → /idea:evaluate → /idea:forge → repeat
-              (stress-test)    (score)          (integrate)
+/idea:new → /idea:pushback → /idea:evaluate → /idea:update → (repeat) → /idea:forge
+              (stress-test)    (score)          (add info)                  (synthesize)
 ```
 
 | Command | What it does |
 | --- | --- |
 | `/idea:new [name "description"]` | Scaffold a new idea with 6 structured docs |
-| `/idea:pushback [idea-name]` | Conversational stress-test — breaks idea into claims, challenges each through dialogue with web research |
-| `/idea:evaluate [idea-name]` | Score the idea across VC investability and market opportunity using parallel evaluation agents |
-| `/idea:forge [idea-name]` | Integrate findings, new data, and experiment outcomes back into the docs |
+| `/idea:pushback [idea-name]` | Conversational stress-test — challenges claims through dialogue with web research |
+| `/idea:evaluate [idea-name]` | Score the idea across VC investability and market opportunity using parallel agents |
+| `/idea:update [idea-name]` | Add new info to docs — interviews, experiments, team details, market data |
+| `/idea:forge [idea-name]` | Synthesize everything into a consolidated summary with score trajectory |
+
+Each command hints at what to do next, so you always know the next step.
 
 ### Evaluation Agents
 
@@ -30,8 +33,6 @@ A structured repo for developing disruptive business ideas — from raw spark to
 | **Market Analyst** | 5 | Market Size & Growth, Competitive Landscape, Timing & Tailwinds, Customer Accessibility, Regulatory Risk |
 
 Run a single agent: `/idea:evaluate my-idea vc` or `/idea:evaluate my-idea market`
-
-Output: machine-readable evaluation file with YAML scores in the idea folder.
 
 ## Idea Structure
 
@@ -45,6 +46,12 @@ Each idea lives in `ideas/YYYY-MM-DD-idea-name/` with:
 | `03-assumptions.md` | Hidden assumptions ranked by risk, with evidence tracking |
 | `04-pmf-strategy.md` | PMF ladder, go-to-market, milestones |
 | `05-experiments.md` | Experiment backlog, results, pivot/persevere criteria |
+
+Session artifacts (created automatically):
+- `pushback-session-*.md` — sparring scorecards
+- `pushback-predictions-*.md` — falsifiable predictions
+- `evaluation-*.md` — scored reports with YAML frontmatter
+- `forge-*.md` — consolidated synthesis summaries
 
 ## Installed Skills
 
@@ -86,6 +93,9 @@ codex install github:kaminskypavel/ideation-copilot
 # Score it
 /idea:evaluate smart-spin
 
-# Integrate findings
+# Add new info (e.g., after customer interviews)
+/idea:update smart-spin
+
+# Synthesize everything after multiple rounds
 /idea:forge smart-spin
 ```

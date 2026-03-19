@@ -144,6 +144,23 @@ If the founder challenges a score:
 - **"details [dimension]"** — expand the full reasoning for a specific score
 - **"done"** — end the evaluation session
 
+## Next Steps
+
+After presenting the evaluation, suggest next steps based on the scores:
+
+```
+Evaluation complete! What's next?
+
+→ /idea:update {idea-name}     — fix low scores by adding missing info to your docs
+→ /idea:pushback {idea-name}   — stress-test the claims behind your weakest dimensions
+→ /idea:forge {idea-name}      — synthesize everything if you've done multiple rounds
+```
+
+Choose based on the scores:
+- If low scores reflect **missing info** (e.g., Team scored low because docs don't mention the founder's background) → suggest **update**
+- If low scores reflect **untested claims** (e.g., TAM is assumed, not validated) → suggest **pushback**
+- If scores are strong across the board → suggest **forge** to create the consolidated summary
+
 ## Graceful Degradation
 
 - **Sparse idea folders:** Distinguish "not documented" from "documented but weak." Note: "Score reflects missing documentation — [dimension] may improve if [specific doc] is fleshed out."

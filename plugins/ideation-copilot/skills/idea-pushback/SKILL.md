@@ -174,8 +174,6 @@ After all claims are processed (or when the user asks), update the scorecard wit
 **Recommended Next Move:**
 > The one experiment or action that would most reduce risk.
 
-**Ready for scoring?**
-> Run `/idea:evaluate {idea-name}` to get a quantified VC and market score.
 ```
 
 **Prediction Document:**
@@ -213,6 +211,21 @@ Session: <scorecard filename>
 ```
 
 If `03-assumptions.md` exists, offer to append newly discovered assumptions.
+
+**Suggest next steps based on the session:**
+
+```
+Pushback complete! What's next?
+
+→ /idea:update {idea-name}     — add new info that came up during sparring (e.g., "I'm the CTO")
+→ /idea:evaluate {idea-name}   — get a quantified VC and market score
+→ /idea:forge {idea-name}      — synthesize everything into a consolidated summary (if you've done multiple rounds)
+```
+
+Choose based on the session:
+- If the founder revealed new information that should be in the docs → suggest **update** first
+- If this was a good session and scores would be useful → suggest **evaluate**
+- If the idea has been through multiple rounds and needs synthesis → suggest **forge**
 
 ## Session Commands
 

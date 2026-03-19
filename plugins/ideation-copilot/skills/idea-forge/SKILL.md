@@ -1,109 +1,122 @@
 ---
 name: idea:forge
-description: Update and strengthen idea documents after a challenge, new research, or validated data. Integrates learnings, resolves open questions, and hardens the idea. Use when the user has new data, completed experiments, received challenge feedback, or wants to refine an existing idea.
+description: Synthesize all accumulated knowledge about an idea into a consolidated summary — score trajectory, key findings, validated vs assumed, and pitch-ready overview. Use when the idea has been through multiple rounds and needs a clear picture of where it stands.
 argument-hint: [idea-folder-name]
 disable-model-invocation: true
-allowed-tools: Read, Glob, Write, Edit
+allowed-tools: Read, Glob, Write
 ---
 
 # Forge Idea
 
-Refine and harden a business idea by integrating new evidence, challenge results, and validated learnings into the existing documents. This is the iterative improvement loop — the idea gets sharper each time it passes through the forge.
+Read everything accumulated about an idea — docs, evaluations, pushback sessions, predictions — and synthesize it into a single consolidated summary. This is the compounding step: it makes all the accumulated knowledge legible.
 
 ## Workflow
 
-### Step 1: Load the Idea
+### Step 1: Load Everything
 
-Read `` to identify the idea folder. Search for it under `ideas/`.
+Read `<argument>` to identify the idea folder. Search for it under `ideas/`.
 
 ```
 ideas/*{argument}*/
 ```
 
-Read all documents in the folder (00-overview through 05-experiments).
+Read ALL files in the folder:
+- **Idea docs:** 00-overview through 05-experiments (including their changelog entries)
+- **Evaluation files:** all `evaluation-*.md` files (sorted by date for trajectory)
+- **Pushback sessions:** all `pushback-session-*.md` files
+- **Prediction docs:** all `pushback-predictions-*.md` files
 
-### Step 2: Identify What Changed
+### Step 2: Build the Score Trajectory
 
-Ask the user or infer from context:
-
-- **Post-challenge?** Look for challenge output in the conversation history. Extract weaknesses found, hidden assumptions discovered, and recommended next moves.
-- **New data?** Ask the user what new information they have (customer interviews, market data, competitor analysis, experiment results).
-- **Pivot?** Has the core thesis changed? If so, flag which documents need major rewrites vs. minor updates.
-
-### Step 3: Update Each Document
-
-Work through documents in order, making targeted updates:
-
-#### 00-overview.md
-- Sharpen the problem statement based on new evidence
-- Update the insight if the thesis has evolved
-- Refine target customer if interviews revealed a different buyer
-- Add or update a `## Changelog` section at the bottom tracking what changed and why
-
-#### 01-brainstorm.md
-- Move validated ideas from "possible approaches" to confirmed
-- Remove approaches that were invalidated
-- Add new approaches surfaced by challenges or research
-- Update "Open Questions" — close answered ones, add new ones
-
-#### 02-lean-canvas.md
-- Update any cell that has new evidence
-- Bold cells that are now validated vs. still assumed
-- Recalculate unit economics if pricing or CAC data changed
-
-#### 03-assumptions.md
-- Mark tested assumptions with result: **Validated** / **Invalidated** / **Partially validated**
-- Add newly discovered assumptions from challenges
-- Re-rank the assumption stack based on current knowledge
-- Update "The Riskiest Assumption" if it shifted
-
-#### 04-pmf-strategy.md
-- Check off completed milestones on the PMF ladder
-- Update go-to-market based on what channels actually worked
-- Refine kill criteria based on learnings
-- Update competitive moat assessment
-
-#### 05-experiments.md
-- Fill in results and learnings for completed experiments
-- Add new experiments based on challenge findings or new assumptions
-- Update the Decision Log with pivot/persevere decisions
-- Re-prioritize the experiment backlog
-
-### Step 4: Add Changelog Entries
-
-Read the changelog format from `references/evaluation-framework.md`.
-
-For **every document you modified**, append a changelog entry at the bottom using the standard format:
+Parse YAML frontmatter from all evaluation files. Build a timeline:
 
 ```markdown
-### Forge: {YYYY-MM-DD} (manual)
-**Trigger:** {post-challenge / new-data / pivot / iteration}
-**Changes:**
-- {specific change 1}
-- {specific change 2}
-**Source:** {where the evidence came from — interview, experiment, market report, challenge session}
-**Confidence delta:** {stronger / weaker / pivoted — one sentence why}
+## Score Trajectory
+
+| Date | Combined | VC | Market | Weakest Dimension | Deal-breakers |
+|------|----------|-----|--------|-------------------|---------------|
+| 2026-03-19 | 42/100 | 34 | 50 | Team (1/5) | Team |
+| 2026-03-20 | 58/100 | 52 | 64 | Traction (2/5) | None |
+| 2026-03-22 | 74/100 | 70 | 78 | GTM (3/5) | None |
+
+**Trend:** Improving (+32 points across 3 evaluations)
+**Biggest improvement:** Team (1→4, after adding CTO background and advisor plan)
+**Persistent weakness:** GTM — still no proven cold acquisition channel
 ```
 
-Create the `## Changelog` section at the bottom of each doc if it doesn't exist yet.
+If only one evaluation exists, show it as the baseline with no trajectory.
 
-### Step 5: Summary
+### Step 3: Synthesize Findings
 
-Output a concise diff summary:
+Read all pushback sessions and compile:
+
+**What's been validated:**
+- Claims that received "Verified" verdicts with High confidence
+- Assumptions marked as validated in 03-assumptions.md
+
+**What's been refuted or remains risky:**
+- Claims that received "Refuted" or "Unresolved" verdicts
+- Assumptions still untested or invalidated
+- Deal-breakers from evaluations (even if resolved — note they were once flagged)
+
+**Key pivots and evolution:**
+- Compile from changelog entries across all docs
+- Track how the thesis evolved from the original pitch
+
+### Step 4: Write the Forge Summary
+
+Create `forge-YYYYMMDD.md` in the idea folder:
+
+```markdown
+# Forge: <idea name>
+Date: <date>
+Evaluations analyzed: <count>
+Pushback sessions analyzed: <count>
+
+## Idea in One Paragraph
+<Synthesized from 00-overview, incorporating all evolution>
+
+## Score Trajectory
+<table from Step 2>
+
+## What's Validated
+- <validated claim/assumption with source>
+
+## What's Still Risky
+- <unvalidated claim with what would test it>
+
+## Key Pivots
+1. <date>: <what changed and why>
+
+## Open Questions
+<Compiled from all sessions and docs>
+
+## Pitch-Ready Summary
+<3-5 bullet points a founder could use to pitch this idea right now, grounded in validated evidence>
+
+## Verdict
+**Idea strength:** [Strong / Promising / Needs work / Reconsider]
+**Confidence level:** [High / Medium / Low] — based on ratio of validated vs assumed claims
+**Biggest remaining risk:** <one sentence>
+**Recommended next action:** <one specific thing to do>
+```
+
+### Step 5: Present and Suggest Next Steps
+
+Output the forge summary, then:
 
 ```
-## Forge Summary
+Forge complete! Here's where this idea stands.
 
-**Documents updated:** X/6
-**Assumptions resolved:** X validated, Y invalidated, Z new
-**Confidence:** [Higher / Lower / Pivoted] — {one sentence why}
-**Next action:** {the single most important thing to do next}
+→ /idea:pushback {idea-name}   — if there are still untested claims to challenge
+→ /idea:evaluate {idea-name}   — if you've made changes since the last score
+→ /idea:new {new-idea-name}    — if the forge reveals a pivot worth exploring as a new idea
 ```
 
 ## Principles
 
-- **Evidence over opinion.** Only upgrade confidence when there's real data backing it. "I think customers want this" stays as an assumption. "12/15 interviewees said they'd pay $30/mo" is evidence.
-- **Track provenance.** When updating a claim, note where the evidence came from (interview #, experiment result, market report).
-- **Don't delete history.** Use strikethrough for invalidated assumptions rather than removing them — the graveyard of bad assumptions is valuable learning.
-- **Compound knowledge.** Each forge pass should make the documents more precise, not just longer. Remove fluff, tighten language, increase specificity.
-- **Flag regression.** If new data makes the idea weaker, say so clearly. Don't sugarcoat — that defeats the purpose.
+- **Synthesize, don't summarize.** A summary just shortens. A synthesis connects dots across sessions and finds the pattern.
+- **Show the trajectory.** The score timeline tells the story of how the idea evolved — it's the most valuable output.
+- **Ground in evidence.** Every "validated" claim must cite where it was validated (evaluation score, pushback verdict, experiment result). No unsourced confidence.
+- **Be honest about what's still assumed.** The ratio of validated to assumed claims is the real confidence metric.
+- **Make it pitch-ready.** The forge output should be something a founder can hand to an advisor or investor as a concise status update.

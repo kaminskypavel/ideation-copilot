@@ -49,10 +49,13 @@ For PMF strategy, use the installed `pmf-strategy` skill's framework if availabl
 After creation, output:
 1. The folder path
 2. A brief table of all created documents with their purpose
-3. Show the idea workflow loop:
-   - `/idea:challenge idea-name` — stress-test the idea
-   - `/idea:forge idea-name` — integrate findings and harden the docs
-   - Repeat until confident or killed
+3. Suggest next step:
+
+```
+Your idea is scaffolded! Here's what to do next:
+
+→ /idea:pushback {idea-name}  — stress-test your idea through conversational sparring + scoring
+```
 
 ## Success Criteria
 - [ ] All 6 files created with meaningful starter content
