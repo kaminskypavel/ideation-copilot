@@ -1,7 +1,7 @@
 ---
 title: "feat: Add /idea:evaluate with parallel VC and Market agents"
 type: feat
-status: active
+status: completed
 date: 2026-03-19
 origin: docs/brainstorms/2026-03-19-idea-evaluate-requirements.md
 ---

@@ -24,7 +24,15 @@ ideas/*{argument}*/
 
 Read all documents in the folder (00-overview through 05-experiments). If documents are sparse, note that but work with what's there.
 
-Break the idea into **discrete, testable claims** organized by these lenses:
+Read the shared evaluation framework:
+
+```
+references/evaluation-framework.md
+```
+
+This framework contains the **business lenses**, **reasoning tools**, and **scoring principles** you'll use throughout the session.
+
+Break the idea into **discrete, testable claims** organized by the 7 business lenses from the framework:
 
 1. **Problem Validity** — Is this a real problem? Vitamin or painkiller?
 2. **Customer Clarity** — Is the target specific enough to find and sell to?
@@ -80,7 +88,7 @@ Process each claim one at a time. For each:
 
 **3a. Challenge**
 
-Construct the strongest opposing position. Name the reasoning tool you're using so the critique is auditable:
+Construct the strongest opposing position. Use the **reasoning tools from the evaluation framework** and name the tool you're using so the critique is auditable:
 
 - *Base rate analysis* — what's the actual base rate? Is the founder anchoring on outliers?
 - *Inversion* — what would guarantee this fails?
@@ -165,6 +173,9 @@ After all claims are processed (or when the user asks), update the scorecard wit
 
 **Recommended Next Move:**
 > The one experiment or action that would most reduce risk.
+
+**Ready for scoring?**
+> Run `/idea:evaluate {idea-name}` to get a quantified VC and market score.
 ```
 
 **Prediction Document:**
@@ -217,6 +228,8 @@ If `03-assumptions.md` exists, offer to append newly discovered assumptions.
 - **Session resume** — if multiple scorecards exist, list them and ask which to resume
 
 ## Principles
+
+Follow the **scoring principles from the evaluation framework**, plus:
 
 - **Be specific, not generic.** "Your market might be smaller" is useless. "Your TAM assumes 100% of gym owners want this, but only boutique gyms with 50+ members would pay — that's 12K gyms, not 200K" is useful.
 - **Steel-man before attacking.** Show you understand the strengths before tearing into weaknesses.
