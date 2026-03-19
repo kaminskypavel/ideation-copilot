@@ -1,7 +1,7 @@
 ---
 name: idea:evaluate
-description: Score a business idea across VC investability and market opportunity using parallel evaluation agents. Produces a machine-readable report with scores, deal-breakers, and the weakest dimension. Use when the user wants a quantified assessment of their idea.
-argument-hint: [idea-folder-name] [vc|market]
+description: Score a business idea across VC investability, market opportunity, and founder-idea fit using parallel evaluation agents. Produces a machine-readable report with scores, deal-breakers, and the weakest dimension. Use when the user wants a quantified assessment of their idea.
+argument-hint: [idea-folder-name] [vc|market|yc]
 disable-model-invocation: true
 allowed-tools: Read, Glob, Write, WebSearch, WebFetch, Agent
 ---
@@ -47,6 +47,7 @@ Launch two Agent tasks simultaneously, each receiving the full context block:
 
 1. **VC Agent** — evaluates investability across 8 weighted dimensions (Team, Timing, TAM, Technology/Product, Competition/Moat, Business Model, GTM, Traction/Validation)
 2. **Market Analyst Agent** — evaluates market opportunity across 5 dimensions (Market Size & Growth, Competitive Landscape, Timing & Tailwinds, Customer Accessibility, Regulatory/Macro Risk)
+3. **YC Founder-Fit Agent** — evaluates founder-idea fit across 10 dimensions from the YC framework (Founder-Market Fit, Market Size, Problem Acuteness, Competition Presence, Personal/Peer Demand, Recent Possibility/Necessity, Successful Proxies, Long-term Commitment, Business Scalability, Idea Space Fertility)
 
 Each agent:
 - Applies the reasoning tools from the evaluation framework
@@ -58,11 +59,12 @@ Each agent:
 
 Collect outputs from both agents (or one if filtered). Compute:
 
-**If both agents ran:**
+**If all agents ran:**
 ```
-combined_score = round((vc_overall + market_overall) / 2)
+combined_score = round((vc_overall + market_overall + yc_overall) / 3)
 ```
 
+**If two agents ran:** average those two scores.
 **If single agent:** use that agent's overall score as the combined score.
 
 Identify:
@@ -79,6 +81,7 @@ Present a summary table:
 |-------|-------|---------------|
 | VC Investability | [score]/100 | [list or None] |
 | Market Opportunity | [score]/100 | — |
+| YC Founder-Fit | [score]/100 | — |
 | **Combined** | **[score]/100** | **[count] deal-breaker(s)** |
 
 **Weakest dimension:** [agent] → [dimension] ([score]/5) — address this first.
@@ -99,8 +102,8 @@ The file starts with YAML frontmatter containing all scores in a machine-readabl
 ---
 type: evaluation
 date: YYYY-MM-DD
-agents: [vc, market-analyst]
-combined_score: 62
+agents: [vc, market-analyst, yc-founder-fit]
+combined_score: 59
 deal_breakers: ["Team scored 1/5"]
 scores:
   vc:
@@ -122,6 +125,19 @@ scores:
       timing_tailwinds: { score: 4 }
       customer_accessibility: { score: 3 }
       regulatory_risk: { score: 3 }
+  yc_founder_fit:
+    overall: 54
+    dimensions:
+      founder_market_fit: { score: 4 }
+      market_size: { score: 3 }
+      problem_acuteness: { score: 2 }
+      competition_presence: { score: 3 }
+      personal_peer_demand: { score: 2 }
+      recent_possibility: { score: 4 }
+      successful_proxies: { score: 3 }
+      long_term_commitment: { score: 3 }
+      business_scalability: { score: 2 }
+      idea_space_fertility: { score: 3 }
 weakest_dimension: { agent: "vc", dimension: "traction", score: 1 }
 ---
 ```
@@ -165,4 +181,4 @@ Choose based on the scores:
 
 - **Sparse idea folders:** Distinguish "not documented" from "documented but weak." Note: "Score reflects missing documentation — [dimension] may improve if [specific doc] is fleshed out."
 - **No WebSearch available:** Fall back to doc-only analysis. Note which scores lack empirical validation.
-- **Single agent filter:** `/idea:evaluate my-idea vc` produces only VC scores. The combined score equals the single agent's score.
+- **Single agent filter:** `/idea:evaluate my-idea vc` or `market` or `yc` produces only that agent's scores. The combined score equals the single agent's score.

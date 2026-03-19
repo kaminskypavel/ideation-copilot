@@ -25,14 +25,15 @@ Each command hints at what to do next, so you always know the next step.
 
 ### Evaluation Agents
 
-`/idea:evaluate` dispatches two agents in parallel:
+`/idea:evaluate` dispatches three agents in parallel:
 
 | Agent | Dimensions | What it scores |
 | --- | --- | --- |
 | **VC** | 8 (weighted) | Team, Timing, TAM, Technology, Competition/Moat, Business Model, GTM, Traction |
 | **Market Analyst** | 5 | Market Size & Growth, Competitive Landscape, Timing & Tailwinds, Customer Accessibility, Regulatory Risk |
+| **YC Founder-Fit** | 10 | Founder-Market Fit, Market Size, Problem Acuteness, Competition Presence, Personal Demand, Recent Possibility, Successful Proxies, Long-term Commitment, Scalability, Idea Space Fertility |
 
-Run a single agent: `/idea:evaluate my-idea vc` or `/idea:evaluate my-idea market`
+Run a single agent: `/idea:evaluate my-idea vc` or `market` or `yc`
 
 ## Idea Structure
 
