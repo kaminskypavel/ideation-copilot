@@ -32,7 +32,16 @@ references/evaluation-framework.md
 
 This framework contains the **business lenses**, **reasoning tools**, and **scoring principles** you'll use throughout the session.
 
-Break the idea into **discrete, testable claims** organized by the 7 business lenses from the framework:
+**Check for existing evaluations:**
+
+Look for `evaluation-*.md` files in the idea folder. If one or more exist, read the most recent one. This gives you:
+- **Pre-researched findings** — competitors, market data, TAM validation. Don't re-research what the evaluation already found. Reference it instead: "Your evaluation found that Flywheel tried this with $46M and failed..."
+- **Score-based prioritization** — start sparring on the weakest dimensions first. If Traction is 1/5, challenge that before challenging Timing at 4/5.
+- **Deal-breakers to probe** — if the evaluation flagged deal-breakers, make those the first claims to spar on.
+
+If no evaluation exists, proceed normally — decompose from the docs alone.
+
+Break the idea into **discrete, testable claims** organized by the 7 business lenses from the framework. **If an evaluation exists, order claims by weakest score first:**
 
 1. **Problem Validity** — Is this a real problem? Vitamin or painkiller?
 2. **Customer Clarity** — Is the target specific enough to find and sell to?
