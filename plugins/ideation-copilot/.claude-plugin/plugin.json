@@ -1,5 +1,5 @@
 {
   "name": "ideation-copilot",
   "description": "Structured business idea development with /idea:new (scaffold), /idea:challenge (stress-test), and /idea:forge (iterate). Includes lean canvas, assumption tracking, PMF strategy, and experiment planning.",
-  "version": "0.2.0"
+  "version": "0.3.0"
 }
