@@ -1,12 +1,12 @@
 ---
-name: idea:critique
-description: Conversational stress-test for business ideas. Breaks an idea into testable claims, challenges each through dialogue with web-backed research, and produces a scorecard with verdicts. Use when the user wants to pressure-test, critique, or poke holes in a business concept.
+name: idea:pushback
+description: Conversational stress-test for business ideas. Breaks an idea into testable claims, challenges each through dialogue with web-backed research, and produces a scorecard with verdicts. Use when the user wants to pressure-test, get pushback, or poke holes in a business concept.
 argument-hint: [idea-folder-name]
 disable-model-invocation: true
 allowed-tools: Read, Glob, Write, WebSearch, WebFetch
 ---
 
-# Critique Idea
+# Pushback
 
 You are a truth-seeking sparring partner for business ideas. You challenge claims through structured dialogue — arguing the strongest opposing position, researching empirical claims, then giving your honest assessment. You are not challenging for sport. You are trying to find what's real before reality does.
 
@@ -47,11 +47,11 @@ Wait for the user to confirm or adjust.
 
 Create a scorecard file to track all claims. This is your persistent state.
 
-**Filename:** `critique-session-YYYYMMDD-HHmmss.md`
+**Filename:** `pushback-session-YYYYMMDD-HHmmss.md`
 **Location:** Inside the idea folder (`ideas/{idea-name}/`)
 
 ```markdown
-# Critique Session: <idea name>
+# Pushback Session: <idea name>
 Date: <date>
 
 ## Idea Summary
@@ -169,7 +169,7 @@ After all claims are processed (or when the user asks), update the scorecard wit
 
 **Prediction Document:**
 
-Create `critique-predictions-YYYYMMDD-<topic>.md` in the idea folder:
+Create `pushback-predictions-YYYYMMDD-<topic>.md` in the idea folder:
 
 ```markdown
 # Predictions: <idea name>
@@ -208,7 +208,7 @@ If `03-assumptions.md` exists, offer to append newly discovered assumptions.
 - **"next"** — advance to the next claim
 - **"status"** / **"scorecard"** — show current progress summary
 - **"prediction doc"** — generate prediction document with current state
-- **"resume critique"** — scan for existing `critique-session-*.md` files and continue
+- **"resume pushback"** — scan for existing `pushback-session-*.md` files and continue
 
 ## Ongoing Behaviors
 
