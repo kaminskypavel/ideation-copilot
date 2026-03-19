@@ -8,17 +8,9 @@ Turn a raw idea into a validated, investor-ready concept — using AI agents tha
 
 ## Installation
 
-### Claude Code
-
 ```bash
 /plugin marketplace add kaminskypavel/ideation-copilot
 /plugin install ideation-copilot@ideation-copilot
-```
-
-### Codex
-
-```bash
-codex install github:kaminskypavel/ideation-copilot
 ```
 
 ## How It Works
