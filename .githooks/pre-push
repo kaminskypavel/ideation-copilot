@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+#
+# Pre-push hook: auto-bump version based on commit messages since last version bump.
+# Reads conventional commit prefixes (feat → minor, BREAKING CHANGE → major, else → patch).
+# Updates marketplace.json and plugin.json, creates a version bump commit before push.
+#
+
+set -euo pipefail
+
+MARKETPLACE=".claude-plugin/marketplace.json"
+PLUGIN_JSON="plugins/ideation-copilot/.claude-plugin/plugin.json"
+
+# Skip if marketplace.json doesn't exist (not in the right repo)
+if [ ! -f "$MARKETPLACE" ]; then
+  exit 0
+fi
+
+# Skip if jq is not installed
+if ! command -v jq &>/dev/null; then
+  echo "pre-push: jq not found, skipping version bump"
+  exit 0
+fi
+
+# Get current version
+CURRENT=$(jq -r '.plugins[0].version' "$MARKETPLACE")
+
+# Find commits since last version bump
+LAST_BUMP=$(git log --all --grep="chore: bump version" --format="%H" -1 2>/dev/null || true)
+if [ -n "$LAST_BUMP" ]; then
+  COMMITS=$(git log --oneline "$LAST_BUMP"..HEAD --format="%s" 2>/dev/null || true)
+else
+  COMMITS=$(git log --oneline -20 --format="%s" 2>/dev/null || true)
+fi
+
+# No commits to analyze
+if [ -z "$COMMITS" ]; then
+  exit 0
+fi
+
+# Skip if the only commit is already a version bump
+if echo "$COMMITS" | head -1 | grep -q "^chore: bump version"; then
+  exit 0
+fi
+
+# Determine bump type from commit messages
+MAJOR=0; MINOR=0; PATCH=0
+while IFS= read -r msg; do
+  case "$msg" in
+    *"BREAKING CHANGE"*|*"!"*) MAJOR=1 ;;
+    feat*) MINOR=1 ;;
+    *) PATCH=1 ;;
+  esac
+done <<< "$COMMITS"
+
+# Calculate new version
+IFS='.' read -r CUR_MAJOR CUR_MINOR CUR_PATCH <<< "$CURRENT"
+if [ "$MAJOR" -eq 1 ]; then
+  NEW="$((CUR_MAJOR + 1)).0.0"
+elif [ "$MINOR" -eq 1 ]; then
+  NEW="${CUR_MAJOR}.$((CUR_MINOR + 1)).0"
+else
+  NEW="${CUR_MAJOR}.${CUR_MINOR}.$((CUR_PATCH + 1))"
+fi
+
+# Skip if version hasn't changed
+if [ "$CURRENT" = "$NEW" ]; then
+  exit 0
+fi
+
+echo "pre-push: bumping version $CURRENT → $NEW"
+
+# Update marketplace.json
+jq --arg v "$NEW" '.metadata.version = $v | .plugins[0].version = $v' "$MARKETPLACE" > tmp.json && mv tmp.json "$MARKETPLACE"
+
+# Update plugin.json
+jq --arg v "$NEW" '.version = $v' "$PLUGIN_JSON" > tmp.json && mv tmp.json "$PLUGIN_JSON"
+
+# Commit the version bump
+git add "$MARKETPLACE" "$PLUGIN_JSON"
+git commit -m "chore: bump version to $NEW"
+
+echo "pre-push: version bumped to $NEW"
