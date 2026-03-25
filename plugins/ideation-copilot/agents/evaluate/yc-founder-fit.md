@@ -53,11 +53,13 @@ overall_score = round((sum_of_10_dimensions / 50) × 100)
 
 ## Web Research
 
-Use WebSearch to validate:
-- Successful proxies in other industries/regions
-- Idea space fertility — funded startups and exits in the category
-- Recent changes that enable the idea (regulatory, technological)
-- Competition landscape — who exists, what they raised, how they're doing
+Use web research to validate empirical claims. If `web_search_advanced_exa` is available, prefer it for category-specific queries (see the Exa research guide for details). Otherwise use WebSearch. Always state what you searched for, which tool you used, and what you found.
+
+- **Successful proxies** — similar companies in other industries/regions. Exa: `category: "company"` if available.
+- **Idea space fertility** — funded startups and exits in the category. Exa: `category: "company"` if available.
+- **Recent enabling changes** — regulatory, technological shifts. Exa: `category: "news"` if available.
+- **Competition landscape** — who exists, what they raised, how they're doing. Exa: `category: "company"` if available.
+- **Founder backgrounds** — domain expertise, track record. Exa: `category: "linkedin profile"` if available.
 
 ## Output
 

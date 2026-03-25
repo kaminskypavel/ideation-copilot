@@ -3,7 +3,7 @@ name: idea:pushback
 description: Conversational stress-test for business ideas. Breaks an idea into testable claims, challenges each through dialogue with web-backed research, and produces a scorecard with verdicts. Use when the user wants to pressure-test, get pushback, or poke holes in a business concept.
 argument-hint: [idea-folder-name]
 disable-model-invocation: true
-allowed-tools: Read, Glob, Write, WebSearch, WebFetch
+allowed-tools: Read, Glob, Write, WebSearch, WebFetch, web_search_advanced_exa, crawling_exa
 ---
 
 # Pushback
@@ -28,6 +28,12 @@ Read the shared evaluation framework:
 
 ```
 references/evaluation-framework.md
+```
+
+Read the Exa research guide (if it exists):
+
+```
+references/exa-research.md
 ```
 
 This framework contains the **business lenses**, **reasoning tools**, and **scoring principles** you'll use throughout the session.
@@ -112,9 +118,9 @@ Say "I'm inverting this —" or "Let me check the base rate —" so the reasonin
 
 **3b. Research**
 
-Research when a claim is empirical and verifiable — market sizes, competitor data, adoption rates, regulatory facts. Use WebSearch and WebFetch to find evidence.
+Research when a claim is empirical and verifiable — market sizes, competitor data, adoption rates, regulatory facts. If `web_search_advanced_exa` is available, use it with the appropriate category for targeted queries (see the Exa research guide). For general claims or when Exa is unavailable, use WebSearch. Use `crawling_exa` to live-crawl specific URLs when verifying a claim from a link the user provides.
 
-- State what you're looking for and why
+- State what you're looking for, which tool you used, and why
 - Cite what you find — link, quote, and explain how it affects the claim
 - If sources conflict, present both sides
 - If you find nothing useful, say so: "I looked for X but couldn't find reliable data. Marking as an evidentiary gap."
@@ -259,3 +265,9 @@ Follow the **scoring principles from the evaluation framework**, plus:
 - **Distinguish fatal from fixable.** Not every flaw is a dealbreaker. Label severity clearly.
 - **Be honest, not discouraging.** The goal is to make the idea stronger, not kill motivation.
 - **Show your reasoning.** Name the analytical tool. Cite the research. Make the critique auditable.
+
+## Enhanced Research
+
+If Exa tools were not available during this session, include a single note in the final output:
+
+> **Tip:** Run `/idea:setup` to configure Exa search for richer market and competitor data.

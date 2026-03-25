@@ -50,13 +50,13 @@ Flag as a deal-breaker if:
 
 ## Web Research
 
-Use WebSearch to validate:
-- TAM claims — search for market reports, industry analyses
-- Competitor landscape — find who else is building this, their funding, traction
-- Market trends — verify timing claims with real data
-- Pricing benchmarks — check what customers actually pay for comparable solutions
+Use web research to validate empirical claims. If `web_search_advanced_exa` is available, prefer it for category-specific queries (see the Exa research guide for details). Otherwise use WebSearch. Always state what you searched for, which tool you used, and what you found.
 
-Always state what you searched for and what you found.
+- **TAM claims** — search for market reports, industry analyses. Exa: `category: "research paper"` if available.
+- **Competitor landscape** — find who else is building this, their funding, traction. Exa: `category: "company"` if available.
+- **Market trends** — verify timing claims with real data. Exa: `category: "news"` if available.
+- **Pricing benchmarks** — check what customers actually pay for comparable solutions. Exa: `category: "financial report"` for earnings data if available.
+- **General queries** (team backgrounds, GTM channels) — use WebSearch.
 
 ## Output
 

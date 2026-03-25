@@ -3,7 +3,7 @@ name: idea:evaluate
 description: Score a business idea across VC investability, market opportunity, and founder-idea fit using parallel evaluation agents. Produces a machine-readable report with scores, deal-breakers, and the weakest dimension. Use when the user wants a quantified assessment of their idea.
 argument-hint: [idea-folder-name] [vc|market|yc]
 disable-model-invocation: true
-allowed-tools: Read, Glob, Write, WebSearch, WebFetch, Agent
+allowed-tools: Read, Glob, Write, WebSearch, WebFetch, Agent, web_search_advanced_exa, crawling_exa
 ---
 
 # Evaluate Idea
@@ -30,12 +30,19 @@ ideas/*{idea-folder-name}*/
 references/evaluation-framework.md
 ```
 
-5. If `03-assumptions.md` exists, flag it for cross-referencing.
+5. Read the Exa research guide (if it exists):
+
+```
+references/exa-research.md
+```
+
+6. If `03-assumptions.md` exists, flag it for cross-referencing.
 
 ### Phase 2: Dispatch Agents
 
 Prepare the context block for agents — combine:
 - The full evaluation framework
+- The Exa research guide (if loaded)
 - All idea documents content
 - The assumptions document (if it exists)
 
@@ -180,5 +187,10 @@ Choose based on the scores:
 ## Graceful Degradation
 
 - **Sparse idea folders:** Distinguish "not documented" from "documented but weak." Note: "Score reflects missing documentation — [dimension] may improve if [specific doc] is fleshed out."
+- **Exa unavailable:** Fall back to WebSearch for all research. Note once: "Exa search unavailable — using standard web search for research."
 - **No WebSearch available:** Fall back to doc-only analysis. Note which scores lack empirical validation.
 - **Single agent filter:** `/idea:evaluate my-idea vc` or `market` or `yc` produces only that agent's scores. The combined score equals the single agent's score.
+
+If Exa tools were not available during this evaluation, append a single note at the end of the report:
+
+> **Tip:** Run `/idea:setup` to configure Exa search for richer market and competitor data.

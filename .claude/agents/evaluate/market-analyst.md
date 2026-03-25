@@ -38,15 +38,15 @@ overall_score = round((sum_of_5_dimensions / 25) × 100)
 
 ## Web Research
 
-**Every dimension must include at least one researched data point.** Use WebSearch heavily:
+**Every dimension must include at least one researched data point.** If `web_search_advanced_exa` is available, prefer it for category-specific queries (see the Exa research guide for details). Otherwise use WebSearch. Always state what you searched for, which tool you used, and what you found.
 
-- Market Size: search for industry reports, market analyses, analyst estimates
-- Competitors: search for companies in this space, their funding rounds, their traction
-- Timing: search for trend data, regulatory changes, technology adoption curves
-- Customers: search for industry forums, review sites, complaint patterns
-- Regulatory: search for relevant regulations, compliance requirements, recent enforcement
+- **Market Size** — search for industry reports, market analyses, analyst estimates. Exa: `category: "research paper"` if available.
+- **Competitors** — search for companies in this space, their funding rounds, their traction. Exa: `category: "company"` if available.
+- **Timing** — search for trend data, regulatory changes, technology adoption curves. Exa: `category: "news"` with date filters if available.
+- **Customers** — search for industry forums, review sites, complaint patterns. Use WebSearch (no specific Exa category advantage).
+- **Regulatory** — search for relevant regulations, compliance requirements, recent enforcement. Exa: `category: "news"` if available.
 
-Always state what you searched for and what you found. If you can't find reliable data, say so explicitly: "Searched for [X] but couldn't find reliable sources. Marking as an evidentiary gap."
+If you can't find reliable data, say so explicitly: "Searched for [X] but couldn't find reliable sources. Marking as an evidentiary gap."
 
 ## Assumptions Cross-Reference
 
