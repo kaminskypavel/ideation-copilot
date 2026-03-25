@@ -28,6 +28,7 @@ You start with an idea. The copilot guides you through a loop of testing, scorin
 | `/idea:pushback [idea-name]`                  | Conversational stress-test with web research               |
 | `/idea:update [idea-name]`                    | Add new info to your docs (interviews, data, team changes) |
 | `/idea:forge [idea-name]`                     | Synthesize everything into a consolidated summary          |
+| `/idea:setup`                                 | Check & configure optional integrations (Exa, etc.)        |
 
 ### Step 1: Pitch your idea
 
@@ -106,6 +107,43 @@ Each idea lives in `ideas/YYYY-MM-DD-idea-name/`:
 | `pushback-session-*.md`     | Sparring scorecards with claim verdicts                 |
 | `pushback-predictions-*.md` | Falsifiable, time-bound predictions                     |
 | `forge-*.md`                | Consolidated synthesis with score trajectory            |
+
+## Enhanced Research (Optional)
+
+The copilot works out of the box with built-in web search. For richer market and competitor research, you can optionally add [Exa](https://exa.ai) — an AI-optimized search engine with category-specific results (company databases, financial reports, news, research papers, LinkedIn profiles).
+
+### Quick setup
+
+**1. Get an Exa API key** at [exa.ai](https://exa.ai) (free tier: 1,000 requests/month).
+
+**2. Add the key to your Claude Code settings** (`~/.claude/settings.json`):
+
+```json
+{
+  "env": {
+    "EXA_API_KEY": "your-key-here"
+  }
+}
+```
+
+**3. Run the setup command:**
+
+```bash
+/idea:setup
+```
+
+This detects your API key and auto-configures the Exa MCP server. **Restart your Claude Code session** after setup for the changes to take effect.
+
+**4. Verify** by running `/idea:setup` again — Exa should show as **Configured**.
+
+### What changes with Exa
+
+| Without Exa | With Exa |
+|-------------|----------|
+| Generic web search for all research | Category-specific search: `company`, `news`, `financial report`, `research paper`, `linkedin profile` |
+| Works fine — this is the default | More targeted competitor data, funding info, SEC filings, trend analysis |
+
+Agents automatically use the right tool for each query — Exa when a category matches, web search for everything else. If Exa is ever unavailable, agents fall back to web search with zero disruption.
 
 ## Built With
 
