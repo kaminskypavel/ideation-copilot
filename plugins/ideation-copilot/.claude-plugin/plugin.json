@@ -1,5 +1,5 @@
 {
   "name": "ideation-copilot",
   "description": "Structured business idea development with /idea:new, /idea:evaluate, /idea:pushback, /idea:update, and /idea:forge. Includes VC, Market, and YC evaluation agents, lean canvas, assumption tracking, and experiment planning.",
-  "version": "0.9.1"
+  "version": "0.9.2"
 }

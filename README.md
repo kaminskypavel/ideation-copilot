@@ -28,6 +28,7 @@ You start with an idea. The copilot guides you through a loop of testing, scorin
 | `/idea:pushback [idea-name]`                  | Conversational stress-test with web research               |
 | `/idea:update [idea-name]`                    | Add new info to your docs (interviews, data, team changes) |
 | `/idea:forge [idea-name]`                     | Synthesize everything into a consolidated summary          |
+| `/idea:postmortem [idea-name]`                | Structured debrief when you kill an idea                   |
 | `/idea:setup`                                 | Check & configure optional integrations (Exa, etc.)        |
 
 ### Step 1: Pitch your idea
