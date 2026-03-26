@@ -3,7 +3,8 @@ title: "Ideation copilot plugin architecture — shared framework, parallel agen
 category: architecture
 date: 2026-03-19
 tags: [skill-design, agents, evaluation, shared-framework, parallel-dispatch, autoresearch, command-flow, changelog]
-components: [idea:new, idea:pushback, idea:evaluate, idea:update, idea:forge, evaluation-framework, vc-agent, market-analyst-agent]
+components: [idea:new, idea:pushback, idea:evaluate, idea:update, idea:forge, idea:setup, idea:postmortem, evaluation-framework, exa-research, vc-agent, market-analyst-agent, yc-founder-fit-agent]
+last_updated: 2026-03-26
 ---
 
 ## Problem
@@ -39,16 +40,20 @@ Single source of truth for:
 
 Both pushback and evaluate agents read this file. Updating the framework improves both.
 
+A second shared reference, `references/exa-research.md`, provides optional Exa search guidance — tool names, category mappings, filter restrictions, and a three-tier fallback chain (Exa → WebSearch → doc-only). Skills load it alongside the evaluation framework and pass it to agents. See `docs/solutions/best-practices/optional-mcp-tool-integration-pattern-2026-03-26.md` for the reusable pattern.
+
 ### 3. Parallel agent dispatch
 
-The evaluate skill dispatches VC and Market Analyst agents in parallel:
+The evaluate skill dispatches three agents in parallel:
 
 ```
 /idea:evaluate my-startup
-    ├─ Read idea docs + framework
-    ├─── Agent: VC (8 dims, weighted) ─┐
-    │                                    ├─ Synthesize combined report
-    ├─── Agent: Market Analyst (5 dims) ┘
+    ├─ Read idea docs + framework + exa guide
+    ├─── Agent: VC (8 dims, weighted) ──────────┐
+    │                                             ├─ Synthesize combined report
+    ├─── Agent: Market Analyst (5 dims) ─────────┤
+    │                                             │
+    ├─── Agent: YC Founder-Fit (10 dims, YC) ───┘
     └─ Write evaluation YAML + prose
 ```
 
@@ -73,6 +78,8 @@ Renamed and split commands so each does one thing:
 | `idea:evaluate` | Score | Idea docs | YAML evaluation file |
 | `idea:update` | Add info | User's new data | Updated idea docs |
 | `idea:forge` | Synthesize | All accumulated artifacts | Consolidated summary with score trajectory |
+| `idea:postmortem` | Debrief | Idea docs + evaluations | Evidence-based lessons when killing an idea |
+| `idea:setup` | Configure | Environment check | Integrations status + auto-configure MCP tools |
 
 **Key rename:** Old `forge` (which updated docs) became `update`. New `forge` is a synthesis/compounding step that reads everything and produces a consolidated view.
 
@@ -109,13 +116,17 @@ plugins/ideation-copilot/
 │   ├── idea-pushback/SKILL.md      # Interactive stress-test
 │   ├── idea-evaluate/SKILL.md      # Orchestrator: parallel agent dispatch
 │   ├── idea-update/SKILL.md        # Quick data entry
-│   └── idea-forge/SKILL.md         # Synthesis + score trajectory
+│   ├── idea-forge/SKILL.md         # Synthesis + score trajectory
+│   ├── idea-postmortem/SKILL.md    # Evidence-based debrief when killing an idea
+│   └── idea-setup/SKILL.md         # Integrations dashboard + auto-configure
 ├── agents/
 │   └── evaluate/
 │       ├── vc.md                    # 8 weighted dims, deal-breaker rules
-│       └── market-analyst.md        # 5 dims, heavy web research
+│       ├── market-analyst.md        # 5 dims, heavy web research
+│       └── yc-founder-fit.md        # 10 dims, YC framework, founder-idea fit
 └── references/
-    └── evaluation-framework.md      # Shared reasoning tools + principles + changelog format
+    ├── evaluation-framework.md      # Shared reasoning tools + principles + changelog format
+    └── exa-research.md              # Optional Exa search: categories, fallback, filter restrictions
 ```
 
 ## Prevention / Best Practices
@@ -127,6 +138,7 @@ plugins/ideation-copilot/
 - **Every command should hint at the next.** Users shouldn't have to memorize a workflow diagram.
 - **Don't assume git.** If your users aren't developers, build history tracking into the docs themselves.
 - **Name commands for what users think, not what the system does.** "Update" beats "forge" for adding data. "Forge" works for synthesis because it implies transforming raw materials into something finished.
+- **Make enhanced capabilities optional via reference docs.** When adding optional tools (like Exa MCP), put the guidance in a shared reference doc with a fallback chain. Skills load it "if it exists" — no degradation when the tool isn't configured.
 
 ## Related
 
