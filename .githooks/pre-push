@@ -2,10 +2,14 @@
 #
 # Pre-push hook: auto-bump version based on commit messages since last version bump.
 # Reads conventional commit prefixes (feat → minor, BREAKING CHANGE → major, else → patch).
-# Updates marketplace.json and plugin.json, creates a version bump commit before push.
+# Updates marketplace.json and plugin.json, creates a version bump commit, then re-pushes
+# so the bump is included in the same push (not trailing by one).
 #
 
 set -euo pipefail
+
+# Capture remote info from hook arguments before anything else
+REMOTE="$1"
 
 MARKETPLACE=".claude-plugin/marketplace.json"
 PLUGIN_JSON="plugins/ideation-copilot/.claude-plugin/plugin.json"
@@ -80,3 +84,12 @@ git add "$MARKETPLACE" "$PLUGIN_JSON"
 git commit -m "chore: bump version to $NEW"
 
 echo "pre-push: version bumped to $NEW"
+
+# Re-push so the bump commit is included in this push (not the next one).
+# The guard clause above (skip if HEAD is a bump commit) prevents infinite recursion:
+# the re-invoked push triggers pre-push → sees HEAD is a bump → exits 0 → push proceeds.
+BRANCH=$(git branch --show-current)
+git push "$REMOTE" "$BRANCH"
+
+# Abort the original push — the re-push already sent everything.
+exit 1

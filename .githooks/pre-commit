@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#
+# Pre-commit hook: auto-sync first-party files from plugins/ideation-copilot/ to .claude/
+# One-directional: plugins/ → .claude/. Files under .claude-plugin/ are skipped (metadata only).
+#
+
+set -euo pipefail
+
+PLUGIN_DIR="plugins/ideation-copilot"
+CLAUDE_DIR=".claude"
+SKIP_PREFIX="plugins/ideation-copilot/.claude-plugin/"
+
+# Sync added, copied, or modified files
+CHANGED=$(git diff --cached --name-only --diff-filter=ACM -- "$PLUGIN_DIR/" 2>/dev/null || true)
+
+for file in $CHANGED; do
+  # Skip plugin metadata (not runtime files)
+  if [[ "$file" == "$SKIP_PREFIX"* ]]; then
+    continue
+  fi
+
+  # Compute destination: replace plugins/ideation-copilot/ with .claude/
+  dest="${CLAUDE_DIR}/${file#$PLUGIN_DIR/}"
+  dest_dir=$(dirname "$dest")
+
+  mkdir -p "$dest_dir"
+  cp "$file" "$dest"
+  git add "$dest"
+done
+
+# Handle deleted files
+DELETED=$(git diff --cached --name-only --diff-filter=D -- "$PLUGIN_DIR/" 2>/dev/null || true)
+
+for file in $DELETED; do
+  if [[ "$file" == "$SKIP_PREFIX"* ]]; then
+    continue
+  fi
+
+  dest="${CLAUDE_DIR}/${file#$PLUGIN_DIR/}"
+
+  if [ -f "$dest" ]; then
+    rm "$dest"
+    git add "$dest"
+  fi
+done
