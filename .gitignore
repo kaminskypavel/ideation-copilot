@@ -8,6 +8,7 @@ Thumbs.db
 # Node
 node_modules/
 bun.lockb
+# bun.lock (text format) is tracked for reproducible installs
 
 
 # Secrets
