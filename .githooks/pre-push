@@ -89,7 +89,7 @@ echo "pre-push: version bumped to $NEW"
 # The guard clause above (skip if HEAD is a bump commit) prevents infinite recursion:
 # the re-invoked push triggers pre-push → sees HEAD is a bump → exits 0 → push proceeds.
 BRANCH=$(git branch --show-current)
-git push "$REMOTE" "$BRANCH"
+git push "$REMOTE" "$BRANCH" 2>/dev/null
 
-# Abort the original push — the re-push already sent everything.
+# Abort the original push silently — the re-push already sent everything.
 exit 1
