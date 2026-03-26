@@ -4,8 +4,6 @@
 # One-directional: plugins/ → .claude/. Files under .claude-plugin/ are skipped (metadata only).
 #
 
-set -euo pipefail
-
 PLUGIN_DIR="plugins/ideation-copilot"
 CLAUDE_DIR=".claude"
 SKIP_PREFIX="plugins/ideation-copilot/.claude-plugin/"

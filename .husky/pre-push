@@ -6,9 +6,6 @@
 # so the bump is included in the same push (not trailing by one).
 #
 
-set -euo pipefail
-
-# Capture remote info from hook arguments before anything else
 REMOTE="$1"
 
 MARKETPLACE=".claude-plugin/marketplace.json"

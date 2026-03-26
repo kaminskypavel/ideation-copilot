@@ -1,0 +1,14 @@
+{
+  "name": "ideation-copilot",
+  "version": "0.10.1",
+  "private": true,
+  "description": "Structured business idea development plugin for Claude Code",
+  "scripts": {
+    "test": "bun test",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "gray-matter": "^4.0.3",
+    "husky": "^9.1.7"
+  }
+}
