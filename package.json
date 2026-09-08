@@ -27,7 +27,7 @@
   },
   "scripts": {
     "test": "bun test",
-    "prepare": "husky"
+    "prepare": "husky || true"
   },
   "devDependencies": {
     "gray-matter": "^4.0.3",
