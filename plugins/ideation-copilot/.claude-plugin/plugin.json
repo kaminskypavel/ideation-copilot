@@ -1,6 +1,6 @@
 {
   "name": "ideation-copilot",
-  "version": "0.11.1",
+  "version": "0.12.0",
   "description": "Structured business idea development with /idea:new, /idea:evaluate, /idea:pushback, /idea:update, and /idea:forge. Includes VC, Market, and YC evaluation agents, lean canvas, assumption tracking, and experiment planning.",
   "author": {
     "name": "Pavel 'PK' Kaminsky",
@@ -9,7 +9,13 @@
   "homepage": "https://github.com/kaminskypavel/ideation-copilot",
   "repository": "https://github.com/kaminskypavel/ideation-copilot",
   "license": "MIT",
-  "keywords": ["ideation", "startup", "lean-startup", "pmf", "validation"],
+  "keywords": [
+    "ideation",
+    "startup",
+    "lean-startup",
+    "pmf",
+    "validation"
+  ],
   "skills": "./skills/",
   "agents": "./agents/"
 }
