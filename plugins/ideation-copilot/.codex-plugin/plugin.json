@@ -1,0 +1,30 @@
+{
+  "name": "ideation-copilot",
+  "version": "0.11.1",
+  "description": "Structured business idea development with idea:new, idea:evaluate, idea:pushback, idea:update, and idea:forge. Includes VC, Market, and YC evaluation agents.",
+  "author": {
+    "name": "Pavel 'PK' Kaminsky",
+    "url": "https://github.com/kaminskypavel"
+  },
+  "homepage": "https://github.com/kaminskypavel/ideation-copilot",
+  "repository": "https://github.com/kaminskypavel/ideation-copilot",
+  "license": "MIT",
+  "keywords": ["ideation", "startup", "lean-startup", "pmf", "validation"],
+  "skills": "./skills/",
+  "agents": "./agents/",
+  "interface": {
+    "displayName": "Ideation Copilot",
+    "shortDescription": "Scaffold, score, and stress-test business ideas",
+    "longDescription": "Turn a raw idea into a validated concept: scaffold structured docs, score with VC/market/YC agents, stress-test through pushback, then forge a pitch-ready summary.",
+    "developerName": "Pavel 'PK' Kaminsky",
+    "category": "Productivity",
+    "capabilities": ["Instructions"],
+    "websiteURL": "https://github.com/kaminskypavel/ideation-copilot",
+    "defaultPrompt": [
+      "Start a new idea with idea:new.",
+      "Evaluate this idea.",
+      "Stress-test this idea with pushback."
+    ],
+    "logo": "../../docs/logo/logo.png"
+  }
+}

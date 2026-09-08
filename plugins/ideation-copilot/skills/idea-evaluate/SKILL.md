@@ -46,11 +46,11 @@ Prepare the context block for agents — combine:
 - All idea documents content
 - The assumptions document (if it exists)
 
-**If an agent filter was specified** (`vc` or `market`), run only that agent.
+**If an agent filter was specified** (`vc`, `market`, or `yc`), run only that agent.
 
-**Otherwise, dispatch both agents in parallel:**
+**Otherwise, dispatch all three.** Parallel if this harness has an Agent/subagent tool; else sequential in this session. Same prompts, same output format. Load each persona from `agents/evaluate/` (`vc.md`, `market-analyst.md`, `yc-founder-fit.md`).
 
-Launch two Agent tasks simultaneously, each receiving the full context block:
+Each selected agent gets the full context block:
 
 1. **VC Agent** — evaluates investability across 8 weighted dimensions (Team, Timing, TAM, Technology/Product, Competition/Moat, Business Model, GTM, Traction/Validation)
 2. **Market Analyst Agent** — evaluates market opportunity across 5 dimensions (Market Size & Growth, Competitive Landscape, Timing & Tailwinds, Customer Accessibility, Regulatory/Macro Risk)

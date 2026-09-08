@@ -21,7 +21,7 @@ Check which optional integrations are configured and auto-install what's possibl
 | MCP works? | API key exists? | Action |
 |------------|----------------|--------|
 | Yes | — | Status: **Configured** |
-| No | Yes | **Auto-install**: run `claude mcp add --transport http exa "https://mcp.exa.ai/mcp?exaApiKey=${EXA_API_KEY}&tools=web_search_advanced_exa,crawling_exa"` then tell user to restart session |
+| No | Yes | **Auto-install** the Exa MCP for this harness (see Step 3), then tell user to restart |
 | No | No | Status: **Not configured** — show manual setup instructions |
 
 **WebSearch (built-in):**
@@ -46,14 +46,26 @@ Present the results:
 
 ### Step 3: Auto-Install or Show Setup Instructions
 
-**If Exa MCP was auto-installed (API key found, MCP added):**
+Detect the harness (Claude Code, Codex, or Pi) from available tools/env. Exa MCP URL is the same everywhere:
+
+`https://mcp.exa.ai/mcp?exaApiKey=${EXA_API_KEY}&tools=web_search_advanced_exa,crawling_exa`
+
+**If API key exists and MCP is missing — auto-install:**
+
+- **Claude Code:** `claude mcp add --transport http exa "<url>"`
+- **Codex:** add an MCP server named `exa` with that URL in Codex MCP config
+- **Pi:** add the same URL under MCP servers in Pi settings (`pi` MCP config / `~/.pi/agent/`)
+
+Then tell the user to restart and re-run `idea:setup`.
+
+**If Exa MCP was auto-installed:**
 
 ```markdown
 ## Exa Search — Auto-configured!
 
-Found `EXA_API_KEY` in your environment and registered the Exa MCP server.
+Found `EXA_API_KEY` and registered the Exa MCP server.
 
-**Restart your Claude Code session** for the MCP server to be picked up, then run `/idea:setup` again to verify.
+**Restart this session**, then run `idea:setup` again to verify.
 ```
 
 **If Exa is not configured and no API key exists:**
@@ -61,28 +73,19 @@ Found `EXA_API_KEY` in your environment and registered the Exa MCP server.
 ```markdown
 ## Setting up Exa Search
 
-Exa provides AI-optimized search with category-specific results — company databases, financial reports, news, research papers, and LinkedIn profiles. It significantly improves the quality of market and competitor research in evaluations and pushback sessions.
+Exa provides AI-optimized search with category-specific results — company databases, financial reports, news, research papers, and LinkedIn profiles.
 
 ### 1. Get an API key
-
-Sign up at [exa.ai](https://exa.ai) and get your API key.
+Sign up at [exa.ai](https://exa.ai).
 
 ### 2. Set the API key
-
-Add `EXA_API_KEY` to your Claude Code settings:
-
-\```bash
-# In ~/.claude/settings.json, add to the "env" section:
-"EXA_API_KEY": "your-key-here"
-\```
+Export `EXA_API_KEY`, or put it in the harness env:
+- Claude Code: `~/.claude/settings.json` → `env.EXA_API_KEY`
+- Codex: Codex env / MCP config
+- Pi: shell env or Pi MCP/env settings
 
 ### 3. Run setup again
-
-\```
-/idea:setup
-\```
-
-The setup skill will detect your API key and auto-configure the Exa MCP server.
+`idea:setup` — detects the key and registers Exa MCP for this harness.
 ```
 
 ### Step 4: Closing Note

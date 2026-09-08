@@ -1,5 +1,7 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "ideation-copilot",
+  "description": "Business idea development toolkit — scaffold, pushback, evaluate, and forge disruptive ideas",
   "owner": {
     "name": "Pavel 'PK' Kaminsky",
     "url": "https://github.com/kaminskypavel"
@@ -11,7 +13,7 @@
   "plugins": [
     {
       "name": "ideation-copilot",
-      "description": "Structured business idea development with /idea:new (scaffold), /idea:pushback (stress-test), /idea:evaluate (score), and /idea:forge (iterate). Includes VC and market evaluation agents, lean canvas, assumption tracking, PMF strategy, and experiment planning.",
+      "description": "Scaffold, score, and stress-test business ideas. VC, market, and YC agents; lean canvas; assumption tracking; experiment planning.",
       "version": "0.11.1",
       "author": {
         "name": "Pavel 'PK' Kaminsky",

@@ -6,14 +6,17 @@
 
 PLUGIN_DIR="plugins/ideation-copilot"
 CLAUDE_DIR=".claude"
-SKIP_PREFIX="plugins/ideation-copilot/.claude-plugin/"
+
+skip_meta() {
+  [[ "$1" == plugins/ideation-copilot/.claude-plugin/* ]] || [[ "$1" == plugins/ideation-copilot/.codex-plugin/* ]]
+}
 
 # Sync added, copied, or modified files
 CHANGED=$(git diff --cached --name-only --diff-filter=ACM -- "$PLUGIN_DIR/" 2>/dev/null || true)
 
 for file in $CHANGED; do
   # Skip plugin metadata (not runtime files)
-  if [[ "$file" == "$SKIP_PREFIX"* ]]; then
+  if skip_meta "$file"; then
     continue
   fi
 
@@ -30,7 +33,7 @@ done
 DELETED=$(git diff --cached --name-only --diff-filter=D -- "$PLUGIN_DIR/" 2>/dev/null || true)
 
 for file in $DELETED; do
-  if [[ "$file" == "$SKIP_PREFIX"* ]]; then
+  if skip_meta "$file"; then
     continue
   fi
 

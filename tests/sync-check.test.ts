@@ -4,11 +4,14 @@ import { readFileSync } from "fs";
 
 const PLUGIN_DIR = "plugins/ideation-copilot";
 const CLAUDE_DIR = ".claude";
-const SKIP_PREFIX = `${PLUGIN_DIR}/.claude-plugin/`;
+const SKIP_PREFIXES = [
+  `${PLUGIN_DIR}/.claude-plugin/`,
+  `${PLUGIN_DIR}/.codex-plugin/`,
+];
 
-// Get all first-party files (excluding .claude-plugin/ metadata and directories)
 const pluginFiles = globSync(`${PLUGIN_DIR}/**/*`).filter(
-  (f) => !f.startsWith(SKIP_PREFIX) && statSync(f).isFile()
+  (f) =>
+    !SKIP_PREFIXES.some((p) => f.startsWith(p)) && statSync(f).isFile()
 );
 
 describe(".claude/ sync", () => {

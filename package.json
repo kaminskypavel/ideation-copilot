@@ -1,8 +1,28 @@
 {
   "name": "ideation-copilot",
-  "version": "0.10.1",
+  "version": "0.11.1",
   "private": true,
-  "description": "Structured business idea development plugin for Claude Code",
+  "description": "Structured business idea development for Claude Code, Codex, and Pi",
+  "license": "MIT",
+  "author": "Pavel 'PK' Kaminsky",
+  "homepage": "https://github.com/kaminskypavel/ideation-copilot",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaminskypavel/ideation-copilot.git"
+  },
+  "keywords": [
+    "pi-package",
+    "ideation",
+    "startup",
+    "lean-startup",
+    "pmf",
+    "validation"
+  ],
+  "pi": {
+    "skills": ["./plugins/ideation-copilot/skills"],
+    "image": "https://raw.githubusercontent.com/kaminskypavel/ideation-copilot/main/docs/logo/logo.png",
+    "video": "https://raw.githubusercontent.com/kaminskypavel/ideation-copilot/main/docs/logo/logo-video.mp4"
+  },
   "scripts": {
     "test": "bun test",
     "prepare": "husky"
