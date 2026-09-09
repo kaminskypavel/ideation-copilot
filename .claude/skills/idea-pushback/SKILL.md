@@ -1,7 +1,7 @@
 ---
-name: idea:pushback
+name: idea-pushback
 description: Conversational stress-test for business ideas. Breaks an idea into testable claims, challenges each through dialogue with web-backed research, and produces a scorecard with verdicts. Use when the user wants to pressure-test, get pushback, or poke holes in a business concept.
-argument-hint: [idea-folder-name]
+argument-hint: "[idea-folder-name]"
 disable-model-invocation: true
 allowed-tools: Read, Glob, Write, WebSearch, WebFetch, web_search_advanced_exa, crawling_exa
 ---

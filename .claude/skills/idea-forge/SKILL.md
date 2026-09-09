@@ -1,7 +1,7 @@
 ---
-name: idea:forge
+name: idea-forge
 description: Synthesize all accumulated knowledge about an idea into a consolidated summary — score trajectory, key findings, validated vs assumed, and pitch-ready overview. Use when the idea has been through multiple rounds and needs a clear picture of where it stands.
-argument-hint: [idea-folder-name]
+argument-hint: "[idea-folder-name]"
 disable-model-invocation: true
 allowed-tools: Read, Glob, Write
 ---

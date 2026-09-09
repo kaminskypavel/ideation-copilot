@@ -1,7 +1,7 @@
 ---
-name: idea:update
+name: idea-update
 description: Add new information to idea documents — customer interviews, experiment results, team changes, or any real-world data. Use when the user has new data to incorporate into their idea docs without a full pushback session.
-argument-hint: [idea-folder-name]
+argument-hint: "[idea-folder-name]"
 disable-model-invocation: true
 allowed-tools: Read, Glob, Write, Edit
 ---

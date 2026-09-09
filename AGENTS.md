@@ -12,7 +12,7 @@ Skills for turning a raw idea into a validated, investor-ready concept. Full rul
 | `idea:postmortem` | Structured debrief when you kill it |
 | `idea:setup` | Optional Exa (and friends) |
 
-Claude: `/idea:new`. Codex: `@idea:new`. Pi: `/idea:new` or just ask.
+Claude: `/idea:new`. Codex: `@idea:new`. Pi: `/skill:idea-new` or just ask.
 
 Evaluate: parallel agents if the harness has an Agent/subagent tool; else sequential in-session, same prompts, same files under `agents/evaluate/`.
 

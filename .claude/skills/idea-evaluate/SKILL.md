@@ -1,7 +1,7 @@
 ---
-name: idea:evaluate
+name: idea-evaluate
 description: Score a business idea across VC investability, market opportunity, and founder-idea fit using parallel evaluation agents. Produces a machine-readable report with scores, deal-breakers, and the weakest dimension. Use when the user wants a quantified assessment of their idea.
-argument-hint: [idea-folder-name] [vc|market|yc]
+argument-hint: "[idea-folder-name] [vc|market|yc]"
 disable-model-invocation: true
 allowed-tools: Read, Glob, Write, WebSearch, WebFetch, Agent, web_search_advanced_exa, crawling_exa
 ---

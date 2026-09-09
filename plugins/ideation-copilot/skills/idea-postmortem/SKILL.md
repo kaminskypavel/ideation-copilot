@@ -1,7 +1,7 @@
 ---
-name: idea:postmortem
+name: idea-postmortem
 description: Produce a structured postmortem when a business idea is killed. Reads all idea artifacts, challenges revisionist history with evidence from evaluations and pushback sessions, and extracts durable lessons. Use when the user decides an idea is dead and wants to capture what they learned.
-argument-hint: [idea-folder-name]
+argument-hint: "[idea-folder-name]"
 disable-model-invocation: true
 allowed-tools: Read, Glob, Write
 ---

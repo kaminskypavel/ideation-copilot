@@ -54,7 +54,7 @@ Prefix is `@`, not `/` — `@idea:new`.
 pi install git:github.com/kaminskypavel/ideation-copilot
 ```
 
-`/idea:new` or just ask. Skills load from the package; no extra config.
+`/skill:idea-new` or just ask. Skills load from the package; no extra config.
 
 <h3>
   <img src="assets/harnesses/npm.svg" width="22" height="22" alt="">

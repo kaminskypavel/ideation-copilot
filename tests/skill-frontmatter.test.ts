@@ -1,27 +1,11 @@
-import { describe, test, expect } from "bun:test";
-import { globSync } from "fs";
-import { readFileSync } from "fs";
+import { describe, expect, test } from "bun:test";
+import { globSync, readFileSync } from "fs";
+import matter from "gray-matter";
 
-const PLUGIN_DIR = "plugins/ideation-copilot/skills";
+const SKILLS_DIR = "plugins/ideation-copilot/skills";
 const REQUIRED_FIELDS = ["name", "description", "disable-model-invocation", "allowed-tools"];
-
-const skillFiles = globSync(`${PLUGIN_DIR}/*/SKILL.md`);
-
-// Simple frontmatter parser that handles unquoted YAML values (like argument-hint with special chars)
-function parseFrontmatter(content: string): Record<string, string> {
-  const match = content.match(/^---\n([\s\S]*?)\n---/);
-  if (!match) return {};
-  const data: Record<string, string> = {};
-  for (const line of match[1].split("\n")) {
-    const idx = line.indexOf(":");
-    if (idx > 0) {
-      const key = line.slice(0, idx).trim();
-      const value = line.slice(idx + 1).trim();
-      data[key] = value;
-    }
-  }
-  return data;
-}
+const SKILL_NAME = /^(?!.*--)[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const skillFiles = globSync(`${SKILLS_DIR}/*/SKILL.md`);
 
 describe("skill frontmatter", () => {
   test("at least one skill exists", () => {
@@ -31,18 +15,35 @@ describe("skill frontmatter", () => {
   for (const file of skillFiles) {
     describe(file, () => {
       const content = readFileSync(file, "utf-8");
-      const data = parseFrontmatter(content);
+      const { data } = matter(content);
 
-      test("has valid frontmatter block", () => {
+      test("has valid YAML frontmatter", () => {
         expect(content.startsWith("---\n")).toBe(true);
       });
 
       for (const field of REQUIRED_FIELDS) {
         test(`has required field: ${field}`, () => {
           expect(data[field]).toBeDefined();
-          expect(data[field].trim()).not.toBe("");
+          if (typeof data[field] === "string") {
+            expect(data[field].trim()).not.toBe("");
+          }
         });
       }
+
+      test("has Pi-compatible name", () => {
+        expect(data.name).toMatch(SKILL_NAME);
+      });
+
+      test("has nonempty description", () => {
+        expect(data.description).toEqual(expect.any(String));
+        expect(data.description.trim()).not.toBe("");
+      });
+
+      test("has string argument hint when declared", () => {
+        if (data["argument-hint"] !== undefined) {
+          expect(data["argument-hint"]).toEqual(expect.any(String));
+        }
+      });
     });
   }
 });

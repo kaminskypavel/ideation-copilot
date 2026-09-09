@@ -1,5 +1,5 @@
 ---
-name: idea:setup
+name: idea-setup
 description: Check and configure optional integrations for the ideation copilot. Detects API keys in settings and auto-configures MCP servers when possible.
 disable-model-invocation: true
 allowed-tools: Read, Glob, Bash(echo *), Bash(claude *), WebSearch, web_search_advanced_exa

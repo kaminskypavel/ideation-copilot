@@ -1,7 +1,7 @@
 ---
-name: idea:new
+name: idea-new
 description: Scaffold a new disruptive business idea folder with structured templates for brainstorming, lean canvas, hidden assumptions, PMF strategy, and testing plan. Use when the user wants to start working on a new business idea.
-argument-hint: [idea-name "short description"]
+argument-hint: "[idea-name \"short description\"]"
 disable-model-invocation: true
 allowed-tools: Bash(mkdir *), Write, Read, Glob
 ---
