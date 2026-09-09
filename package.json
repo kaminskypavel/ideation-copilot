@@ -1,6 +1,6 @@
 {
   "name": "ideation-copilot",
-  "version": "0.12.1",
+  "version": "0.12.2",
   "private": true,
   "description": "Structured business idea development for Claude Code, Codex, and Pi",
   "license": "MIT",

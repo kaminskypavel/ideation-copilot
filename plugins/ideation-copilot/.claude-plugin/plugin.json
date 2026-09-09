@@ -1,6 +1,6 @@
 {
   "name": "ideation-copilot",
-  "version": "0.12.1",
+  "version": "0.12.2",
   "description": "Structured business idea development with /idea:new, /idea:evaluate, /idea:pushback, /idea:update, and /idea:forge. Includes VC, Market, and YC evaluation agents, lean canvas, assumption tracking, and experiment planning.",
   "author": {
     "name": "Pavel 'PK' Kaminsky",
