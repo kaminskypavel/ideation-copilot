@@ -134,6 +134,8 @@ Pushback sessions analyzed: <count>
 
 Output the forge summary, then:
 
+Before printing, read `references/workflow.md`, determine the idea folder state, and apply the Next Step table. Print the top 2-3 matching steps with the evidence behind each. The list below is the default if folder state cannot be read.
+
 ```
 Forge complete! Here's where this idea stands.
 

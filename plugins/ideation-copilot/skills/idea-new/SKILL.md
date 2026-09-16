@@ -51,10 +51,13 @@ After creation, output:
 2. A brief table of all created documents with their purpose
 3. Suggest next step:
 
+Before printing, read `references/workflow.md`, determine the idea folder state, and apply the Next Step table. Print the top 2-3 matching steps with the evidence behind each. The list below is the default if folder state cannot be read.
+
 ```
 Your idea is scaffolded! Here's what to do next:
 
-→ /idea:pushback {idea-name}  — stress-test your idea through conversational sparring + scoring
+→ /idea:evaluate {idea-name}   : baseline score; expect Fair or below, it shows where to look first
+→ /idea:interview {idea-name}  : build an interview guide for the riskiest assumption
 ```
 
 ## Success Criteria

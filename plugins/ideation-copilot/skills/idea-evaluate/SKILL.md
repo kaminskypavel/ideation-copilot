@@ -178,6 +178,8 @@ If the founder challenges a score:
 
 After presenting the evaluation, suggest next steps based on the scores:
 
+Before printing, read `references/workflow.md`, determine the idea folder state, and apply the Next Step table. Print the top 2-3 matching steps with the evidence behind each. The list below is the default if folder state cannot be read.
+
 ```
 Evaluation complete! What's next?
 

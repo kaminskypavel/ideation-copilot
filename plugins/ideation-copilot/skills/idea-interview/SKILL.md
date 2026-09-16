@@ -147,6 +147,8 @@ Append a changelog entry to `03-assumptions.md` under `## Changelog`, using the 
 
 Then output:
 
+Before printing, read `references/workflow.md`, determine the idea folder state, and apply the Next Step table. Print the top 2-3 matching steps with the evidence behind each. The list below is the default if folder state cannot be read.
+
 ```
 Interview guide written to ideas/{idea-name}/interview-guide-YYYYMMDD.md
 

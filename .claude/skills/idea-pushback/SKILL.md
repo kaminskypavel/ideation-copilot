@@ -232,6 +232,8 @@ If `03-assumptions.md` exists, offer to append newly discovered assumptions.
 
 **Suggest next steps based on the session:**
 
+Before printing, read `references/workflow.md`, determine the idea folder state, and apply the Next Step table. Print the top 2-3 matching steps with the evidence behind each. The list below is the default if folder state cannot be read.
+
 ```
 Pushback complete! What's next?
 

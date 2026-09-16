@@ -18,4 +18,6 @@ Claude: `/idea:new`. Codex: `@idea:new`. Pi: `/skill:idea-new` or just ask.
 
 Evaluate: parallel agents if the harness has an Agent/subagent tool; else sequential in-session, same prompts, same files under `agents/evaluate/`.
 
+Next step: every skill reads `references/workflow.md` (loop, best-practice rules, Next Step table keyed on idea folder state) before printing "What's next?".
+
 References: `plugins/ideation-copilot/references/` (or `references/` from the plugin root).

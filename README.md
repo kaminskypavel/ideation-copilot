@@ -77,15 +77,40 @@ Drop the folders in [`plugins/ideation-copilot/skills/`](plugins/ideation-copilo
 | `idea:postmortem [idea-name]` | Structured debrief when you kill an idea |
 | `idea:setup` | Check & configure optional integrations (Exa, etc.) |
 
+## The Loop
+
+One idea, one folder, one loop. Every command ends by reading the folder state and telling you the step the idea actually needs next (rules live in [`references/workflow.md`](plugins/ideation-copilot/references/workflow.md)).
+
+```
+idea:new
+   |
+   v
+idea:evaluate   baseline score, expect Fair or below
+   |
+   v
+idea:interview  ->  talk to 7-14 people  ->  idea:update
+   |                                             |
+   v                                             v
+idea:pushback   challenge the weakest dimension  idea:evaluate  re-score
+   |
+   +-> repeat interview / update / pushback / evaluate until Good or better
+   |
+   v
+idea:pricing    once demand signal is real
+   |
+   v
+idea:forge      pitch-ready synthesis       idea:postmortem  if the evidence says stop
+```
+
 ### Step 1: Pitch your idea
 
 ```bash
 idea:new pawguard "Smart collar that detects early signs of illness in dogs using biometrics"
 ```
 
-Scaffolds 6 structured docs (overview, brainstorm, lean canvas, assumptions, PMF strategy, experiments). You fill in what you know.
+Scaffolds 6 structured docs (overview, brainstorm, lean canvas, assumptions, PMF strategy, experiments). You fill in what you know. Every assumption gets a Confidence (0-10) score; that number is the progress bar for the rest of the loop.
 
-### Step 2: Get scored
+### Step 2: Baseline score
 
 ```bash
 idea:evaluate pawguard
@@ -99,35 +124,66 @@ Three agents run **in parallel** when the harness can (Claude Agent tool, Pi sub
 | **Market Analyst** | "Is the market real?" | Market Size, Competitive Landscape, Timing & Tailwinds, Customer Access, Regulatory Risk |
 | **YC Founder-Fit** | "Should YOU start this?" | Problem Acuteness, Personal Demand, Successful Proxies, Commitment, Scalability, Idea Space Fertility |
 
-Combined score (0-100), deal-breakers flagged, weakest dimension first. Agents use web research — TAM claims, competitors, timing.
+Combined score (0-100) with a grade label (Not Ready to Exceptional), stage calibration (pre-product, prototype, early-revenue), evidence quality per dimension, deal-breakers flagged, weakest dimension first. Agents use web research for TAM, competitors, timing.
 
 Single agent: `idea:evaluate pawguard vc` or `market` or `yc`
 
-### Step 3: Stress-test through dialogue
+### Step 3: Talk to customers
 
 ```bash
-idea:pushback pawguard
+idea:interview pawguard
 ```
 
-An adversarial sparring partner breaks the idea into testable claims and challenges each one. You defend, clarify, or concede. Named reasoning tools (inversion, base rate, pre-mortem) plus web research.
+Picks the riskiest low-confidence assumption, writes a neutral interview guide aimed at it (question, rationale, follow-up, what not to ask), and a recruiting plan. After the interviews, run it again with your notes: it classifies each quote as strong pull, polite, or demonstrated behavior, and writes a verdict with a new confidence score.
 
-### Step 4: Fix what's weak
+### Step 4: Fold in what you learned
 
 ```bash
 idea:update pawguard
 ```
 
-Low scores often mean docs are incomplete, not that the idea is bad. Add team background, interview results, experiment outcomes, market data.
+Interview syntheses, experiment results, pricing tests, team changes. Every real-world input goes here first, the same day. Low scores usually mean incomplete docs, not a bad idea.
 
-### Step 5: Repeat, then synthesize
+### Step 5: Stress-test through dialogue
 
-Run evaluate and pushback again. Scores should improve. Keep iterating until you're confident — or the evidence says pivot.
+```bash
+idea:pushback pawguard
+```
+
+An adversarial sparring partner breaks the idea into testable claims and challenges each one, starting with the weakest dimension. Tarpit check first, then named reasoning tools (inversion, base rate, pre-mortem, graveyard research) plus web research. Do this after interviews, not before: pushback without customer quotes is opinion against opinion.
+
+### Step 6: Repeat, then price, then synthesize
+
+Re-score only after the docs changed. Keep looping interview, update, pushback, evaluate until the label reads Good or better, or the kill criteria in `05-experiments.md` are hit.
+
+```bash
+idea:pricing pawguard
+```
+
+Value metric, willingness-to-pay method, packaging tiers, and the pricing study to run next. Do this before forge: Business Model cannot score well without it.
 
 ```bash
 idea:forge pawguard
 ```
 
-Score trajectory, what's validated vs still assumed, key pivots, pitch-ready summary.
+Score trajectory, validated vs still assumed, investor objections, 12-slide pitch order. This is what you hand to an advisor or investor, never the raw folder.
+
+```bash
+idea:postmortem pawguard
+```
+
+When the evidence says stop. Challenges revisionist history with the evaluations and pushback records, and extracts lessons for the next idea.
+
+### Best practice
+
+1. Baseline first, then evidence. A low first score is a map, not a verdict.
+2. Interview before you argue.
+3. Update the same day you learn something.
+4. Re-score only after the docs changed; scoring the same docs twice measures noise.
+5. One assumption per cycle.
+6. Price before you forge.
+7. Write kill criteria before you need them.
+8. Forge before you show anyone.
 
 ## What's In an Idea Folder
 
@@ -152,6 +208,9 @@ Each idea lives in `ideas/YYYY-MM-DD-idea-name/`:
 | `pushback-session-*.md` | Sparring scorecards with claim verdicts |
 | `pushback-predictions-*.md` | Falsifiable, time-bound predictions |
 | `forge-*.md` | Consolidated synthesis with score trajectory |
+| `interview-guide-*.md` | Interview guide targeting one assumption, plus recruiting plan |
+| `interview-synthesis-*.md` | Classified quotes and an assumption verdict with new confidence |
+| `pricing-*.md` | Value metric, price hypothesis, and the willingness-to-pay study to run |
 
 ## Enhanced Research (Optional)
 

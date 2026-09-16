@@ -95,7 +95,7 @@ All integrations are optional. The ideation copilot works with WebSearch alone â
 enhanced integrations provide richer, more targeted research for evaluations and pushback.
 ```
 
-Suggest next steps:
+Print the loop from `references/workflow.md` (The Loop section) in one short block, then suggest next steps:
 
 ```
 What's next?
