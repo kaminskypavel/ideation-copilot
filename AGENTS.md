@@ -21,4 +21,10 @@ Evaluate: parallel agents if the harness has an Agent/subagent tool; else sequen
 
 Next step: every skill reads `references/workflow.md` (loop, best-practice rules, Next Step table keyed on idea folder state) before printing "What's next?".
 
+Every generated output except the 00-05 idea docs (and their changelogs) is a single
+self-contained HTML file: tokens, card grammar, and each type's data-block schema live
+in `references/report-style.md`; the bare skeleton is `references/report-shell.html`. A
+later skill reads the `<script type="application/json" id="idea-data">` block, never
+markdown frontmatter.
+
 References: `plugins/ideation-copilot/references/` (or `references/` from the plugin root).

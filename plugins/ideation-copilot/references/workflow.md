@@ -38,19 +38,26 @@ idea:forge  (pitch-ready synthesis)        idea:postmortem  (if the evidence say
 
 ## Idea Folder State
 
-Determine state from the idea folder before choosing a next step:
+Determine state from the idea folder before choosing a next step. Every generated output
+below is a single HTML file with a `<script type="application/json" id="idea-data">`
+block; read that block, never the visible markup. The 00-05 docs and `03-assumptions.md`
+stay markdown, read them directly.
 
 | Signal | Where to look |
 |---|---|
-| Latest score, grade label, weakest dimension, stage, deal-breakers | newest `evaluation-*.md` frontmatter |
+| Latest score, grade label, weakest dimension, stage, deal-breakers | newest `evaluation-*.html` data block |
 | Riskiest assumption and its Confidence (0-10) | `03-assumptions.md`, "The Riskiest Assumption" section |
-| Interviews done | `interview-synthesis-*.md` files (count) |
-| Unresolved or refuted claims | newest `pushback-session-*.md` scorecard |
-| Docs changed since last score | changelog dates in `00`-`05` docs vs newest `evaluation-*.md` date |
-| Pricing hypothesis exists | `pricing-*.md` |
+| Interviews done | `interview-synthesis-*.html` files (count) |
+| Unresolved or refuted claims | newest `pushback-*.html` data block's `claims` |
+| Docs changed since last score | changelog dates in `00`-`05` docs vs newest `evaluation-*.html` date |
+| Pricing hypothesis exists | `pricing-*.html` |
 | Kill criteria hit | `05-experiments.md` results vs kill thresholds |
-| Forge exists | `forge-*.md` |
-| Report exists and is current | `report-*.html`, compare its date to the newest `forge-*.md` |
+| Forge exists | `forge-*.html` |
+| Report exists and is current | `report-*.html`, compare its date to the newest `forge-*.html` |
+
+**Legacy compatibility.** If an idea folder still has older `evaluation-*.md` files with
+YAML frontmatter from before this HTML conversion, read those too and treat them as older
+data points alongside the `.html` ones.
 
 ## Next Step Table
 
@@ -59,15 +66,15 @@ First matching row is the primary recommendation. Print it plus the next one or 
 | # | Condition | Recommend |
 |---|---|---|
 | 1 | No `03-assumptions.md` | `idea:new` |
-| 2 | No `evaluation-*.md` yet | `idea:evaluate` (baseline) |
+| 2 | No `evaluation-*.html` (or legacy `evaluation-*.md`) yet | `idea:evaluate` (baseline) |
 | 3 | Kill criteria in `05-experiments.md` hit, or two consecutive scores dropped with no new evidence | `idea:postmortem` (decide kill or pivot) |
-| 4 | Riskiest assumption Confidence <= 3 and no `interview-synthesis-*.md` covering it | `idea:interview` |
+| 4 | Riskiest assumption Confidence <= 3 and no `interview-synthesis-*.html` covering it | `idea:interview` |
 | 5 | New evidence (interview synthesis, experiment result, pricing test) dated after the newest changelog entry in the docs | `idea:update` |
 | 6 | Newest evaluation has a deal-breaker, or label is Needs Work or Not Ready, and no pushback since that evaluation | `idea:pushback` on the weakest dimension |
 | 7 | Docs changed since the newest evaluation | `idea:evaluate` (re-score) |
-| 8 | Label Good or better, riskiest assumption Confidence >= 6, no `pricing-*.md` | `idea:pricing` |
-| 9 | Two or more evaluations, label Good or better, no `forge-*.md` newer than the latest evaluation | `idea:forge` |
-| 10 | `forge-*.md` exists and no `report-*.html` newer than it | `idea:report` |
+| 8 | Label Good or better, riskiest assumption Confidence >= 6, no `pricing-*.html` | `idea:pricing` |
+| 9 | Two or more evaluations, label Good or better, no `forge-*.html` newer than the latest evaluation | `idea:forge` |
+| 10 | `forge-*.html` exists and no `report-*.html` newer than it | `idea:report` |
 | 11 | Everything above satisfied | `idea:forge` to refresh, then `idea:report` to re-render it, then share it |
 
 ## Output Format

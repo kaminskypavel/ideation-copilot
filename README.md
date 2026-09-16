@@ -216,18 +216,24 @@ Each idea lives in `ideas/YYYY-MM-DD-idea-name/`:
 | `04-pmf-strategy.md` | PMF ladder, go-to-market, milestones |
 | `05-experiments.md` | Experiment backlog, results, pivot/persevere decisions |
 
-**The copilot creates these:**
+**The copilot creates these**, each a single self-contained HTML file, inline SVG
+charts, dark theme toggle, and a `<script type="application/json" id="idea-data">`
+block a later skill reads instead of markdown frontmatter:
 
 | File | What it contains |
 |---|---|
-| `evaluation-*.md` | Scored reports with YAML frontmatter (machine-readable) |
-| `pushback-session-*.md` | Sparring scorecards with claim verdicts |
-| `pushback-predictions-*.md` | Falsifiable, time-bound predictions |
-| `forge-*.md` | Consolidated synthesis with score trajectory |
-| `interview-guide-*.md` | Interview guide targeting one assumption, plus recruiting plan |
-| `interview-synthesis-*.md` | Classified quotes and an assumption verdict with new confidence |
-| `pricing-*.md` | Value metric, price hypothesis, and the willingness-to-pay study to run |
+| `evaluation-*.html` | Scored report with dimension bars and a machine-readable data block |
+| `pushback-*.html` | Sparring scorecard with claim verdicts, evolution log, and predictions |
+| `forge-*.html` | Consolidated synthesis with score trajectory |
+| `interview-guide-*.html` | Interview guide targeting one assumption, plus recruiting plan |
+| `interview-synthesis-*.html` | Classified quotes and an assumption verdict with new confidence |
+| `pricing-*.html` | Value metric, price hypothesis, and the willingness-to-pay study to run |
+| `postmortem-*.html` | Kill record: what was believed vs. true, assumption autopsy, lessons |
 | `report-*.html` | Single-file HTML status render with inline SVG charts, for sharing or printing |
+
+Older idea folders may still have `evaluation-*.md` files with YAML frontmatter from
+before this HTML conversion; the skills that read evaluations treat those as older data
+points.
 
 ## Enhanced Research (Optional)
 

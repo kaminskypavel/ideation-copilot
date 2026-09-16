@@ -109,7 +109,7 @@ A pre-product idea scoring 1/5 on Traction because there is no revenue yet is no
 
 ## Changelog Format
 
-All skills that modify idea documents (update, pushback, pricing, interview) must append a changelog entry to each document they update. This is the idea's history: there is no git dependency.
+All skills that modify idea documents (update, pushback, pricing, interview) must append a changelog entry to each document they update. This is the idea's history: there is no git dependency. When the triggering skill also renders an HTML output (pushback, pricing, interview), the changelog entry's **Source** line names that `.html` file, not a markdown file, since that's where the underlying data now lives.
 
 ### Standard Changelog Entry
 
@@ -149,4 +149,4 @@ Append to the bottom of each modified document under a `## Changelog` section (c
 
 ### Evaluation Timeline
 
-Evaluation files (`evaluation-YYYYMMDD-HHmmss.md`) naturally create a score timeline across iterations. Compare YAML frontmatter across files to see which dimensions improved, which regressed, and what the overall trajectory looks like.
+Evaluation files (`evaluation-YYYYMMDD-HHmmss.html`) naturally create a score timeline across iterations. Compare the `<script type="application/json" id="idea-data">` block across files to see which dimensions improved, which regressed, and what the overall trajectory looks like. Older idea folders may still have `evaluation-*.md` files with YAML frontmatter from before the HTML conversion; read those the same way, as older data points.

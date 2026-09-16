@@ -173,7 +173,7 @@
       <div class="meta">Status report - {{report_date}} - stage: {{stage}} - source: {{idea_folder}}</div>
     </div>
     <div class="score-block">
-      <!-- No evaluation-*.md yet: badge class = neutral, grade_label = "Not yet scored", score text = "--" -->
+      <!-- No evaluation-*.html yet: badge class = neutral, grade_label = "Not yet scored", score text = "--" -->
       <span class="badge badge--{{grade_band_class}}">{{grade_label}}</span>
       <div class="score">{{combined_score}}</div>
       <div style="margin-top:8px;"><button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">Dark mode</button></div>
@@ -198,7 +198,7 @@
   <!-- Score trajectory -->
   <section class="card">
     <h2>Score trajectory</h2>
-    <p class="sub">One line per agent, plus Combined. Empty state: fewer than two evaluation-*.md files.</p>
+    <p class="sub">One line per agent, plus Combined. Empty state: fewer than two evaluation-*.html files.</p>
     <svg viewBox="0 0 640 220" width="100%" height="220" role="img" aria-label="Score trajectory">
       <!-- gridlines at 0/25/50/75/100, y = 190 - value/100*180 -->
       <line x1="40" y1="190" x2="630" y2="190" stroke="var(--rule)"/>
@@ -304,7 +304,7 @@
   <!-- Investor objections -->
   <section class="card">
     <h2>Investor objections</h2>
-    <p class="sub">From forge-*.md or the newest pushback-session-*.md.</p>
+    <p class="sub">From forge-*.html or the newest pushback-*.html.</p>
     <!-- REPEAT:objection : chip color by severity, High=coral, Medium=rust, Low=blue -->
     <div class="objection">
       <p class="q">{{objection_text}}</p>
@@ -327,7 +327,7 @@
     </ul>
     <!-- None, or not yet evaluated: drop card--flagged, replace the list with
          <p class="empty">No open deal-breakers.</p> or
-         <p class="empty">No evaluation-*.md yet; deal-breakers surface after the first idea:evaluate run.</p> -->
+         <p class="empty">No evaluation-*.html yet; deal-breakers surface after the first idea:evaluate run.</p> -->
   </section>
 
   <!-- Changelog tail -->

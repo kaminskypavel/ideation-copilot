@@ -3,7 +3,7 @@ name: idea-forge
 description: Synthesize all accumulated knowledge about an idea into a consolidated summary — score trajectory, key findings, validated vs assumed, and pitch-ready overview. Use when the idea has been through multiple rounds and needs a clear picture of where it stands.
 argument-hint: "[idea-folder-name]"
 disable-model-invocation: true
-allowed-tools: Read, Glob, Write
+allowed-tools: Read, Glob, Write, Bash(open *)
 ---
 
 # Forge Idea
@@ -22,13 +22,16 @@ ideas/*{argument}*/
 
 Read ALL files in the folder:
 - **Idea docs:** 00-overview through 05-experiments (including their changelog entries)
-- **Evaluation files:** all `evaluation-*.md` files (sorted by date for trajectory)
-- **Pushback sessions:** all `pushback-session-*.md` files
-- **Prediction docs:** all `pushback-predictions-*.md` files
+- **Evaluation files:** all `evaluation-*.html` files (sorted by date for trajectory),
+  reading each one's `<script type="application/json" id="idea-data">` block. Legacy
+  compatibility: also read any older `evaluation-*.md` files with YAML frontmatter as
+  older data points in the same trajectory.
+- **Pushback files:** all `pushback-*.html` files, reading their data blocks for
+  `claims` and `predictions`
 
 ### Step 2: Build the Score Trajectory
 
-Parse YAML frontmatter from all evaluation files. Build a timeline:
+Parse the `idea-data` block from all evaluation files. Build a timeline:
 
 ```markdown
 ## Score Trajectory
@@ -67,68 +70,28 @@ Read all pushback sessions and compile:
 - Turn each Refuted or Unresolved claim, and each deal-breaker, into an objection an investor would actually raise in a partner meeting
 - Tag its risk category and severity, and note a deck fix, not just a rebuttal
 
-### Step 4: Write the Forge Summary
+### Step 4: Render the Forge Summary
 
-Create `forge-YYYYMMDD.md` in the idea folder:
+Render one self-contained HTML file, built from `references/report-shell.html`'s
+skeleton and tokens, using the Forge section spec and data-block fields documented in
+`references/report-style.md`: Header, Idea in one paragraph (synthesized from
+00-overview, incorporating all evolution), Score trajectory (chart from Step 2), Key
+pivots (timeline list, compiled from changelog entries across all docs), Pitch-ready
+summary (12-slide canonical order: Hook, Problem, Solution, Product/Demo,
+Traction/Validation, Market Size, Business Model, Competition, Team, Financials, The
+Ask, Vision/Close, each grounded in a validated claim, "not yet validated" instead of
+invented content), Investor objections (one per Refuted/Unresolved claim and per
+deal-breaker, tagged Market/Execution/Technical/Competitive/Business Model/
+Timing/Regulatory/Capital Efficiency, with severity and a deck fix), Verdict (strength,
+confidence level based on the validated-vs-assumed ratio, biggest remaining risk,
+recommended next action).
 
-```markdown
-# Forge: <idea name>
-Date: <date>
-Evaluations analyzed: <count>
-Pushback sessions analyzed: <count>
+Data block: `idea`, `output_type: "forge"`, `idea_paragraph`, `score_trajectory`,
+`validated`, `assumed`, `key_pivots`, `pitch_summary`, `objections`, `verdict`. Never
+invent a score, quote, or slide content the docs don't support.
 
-## Idea in One Paragraph
-<Synthesized from 00-overview, incorporating all evolution>
-
-## Score Trajectory
-<table from Step 2>
-
-## What's Validated
-- <validated claim/assumption with source>
-
-## What's Still Risky
-- <unvalidated claim with what would test it>
-
-## Key Pivots
-1. <date>: <what changed and why>
-
-## Open Questions
-<Compiled from all sessions and docs>
-
-## Pitch-Ready Summary
-<One line per slide, in this canonical order. Ground each line in a validated claim (cite the evaluation, pushback verdict, or experiment result). If the docs can't support a slide yet, write "(not yet validated)" instead of inventing content.>
-
-1. **Hook / Opening:**
-2. **Problem:**
-3. **Solution:**
-4. **Product / Demo:**
-5. **Traction / Validation:**
-6. **Market Size:**
-7. **Business Model:**
-8. **Competition:**
-9. **Team:**
-10. **Financials:**
-11. **The Ask:**
-12. **Vision / Close:**
-
-**Missing slides:** <which of the twelve above the idea docs cannot yet support, and what's needed to fill them>
-
-## Investor Objections
-<Populate from Refuted and Unresolved claims across all pushback sessions, and from any deal-breakers in the evaluations. One entry per objection. Tag each with the risk category it falls under: Market, Execution, Technical, Competitive, Business Model, Timing, Regulatory, or Capital Efficiency.>
-
-### Objection: <state it exactly as an investor would phrase it in a partner meeting>
-- **Risk category:** Market / Execution / Technical / Competitive / Business Model / Timing / Regulatory / Capital Efficiency
-- **Why they'll raise it:**
-- **Severity:** High / Medium / Low
-- **Suggested response:**
-- **Deck fix:** <what to change in the pitch itself so this objection lands softer>
-
-## Verdict
-**Idea strength:** [Strong / Promising / Needs work / Reconsider]
-**Confidence level:** [High / Medium / Low] — based on ratio of validated vs assumed claims
-**Biggest remaining risk:** <one sentence>
-**Recommended next action:** <one specific thing to do>
-```
+**Filename:** `forge-YYYYMMDD.html`, inside the idea folder. Print the path, then offer
+to open it (`open ideas/{idea-name}/forge-YYYYMMDD.html` on macOS).
 
 ### Step 5: Present and Suggest Next Steps
 

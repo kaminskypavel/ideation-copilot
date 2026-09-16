@@ -3,7 +3,7 @@ name: idea-pushback
 description: Conversational stress-test for business ideas. Breaks an idea into testable claims, challenges each through dialogue with web-backed research, and produces a scorecard with verdicts. Use when the user wants to pressure-test, get pushback, or poke holes in a business concept.
 argument-hint: "[idea-folder-name]"
 disable-model-invocation: true
-allowed-tools: Read, Glob, Write, WebSearch, WebFetch, web_search_advanced_exa, crawling_exa
+allowed-tools: Read, Glob, Write, WebSearch, WebFetch, web_search_advanced_exa, crawling_exa, Bash(open *)
 ---
 
 # Pushback
@@ -38,14 +38,20 @@ references/exa-research.md
 
 This framework contains the **business lenses**, **reasoning tools**, and **scoring principles** you'll use throughout the session.
 
-**Check for existing evaluations:**
+**Check for existing evaluations and prior pushback:**
 
-Look for `evaluation-*.md` files in the idea folder. If one or more exist, read the most recent one. This gives you:
+Look for `evaluation-*.html` files in the idea folder (legacy compatibility: also
+`evaluation-*.md` with YAML frontmatter). If one or more exist, read the most recent
+one's `idea-data` block. This gives you:
 - **Pre-researched findings** — competitors, market data, TAM validation. Don't re-research what the evaluation already found. Reference it instead: "Your evaluation found that Flywheel tried this with $46M and failed..."
 - **Score-based prioritization** — start sparring on the weakest dimensions first. If Traction is 1/5, challenge that before challenging Timing at 4/5.
 - **Deal-breakers to probe** — if the evaluation flagged deal-breakers, make those the first claims to spar on.
 
 If no evaluation exists, proceed normally — decompose from the docs alone.
+
+Also look for prior `pushback-*.html` files; read the newest one's `claims` and
+`assumption_chains` so this session doesn't re-litigate a claim already Verified with
+High confidence, unless the founder brings new evidence against it.
 
 **Tarpit pre-check:** before decomposing, check the idea against four tarpit criteria: (1) a lot of people independently come up with it, (2) it seems like an unsolved problem, (3) friends and early users give lots of positive feedback, (4) people have been trying and failing to build it since the 90s. If three or more fire, make "this is not a tarpit idea" the first claim to spar on, ahead of the seven lenses below.
 
@@ -68,34 +74,20 @@ Present the decomposition:
 
 Wait for the user to confirm or adjust.
 
-### Phase 2: Create the Scorecard
+### Phase 2: Render the Scorecard
 
-Create a scorecard file to track all claims. This is your persistent state.
+Render `pushback-YYYYMMDD.html` (today's date) in the idea folder as your persistent
+state, built from `references/report-shell.html`'s skeleton and tokens, using the
+Pushback section spec documented in `references/report-style.md`: Header, Idea summary
+(1-2 sentences from the overview doc), Claims table (all claims Queued at this point),
+Evolution log (empty), Assumption chains (empty), Predictions (empty; filled in Phase
+4). Data block fields: `idea`, `output_type: "pushback"`, `idea_summary`, `claims`
+(status `Queued`, confidence `null`), `evolution_log: []`, `assumption_chains: []`,
+`predictions: []`.
 
-**Filename:** `pushback-session-YYYYMMDD-HHmmss.md`
-**Location:** Inside the idea folder (`ideas/{idea-name}/`)
-
-```markdown
-# Pushback Session: <idea name>
-Date: <date>
-
-## Idea Summary
-<1-2 sentence summary from the overview doc>
-
-## Claims
-
-| # | Lens | Claim | Status | Confidence | Summary |
-|---|------|-------|--------|------------|---------|
-| 1 | Problem | <claim> | Queued | — | — |
-| 2 | Customer | <claim> | Queued | — | — |
-...
-
-## Evolution Log
-(tracks how the founder's position shifts during the session)
-
-## Assumption Chains
-(populated per-claim after sparring)
-```
+This file is fully rewritten, not appended to, after every claim's verdict (Phase 3d)
+and again at the end (Phase 4); the filename never changes within one session even
+across a midnight boundary.
 
 Announce the order you'll tackle claims (most consequential first) and begin with the first one.
 
@@ -167,68 +159,29 @@ Build a dependency tree for this claim:
 
 Ask: "Want to go deeper on any of these, or move to the next claim?"
 
-Update the scorecard file after each claim.
+Re-render `pushback-YYYYMMDD.html` (full rewrite, same filename) after each claim, with
+its updated status, confidence, and assumption chain in both the visible table and the
+data block.
 
-### Phase 4: Final Output
+### Phase 4: Final Render
 
-After all claims are processed (or when the user asks), update the scorecard with:
+After all claims are processed (or when the user asks), do one last full re-render of
+`pushback-YYYYMMDD.html`, adding the Verdict and Predictions cards:
 
-**Final Verdict:**
+**Verdict card:** overall assessment (Promising with caveats / Needs major rethinking /
+Fatal flaws detected), top 3 strengths, top 3 weaknesses, the one thing that kills this,
+recommended next move. Data block: `verdict` (`{ assessment, top_strengths,
+top_weaknesses, kill_risk, recommended_next_move }`).
 
-```markdown
-## Verdict
-
-**Overall Assessment:** [Promising with caveats / Needs major rethinking / Fatal flaws detected]
-
-**Top 3 Strengths:**
-1. ...
-
-**Top 3 Weaknesses:**
-1. ...
-
-**The One Thing That Kills This:**
-> The single biggest risk that must be addressed first.
-
-**Recommended Next Move:**
-> The one experiment or action that would most reduce risk.
-
-```
-
-**Prediction Document:**
-
-Create `pushback-predictions-YYYYMMDD-<topic>.md` in the idea folder:
-
-```markdown
-# Predictions: <idea name>
-Date: <date>
-Session: <scorecard filename>
-
-## Starting Position
-<What the founder originally claimed>
-
-## Evolution
-1. Original: "<original position>"
-2. After [claim]: <how it changed>
-
-## Final Position
-<Refined thesis after all sparring>
-
-## Predictions
-| # | What will happen | Confidence | Timeframe | How to verify |
-|---|-----------------|------------|-----------|---------------|
-| 1 | <specific, falsifiable> | High/Med/Low | <when> | <how to check> |
-
-## Critical Assumptions (Summary)
-<Condensed assumption chains from all claims>
-
-## Open Questions
-<Unresolved items>
-
-## Review Date
-<suggested date based on prediction timeframes>
-```
+**Predictions card:** starting position, the evolution log entries, final position, a
+predictions table (what will happen, confidence, timeframe, how to verify), and a
+suggested review date. Data block: `starting_position`, `final_position`, `predictions`
+(array of `{ prediction, confidence, timeframe, verify }`), `review_date`.
 
 If `03-assumptions.md` exists, offer to append newly discovered assumptions.
+
+Print the path (`ideas/{idea-name}/pushback-YYYYMMDD.html`), then offer to open it
+(`open ideas/{idea-name}/pushback-YYYYMMDD.html` on macOS).
 
 **Suggest next steps based on the session:**
 
@@ -251,8 +204,8 @@ Choose based on the session:
 
 - **"next"** — advance to the next claim
 - **"status"** / **"scorecard"** — show current progress summary
-- **"prediction doc"** — generate prediction document with current state
-- **"resume pushback"** — scan for existing `pushback-session-*.md` files and continue
+- **"prediction doc"**: render the Predictions card into `pushback-YYYYMMDD.html` now, with the session's current state
+- **"resume pushback"**: scan for existing `pushback-*.html` files and continue
 
 ## Ongoing Behaviors
 

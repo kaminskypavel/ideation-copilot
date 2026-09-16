@@ -3,7 +3,7 @@ name: idea-interview
 description: Generate a targeted customer interview guide for an idea's riskiest assumption, and capture what came back afterward. Use when the user wants to prepare for customer interviews, design interview questions, or write up what they heard from customers.
 argument-hint: "[idea-folder-name]"
 disable-model-invocation: true
-allowed-tools: Read, Glob, Write, Edit
+allowed-tools: Read, Glob, Write, Edit, Bash(open *)
 ---
 
 # Interview Guide
@@ -58,44 +58,20 @@ Cover three stretches of the conversation:
 - **Outreach math:** cold interview requests convert at a low rate. Plan to contact roughly 3x the number of interviews you actually need, and adjust the multiplier up if this founder's early outreach converts worse than that.
 - **Recruiting source:** pull from the target customer description in `00-overview.md`. Note where these people actually are (a specific forum, a specific job title on LinkedIn, an existing waitlist) rather than "anyone who might be interested."
 
-### Phase 4: Write the Guide
+### Phase 4: Render the Guide
 
-Write `interview-guide-YYYYMMDD.md` to the idea folder:
+Render one self-contained HTML file, built from `references/report-shell.html`'s
+skeleton and tokens, using the Interview guide section spec and data-block fields
+documented in `references/report-style.md`: Header, Target segment, Opening and closing
+script, Core questions (one card per question, four-part unit), Success criteria
+(checklist), Recruiting plan.
 
-```markdown
-# Interview Guide: <idea name>
-Date: <date>
-Assumption under test: <assumption from 03-assumptions.md, with its ID>
+Data block: `idea`, `output_type: "interview_guide"`, `target_assumption`,
+`target_segment`, `opening_script`, `closing_script`, `questions`, `success_criteria`,
+`recruiting_plan`.
 
-## Target Segment
-<who to recruit, and where to find them>
-
-## Opening Script
-<rapport-building, confirm fit, get them describing their current process>
-
-## Core Questions
-### Q1: <question>
-- Rationale:
-- Follow-up:
-- Avoid:
-
-### Q2: <question>
-...
-
-## Closing Script
-<wrap-up plus a specific ask: follow-up call, fake-door link, invoice, etc.>
-
-## Success Criteria
-- [ ] Recruited 7-14 people matching the target segment
-- [ ] Asked every core question without leading
-- [ ] Got at least one concrete, dated example per interview, not just opinions
-- [ ] Closed with a specific ask, not just "thanks for your time"
-
-## Recruiting Plan
-**Target interviews:** 7-14
-**Outreach target:** <3x the target interview count>
-**Source:** <where these people are>
-```
+**Filename:** `interview-guide-YYYYMMDD.html`, inside the idea folder. Print the path,
+then offer to open it (`open ideas/{idea-name}/interview-guide-YYYYMMDD.html` on macOS).
 
 ### Phase 5: Synthesize Results
 
@@ -108,28 +84,18 @@ When the user comes back with interview notes or transcripts, help them turn raw
   - *Demonstrated behavior* (the strongest signal): they ask to meet again, ask for the deck, or ask when they can start using it.
 - **Push past the surface layer.** If an answer is a generality like "it was good" or "customers love it," ask for one specific, dated instance before accepting it as evidence.
 
-Write `interview-synthesis-YYYYMMDD.md` to the idea folder:
+Render one self-contained HTML file, built from `references/report-shell.html`'s
+skeleton and tokens, using the Interview synthesis section spec and data-block fields
+documented in `references/report-style.md`: Header, Per-interview signal (table: quote,
+signal classification, notes), Pattern across interviews, Assumption verdict (before and
+after confidence, heatmap cell each).
 
-```markdown
-# Interview Synthesis: <idea name>
-Date: <date>
-Guide used: interview-guide-YYYYMMDD.md
-Interviews completed: <count>
+Data block: `idea`, `output_type: "interview_synthesis"`, `guide_used`,
+`interviews_completed`, `per_interview`, `pattern`, `assumption_verdict`.
 
-## Per-Interview Signal
-| # | Key quote | Signal | Notes |
-|---|-----------|--------|-------|
-| 1 | | Strong pull / Weak-polite / Demonstrated behavior | |
-
-## Pattern Across Interviews
-<what showed up more than once>
-
-## Assumption Verdict
-**Assumption:** <the one from Phase 1>
-**Verdict:** Validated / Invalidated / Partially validated / Still unresolved
-**New Confidence (0-10):** <score, using the scale from 03-assumptions.md>
-**Why:** <grounded in the signal classification above, not interview count alone>
-```
+**Filename:** `interview-synthesis-YYYYMMDD.html`, inside the idea folder. Print the
+path, then offer to open it
+(`open ideas/{idea-name}/interview-synthesis-YYYYMMDD.html` on macOS).
 
 ### Phase 6: Changelog and Handoff
 
@@ -141,7 +107,7 @@ Append a changelog entry to `03-assumptions.md` under `## Changelog`, using the 
 **Changes:**
 - {e.g., generated guide targeting assumption D2}
 - {e.g., updated D2 confidence from 2 to 6 based on 9 interviews}
-**Source:** interview-guide-YYYYMMDD.md or interview-synthesis-YYYYMMDD.md
+**Source:** interview-guide-YYYYMMDD.html or interview-synthesis-YYYYMMDD.html
 **Confidence delta:** {stronger / weaker / unchanged}, one sentence why
 ```
 
@@ -150,7 +116,7 @@ Then output:
 Before printing, read `references/workflow.md`, determine the idea folder state, and apply the Next Step table. Print the top 2-3 matching steps with the evidence behind each. The list below is the default if folder state cannot be read.
 
 ```
-Interview guide written to ideas/{idea-name}/interview-guide-YYYYMMDD.md
+Interview guide written to ideas/{idea-name}/interview-guide-YYYYMMDD.html
 
 What's next?
 

@@ -3,7 +3,7 @@ name: idea-evaluate
 description: Score a business idea across VC investability, market opportunity, and founder-idea fit using parallel evaluation agents. Produces a machine-readable report with scores, deal-breakers, and the weakest dimension. Use when the user wants a quantified assessment of their idea.
 argument-hint: "[idea-folder-name] [vc|market|yc]"
 disable-model-invocation: true
-allowed-tools: Read, Glob, Write, WebSearch, WebFetch, Agent, web_search_advanced_exa, crawling_exa
+allowed-tools: Read, Glob, Write, WebSearch, WebFetch, Agent, web_search_advanced_exa, crawling_exa, Bash(open *)
 ---
 
 # Evaluate Idea
@@ -38,6 +38,12 @@ references/exa-research.md
 ```
 
 7. If `03-assumptions.md` exists, flag it for cross-referencing.
+8. Read every prior `evaluation-*.html`, sorted by date, and parse each one's
+   `<script type="application/json" id="idea-data">` block for its `combined_score` and
+   per-agent scores; this is the trajectory this evaluation appends to and the baseline
+   for the delta callout in the summary. Legacy compatibility: if the folder has older
+   `evaluation-*.md` files with YAML frontmatter instead, read those too as older data
+   points in the same trajectory.
 
 ### Phase 2: Dispatch Agents
 
@@ -102,61 +108,25 @@ Present a summary table:
 
 Then present the full per-dimension analysis from each agent.
 
-### Phase 4: Write Evaluation File
+### Phase 4: Render the Evaluation
 
-Write the evaluation report to the idea folder:
+Render one self-contained HTML file, built from `references/report-shell.html`'s
+skeleton and tokens, using the Evaluation section spec and data-block fields documented
+in `references/report-style.md` ("Section specs by output type" and "Per-type data block
+fields"): Header (stage plus grade badge), Summary table (per agent score plus
+deal-breakers), Dimension bars (per agent, with the evidence-quality tick), Weakest
+dimension callout, Assumptions cross-reference gaps.
 
-**Filename:** `evaluation-YYYYMMDD-HHmmss.md`
-**Location:** Inside the idea folder (`ideas/{idea-name}/`)
+Data block: `idea`, `output_type: "evaluation"`, `stage`, `combined_score`, `label`
+(from the evaluation framework's Grade Labels), `agents` (every dimension's score,
+weight, evidence_quality), `deal_breakers`, `weakest_dimension`, `assumption_gaps`.
+Fill the visible cards and the data block from one pass over the same computed values so
+they cannot drift. Never invent a score; a dimension no agent scored is `null` and
+renders in its empty state.
 
-The file starts with YAML frontmatter containing all scores in a machine-readable format:
-
-```yaml
----
-type: evaluation
-date: YYYY-MM-DD
-stage: pre-product
-agents: [vc, market-analyst, yc-founder-fit]
-combined_score: 59
-deal_breakers: ["Team scored 1/5"]
-scores:
-  vc:
-    overall: 58
-    dimensions:
-      team: { score: 2, weight: 2.0 }
-      timing: { score: 4, weight: 1.5 }
-      tam: { score: 3, weight: 1.0 }
-      technology: { score: 3, weight: 1.0 }
-      competition: { score: 2, weight: 1.0 }
-      business_model: { score: 3, weight: 1.0 }
-      gtm: { score: 2, weight: 1.0 }
-      traction: { score: 1, weight: 1.0 }
-  market_analyst:
-    overall: 66
-    dimensions:
-      market_size: { score: 4 }
-      competitive_landscape: { score: 3 }
-      timing_tailwinds: { score: 4 }
-      customer_accessibility: { score: 3 }
-      regulatory_risk: { score: 3 }
-  yc_founder_fit:
-    overall: 54
-    dimensions:
-      founder_market_fit: { score: 4 }
-      market_size: { score: 3 }
-      problem_acuteness: { score: 2 }
-      competition_presence: { score: 3 }
-      personal_peer_demand: { score: 2 }
-      recent_possibility: { score: 4 }
-      successful_proxies: { score: 3 }
-      long_term_commitment: { score: 3 }
-      business_scalability: { score: 2 }
-      idea_space_fertility: { score: 3 }
-weakest_dimension: { agent: "vc", dimension: "traction", score: 1 }
----
-```
-
-Below the frontmatter: the full evaluation summary table, per-agent analysis, and all per-dimension details.
+**Filename:** `evaluation-YYYYMMDD-HHmmss.html`, inside the idea folder. Print the path,
+then offer to open it (`open ideas/{idea-name}/evaluation-YYYYMMDD-HHmmss.html` on
+macOS).
 
 ### Phase 5: Optional Dialogue
 
@@ -167,8 +137,9 @@ After presenting the report:
 If the founder challenges a score:
 - Defend the assessment with evidence from the docs and web research
 - If the founder provides new information that changes the analysis, revise the score
-- Update the evaluation file with revised scores
-- Recalculate the overall and combined scores
+- Recalculate the overall and combined scores, then re-render the same
+  `evaluation-YYYYMMDD-HHmmss.html` file (same filename as Phase 4, full rewrite) with
+  the revised numbers in both the visible cards and the data block
 
 **Session commands:**
 - **"details [dimension]"** — expand the full reasoning for a specific score

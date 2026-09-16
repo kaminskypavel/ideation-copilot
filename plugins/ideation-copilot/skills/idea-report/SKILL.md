@@ -25,16 +25,18 @@ ideas/*{idea-folder-name}*/
 ```
 
 3. Read `00-overview.md` through `05-experiments.md`.
-4. Read every `evaluation-*.md`, sorted by date; parse the YAML frontmatter of
-   each for the score trajectory, and take the newest for current scores,
-   stage, deal-breakers, and weakest dimension.
+4. Read every `evaluation-*.html`, sorted by date; parse the
+   `<script type="application/json" id="idea-data">` block of each for the score
+   trajectory, and take the newest for current scores, stage, deal-breakers, and
+   weakest dimension. Legacy compatibility: if the folder has older `evaluation-*.md`
+   files with YAML frontmatter instead, read those too as older trajectory points.
 5. Read `03-assumptions.md` for the assumption table(s), risk levels, and
    confidence scores where present (older files may only have Evidence
    For/Against; treat missing confidence as `null`, never invent a number).
-6. Read the newest `pushback-session-*.md` (claims, statuses) and the newest
-   `forge-*.md` (investor objections, validated/assumed synthesis) if they
+6. Read the newest `pushback-*.html` (data block's `claims`) and the newest
+   `forge-*.html` (data block's `objections`, `validated`, `assumed`) if they
    exist. Prefer forge's synthesis when both exist and forge is newer.
-7. Read the newest `pricing-*.md` and `interview-synthesis-*.md` if they exist,
+7. Read the newest `pricing-*.html` and `interview-synthesis-*.html` if they exist,
    for context only; they don't get dedicated cards unless the folder has no
    forge output to draw validated/assumed from.
 
@@ -67,7 +69,7 @@ block.
 
 Write to the idea folder as `report-YYYYMMDD.html` (today's date), overwriting
 a same-day report if one exists. Do not touch any `00`-`05` doc, any
-`evaluation-*.md`, or any other generated file; this command only writes the
+`evaluation-*.html`, or any other generated file; this command only writes the
 report.
 
 ### Phase 5: Present
@@ -82,7 +84,7 @@ on any other platform, just print the path and let the user open it.
 
 ## Graceful Degradation
 
-- **No `evaluation-*.md` yet:** render the header with an empty score
+- **No `evaluation-*.html` yet:** render the header with an empty score
   (`--`) and skip the trajectory and dimension-bar cards' example rows in
   favor of their empty-state sentences; still render Loop position, since
   workflow.md's Next Step table handles a folder with no evaluation.

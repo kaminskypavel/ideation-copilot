@@ -22,6 +22,13 @@ ideas/*{argument}*/
 
 Read all documents in the folder (00-overview through 05-experiments).
 
+Also read the newest `interview-synthesis-*.html`, `pricing-*.html`, and
+`evaluation-*.html` if they exist, parsing each one's
+`<script type="application/json" id="idea-data">` block: these are common sources of
+"new data" this skill folds in, alongside whatever the user reports directly. Legacy
+compatibility: also read any older `evaluation-*.md` files with YAML frontmatter the
+same way.
+
 ### Step 2: Identify What Changed
 
 Ask the user or infer from context:

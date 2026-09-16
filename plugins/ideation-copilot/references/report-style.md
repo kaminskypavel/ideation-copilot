@@ -1,10 +1,12 @@
 # Report Style
 
-Design tokens and rendering rules for every HTML surface the copilot generates: the full
-status report (`idea:report`) today, and the evaluation, pushback, forge, pricing,
-interview, and postmortem outputs in a later pass. One shell, one card grammar, one data
-convention, so any harness (Claude, Codex, Pi) that fills these templates produces the
-same look without re-deriving it.
+Design tokens and rendering rules for every HTML surface the copilot generates: the
+status report (`idea:report`), and the evaluation, pushback, forge, pricing, interview,
+and postmortem outputs. Every one of these is a single self-contained HTML file; none of
+them ship a markdown sidecar. One shell, one card grammar, one data convention, so any
+harness (Claude, Codex, Pi) that fills these templates produces the same look without
+re-deriving it. The 00-05 idea docs and their changelogs are the only files this plugin
+still writes as markdown, since a human edits those by hand.
 
 Style world: a field instrument, not a slide deck. Warm off-white paper, charcoal ink,
 four semantic accents that mean the same thing on every surface. No gradients, no
@@ -166,8 +168,9 @@ file.
 
 ## The data block
 
-Same fields the current evaluation frontmatter holds, plus evidence quality and the
-loop and next-step fields, so a later tool never re-parses markdown or prose:
+Same base fields every evaluation used to carry in YAML frontmatter, plus evidence
+quality and the loop and next-step fields, so a later tool never re-parses markdown or
+prose:
 
 ```json
 {
@@ -197,6 +200,57 @@ loop and next-step fields, so a later tool never re-parses markdown or prose:
 mark (below), never as `0`, zero is a real score, null means "not measured." An output
 type that doesn't produce a field (pricing has no `agents` block) omits the key entirely
 rather than shipping it empty, a consumer checks for presence.
+
+### Per-type data block fields
+
+Every output's data block starts with `idea`, `output_type`, and whatever base fields
+above apply to it, then adds the fields below for its type. A later skill reading a prior
+output (idea-evaluate reading past evaluations, idea-forge reading everything, and so on)
+parses this block, never the visible HTML and never markdown frontmatter.
+
+- **Evaluation** (`idea-evaluate`): `stage`, `combined_score`, `label`, `agents` (full
+  dimensions, each with `score`, `weight`, `evidence_quality`), `deal_breakers`,
+  `weakest_dimension`, `assumption_gaps` (array of assumption IDs from
+  `03-assumptions.md` this evaluation found no evidence for).
+- **Pushback** (`idea-pushback`): `idea_summary`, `claims` (array of
+  `{ id, lens, claim, status, confidence, summary }`, status one of `Verified`,
+  `Refuted`, `Partially Verified`, `Unresolved`, `Queued`), `evolution_log` (array of
+  `{ note }`), `assumption_chains` (array of `{ claim_id, tree }`, `tree` a nested
+  `{ assumption, test, children }`), `verdict` (`{ assessment, top_strengths,
+  top_weaknesses, kill_risk, recommended_next_move }`), `predictions` (array of
+  `{ prediction, confidence, timeframe, verify }`), `starting_position`,
+  `final_position`, `review_date`.
+- **Forge** (`idea-forge`): `idea_paragraph`, `score_trajectory` (base schema),
+  `validated`, `assumed` (base schema), `key_pivots` (array of `{ date, change }`),
+  `pitch_summary` (array of 12 `{ slide, content, missing }`, in the canonical order),
+  `objections` (base schema), `verdict` (`{ strength, confidence_level, biggest_risk,
+  recommended_next_action }`).
+- **Pricing** (`idea-pricing`): `value_metric` (`{ primary, guardrail,
+  seat_test_result }`), `willingness_to_pay` (`{ fair, expensive, prohibitive,
+  magnitude, follow_up_study }`), `packaging` (array of `{ tier, features, price }`),
+  `trial_or_freemium`, `b2b_check`, `recommendation` (`{ target_price, confidence,
+  next_test }`). No `agents` block.
+- **Interview guide** (`idea-interview`, guide phase): `target_assumption`
+  (`{ id, text }`), `target_segment`, `opening_script`, `closing_script`, `questions`
+  (array of `{ question, rationale, follow_up, avoid }`), `success_criteria` (array of
+  `{ item, done }`), `recruiting_plan` (`{ target_interviews, outreach_target,
+  source }`).
+- **Interview synthesis** (`idea-interview`, synthesis phase): `guide_used`,
+  `interviews_completed`, `per_interview` (array of `{ n, quote, signal, notes }`,
+  signal one of `Strong pull`, `Weak-polite`, `Demonstrated behavior`), `pattern`,
+  `assumption_verdict` (`{ assumption, verdict, previous_confidence, new_confidence,
+  why }`).
+- **Postmortem** (`idea-postmortem`): `cause_of_death`, `final_score`, `beliefs` (array
+  of `{ belief, evidence, verdict }`), `why_it_died` (`{ stated_reason,
+  evidence_adjusted_reason }`), `assumption_autopsy` (`{ wrong, right_but_insufficient,
+  never_tested }`, each an array of `{ assumption, note }`), `score_trajectory` (base
+  schema), `top_lessons` (array of strings), `next_time` (`{ seek, avoid }`, each an
+  array of strings).
+
+**Legacy compatibility.** If an idea folder still has older `evaluation-*.md` files with
+YAML frontmatter (written before this HTML conversion), a skill that reads prior
+evaluations reads those too and treats their frontmatter as older data points in the
+trajectory, alongside the newer `evaluation-*.html` data blocks.
 
 ## SVG rules
 
@@ -275,7 +329,7 @@ not just a swatch. A color with no legend entry is decoration and must be remove
 
 ## Empty states, general
 
-Any section with no source data (no `pricing-*.md`, no `forge-*.md`, zero pushback
+Any section with no source data (no `pricing-*.html`, no `forge-*.html`, zero pushback
 sessions) still renders its card: heading present, body reads one sentence in
 `--ink-faint` naming what's missing and which command produces it ("No pricing session
 yet. Run `idea:pricing` once a demand signal exists."), never a blank card and never
@@ -291,19 +345,19 @@ by testing print preview before calling a template done.
 
 Every type shares the shell (tokens, header, footer, data-block-first, card grammar)
 above. This section is the only per-type variation: which cards, in which order, filled
-from which source doc. `idea:report` (full status report) is built now, the rest convert
-in a follow-up pass and should read their card list from here rather than re-deriving one.
+from which source, written to which filename. Every filename below uses today's date
+(`YYYYMMDD`); a same-day rerun overwrites, matching `idea:report`'s existing behavior.
 
-| Output type | Source docs | Cards, in order |
-|---|---|---|
-| Status report (`idea:report`) | 00-05, all `evaluation-*.md`, `03-assumptions.md`, `pushback-session-*.md`, `forge-*.md`, `pricing-*.md` | Header, Loop position, Score trajectory, Dimension bars (per agent), Assumption heatmap, Validated vs Assumed, Investor objections, Deal-breakers, Changelog tail |
-| Evaluation (`idea:evaluate`) | this evaluation's scoring pass | Header (stage plus grade badge), Summary table (per agent score plus deal-breakers), Dimension bars (per agent), Weakest dimension callout, Assumptions cross-reference gaps |
-| Pushback scorecard (`idea:pushback`) | claims worked in this session | Header, Idea summary, Claims table (lens / claim / status / confidence, status as a colored chip: Verified is teal, Unresolved is rust, Refuted is coral), Evolution log, Assumption chains (one flagged card per chain that changed a confidence score) |
-| Forge (`idea:forge`) | all evaluations, pushback sessions, predictions | Header, Idea in one paragraph, Score trajectory, Validated vs Still Risky, Key pivots (timeline list), Pitch-ready summary (12-slide order, missing slides flagged), Investor objections, Verdict |
-| Pricing (`idea:pricing`) | this pricing session | Header, Value metric, Willingness-to-pay (fair/expensive/prohibitive as a 3-point scale bar), Packaging tiers (table), B2B check, Recommendation |
-| Interview guide (`idea:interview`, guide phase) | target assumption, `03-assumptions.md` | Header, Target segment, Opening and closing script, Core questions (numbered cards), Success criteria, Recruiting plan |
-| Interview synthesis (`idea:interview`, synthesis phase) | interview notes | Header, Per-interview signal (table), Pattern across interviews, Assumption verdict (before and after confidence, heatmap cell each) |
-| Postmortem (`idea:postmortem`) | full history | Header (flagged coral, this is a kill record), What we believed vs What was true (two-column), Why it died, Assumption autopsy (Wrong, Right-but-insufficient, Never-tested, each a card), Score trajectory, Top 3 lessons, Next time |
+| Output type | Filename | Source | Cards, in order |
+|---|---|---|---|
+| Status report (`idea:report`) | `report-YYYYMMDD.html` | 00-05, all `evaluation-*.html`, `03-assumptions.md`, newest `pushback-*.html`, newest `forge-*.html`, newest `pricing-*.html` | Header, Loop position, Score trajectory, Dimension bars (per agent), Assumption heatmap, Validated vs Assumed, Investor objections, Deal-breakers, Changelog tail |
+| Evaluation (`idea:evaluate`) | `evaluation-YYYYMMDD-HHmmss.html` | this evaluation's scoring pass, plus prior `evaluation-*.html` for trajectory/delta | Header (stage plus grade badge), Summary table (per agent score plus deal-breakers), Dimension bars (per agent), Weakest dimension callout, Assumptions cross-reference gaps |
+| Pushback (`idea:pushback`) | `pushback-YYYYMMDD.html` | claims and predictions worked in this session; prior `evaluation-*.html` and the newest prior `pushback-*.html` for context | Header, Idea summary, Claims table (lens / claim / status / confidence, status as a colored chip: Verified is teal, Unresolved is rust, Refuted is coral), Evolution log, Assumption chains (one flagged card per chain that changed a confidence score), Predictions (table, plus starting vs final position) |
+| Forge (`idea:forge`) | `forge-YYYYMMDD.html` | all `evaluation-*.html`, all `pushback-*.html` | Header, Idea in one paragraph, Score trajectory, Validated vs Still Risky, Key pivots (timeline list), Pitch-ready summary (12-slide order, missing slides flagged), Investor objections, Verdict |
+| Pricing (`idea:pricing`) | `pricing-YYYYMMDD.html` | this pricing session | Header, Value metric, Willingness-to-pay (fair/expensive/prohibitive as a 3-point scale bar), Packaging tiers (table), B2B check, Recommendation |
+| Interview guide (`idea:interview`, guide phase) | `interview-guide-YYYYMMDD.html` | target assumption, `03-assumptions.md` | Header, Target segment, Opening and closing script, Core questions (numbered cards), Success criteria, Recruiting plan |
+| Interview synthesis (`idea:interview`, synthesis phase) | `interview-synthesis-YYYYMMDD.html` | interview notes, the guide it used | Header, Per-interview signal (table), Pattern across interviews, Assumption verdict (before and after confidence, heatmap cell each) |
+| Postmortem (`idea:postmortem`) | `postmortem-YYYYMMDD.html` | full history: 00-05, all `evaluation-*.html`, all `pushback-*.html`, `forge-*.html` if present | Header (flagged coral, this is a kill record), What we believed vs What was true (two-column), Why it died, Assumption autopsy (Wrong, Right-but-insufficient, Never-tested, each a card), Score trajectory, Top 3 lessons, Next time |
 
 No em dashes anywhere in a filled template or in this file. Use a comma, a colon,
 parentheses, or two sentences instead.

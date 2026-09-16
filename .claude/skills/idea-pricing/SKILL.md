@@ -3,7 +3,7 @@ name: idea-pricing
 description: Work through pricing strategy for a business idea, value metric, willingness-to-pay signal, and packaging tiers, and write a pricing recommendation. Use when the user wants to figure out what to charge, size a subscription, or plan a pricing test.
 argument-hint: "[idea-folder-name]"
 disable-model-invocation: true
-allowed-tools: Read, Glob, Write, Edit
+allowed-tools: Read, Glob, Write, Edit, Bash(open *)
 ---
 
 # Price Idea
@@ -77,44 +77,21 @@ If this is a B2B idea, apply these four rules as a sanity check on whatever pric
 3. Keep it simple to start. One or two tiers with a clear value metric beats a complex pricing page at this stage.
 4. Revisit pricing about once a year. A price set today is a hypothesis, not a permanent commitment.
 
-### Phase 6: Write the Pricing File
+### Phase 6: Render the Pricing File
 
-Write `pricing-YYYYMMDD.md` to the idea folder:
+Render one self-contained HTML file, built from `references/report-shell.html`'s
+skeleton and tokens, using the Pricing section spec and data-block fields documented in
+`references/report-style.md`: Header, Value metric, Willingness-to-pay (fair/expensive/
+prohibitive as a 3-point scale bar), Packaging tiers (table), B2B check, Recommendation.
 
-```markdown
-# Pricing: <idea name>
-Date: <date>
+Data block: `idea`, `output_type: "pricing"`, `value_metric`, `willingness_to_pay`,
+`packaging`, `trial_or_freemium`, `b2b_check`, `recommendation`. No `agents` block; omit
+the key entirely rather than shipping it empty. Don't invent a number the founder
+hasn't actually given; a not-yet-tested field is `null` and its card explains what's
+missing.
 
-## Value Metric
-**Primary:** <unit>
-**Guardrail (if any):** <unit>
-**Per-seat litmus test result:** <pass/fail and why>
-
-## Willingness to Pay
-**Fair price:** <answer>
-**Expensive price (target anchor):** <answer>
-**Prohibitive price:** <answer>
-**Order of magnitude:** $10 / $100 / $1K / $10K product
-**Recommended follow-up study:** <method from the Phase 3 table, or "none needed yet">
-
-## Packaging
-| Tier | Features | Price |
-|---|---|---|
-| Free / Foundational | | |
-| Core | | |
-| Optimizations | | |
-| Growth | | |
-
-**Trial or freemium:** <choice and one-sentence why>
-
-## B2B Pricing Check
-<Which of the four rules the current plan violates, if any, and the fix>
-
-## Recommendation
-**Target price:** <number>
-**Confidence:** High / Medium / Low, this is a hypothesis until tested
-**Next test:** <the cheapest experiment that would validate or kill this price>
-```
+**Filename:** `pricing-YYYYMMDD.html`, inside the idea folder. Print the path, then
+offer to open it (`open ideas/{idea-name}/pricing-YYYYMMDD.html` on macOS).
 
 ### Phase 7: Changelog and Summary
 
@@ -126,7 +103,7 @@ Append a changelog entry to `02-lean-canvas.md` under `## Changelog`, using the 
 **Changes:**
 - Set value metric to {metric}
 - Set target price to {price}, based on {method}
-**Source:** idea:pricing session
+**Source:** pricing-YYYYMMDD.html
 **Confidence delta:** {stronger / weaker / unchanged}, one sentence why
 ```
 
@@ -135,7 +112,7 @@ Then output:
 Before printing, read `references/workflow.md`, determine the idea folder state, and apply the Next Step table. Print the top 2-3 matching steps with the evidence behind each. The list below is the default if folder state cannot be read.
 
 ```
-Pricing written to ideas/{idea-name}/pricing-YYYYMMDD.md
+Pricing written to ideas/{idea-name}/pricing-YYYYMMDD.html
 
 What's next?
 
