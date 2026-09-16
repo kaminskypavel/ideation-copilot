@@ -52,7 +52,7 @@ Detect the harness (Claude Code, Codex, or Pi) from available tools/env. Exa MCP
 
 **If API key exists and MCP is missing — auto-install:**
 
-- **Claude Code:** `claude mcp add --transport http exa "<url>"`
+- **Claude Code:** the plugin ships an Exa MCP server; run `/plugin` → configure `ideation-copilot` → set **Exa API key**. Fallback: `claude mcp add --transport http exa "<url>"`
 - **Codex:** add an MCP server named `exa` with that URL in Codex MCP config
 - **Pi:** add the same URL under MCP servers in Pi settings (`pi` MCP config / `~/.pi/agent/`)
 

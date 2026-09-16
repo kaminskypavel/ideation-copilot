@@ -17,5 +17,23 @@
     "validation"
   ],
   "skills": "./skills/",
-  "agents": "./agents/"
+  "agents": [
+    "./agents/evaluate/market-analyst.md",
+    "./agents/evaluate/vc.md",
+    "./agents/evaluate/yc-founder-fit.md"
+  ],
+  "userConfig": {
+    "exa_api_key": {
+      "type": "string",
+      "title": "Exa API key",
+      "description": "Optional. Enables category-specific research (company, news, financial report, research paper). Get one at https://exa.ai. Leave blank to use WebSearch only.",
+      "sensitive": true
+    }
+  },
+  "mcpServers": {
+    "exa": {
+      "type": "http",
+      "url": "https://mcp.exa.ai/mcp?exaApiKey=${user_config.exa_api_key}&tools=web_search_advanced_exa,crawling_exa"
+    }
+  }
 }

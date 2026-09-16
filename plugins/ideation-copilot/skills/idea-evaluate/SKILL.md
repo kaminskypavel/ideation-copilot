@@ -50,6 +50,8 @@ Prepare the context block for agents — combine:
 
 **Otherwise, dispatch all three.** Parallel if this harness has an Agent/subagent tool; else sequential in this session. Same prompts, same output format. Load each persona from `agents/evaluate/` (`vc.md`, `market-analyst.md`, `yc-founder-fit.md`).
 
+In Claude Code the personas are registered subagents; dispatch with `subagent_type: "ideation-copilot:vc"`, `"ideation-copilot:market-analyst"`, `"ideation-copilot:yc-founder-fit"` and pass only the context block as the prompt. In other harnesses read the persona file and prepend it to the prompt.
+
 Each selected agent gets the full context block:
 
 1. **VC Agent** — evaluates investability across 8 weighted dimensions (Team, Timing, TAM, Technology/Product, Competition/Moat, Business Model, GTM, Traction/Validation)

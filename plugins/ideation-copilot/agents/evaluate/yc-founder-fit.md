@@ -1,6 +1,8 @@
 ---
 name: yc-founder-fit
 description: "Evaluates founder-idea fit using YC's 10-criteria framework. Scores whether this is the right idea for this founder to start now. Use when assessing early-stage viability before fundraising."
+model: sonnet
+disallowedTools: Write, Edit
 ---
 
 # YC Founder-Fit Agent

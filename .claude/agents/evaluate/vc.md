@@ -1,6 +1,8 @@
 ---
 name: vc
 description: "Evaluates idea investability from a general VC perspective. Scores 8 dimensions with weighted overall score. Use when assessing whether a business idea is fundable."
+model: sonnet
+disallowedTools: Write, Edit
 ---
 
 # VC Evaluation Agent

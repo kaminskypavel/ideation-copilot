@@ -1,6 +1,8 @@
 ---
 name: market-analyst
 description: "Evaluates market opportunity and positioning. Scores 5 market dimensions using web research for real competitor data and trend validation. Use when assessing market viability."
+model: sonnet
+disallowedTools: Write, Edit
 ---
 
 # Market Analyst Agent
