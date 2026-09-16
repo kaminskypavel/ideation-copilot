@@ -1,6 +1,6 @@
 {
   "name": "ideation-copilot",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Structured business idea development with idea:new, idea:evaluate, idea:pushback, idea:update, idea:pricing, idea:interview, idea:forge, and idea:report. Every scored or synthesized output renders as a single self-contained HTML report. Includes VC, Market, and YC evaluation agents.",
   "author": {
     "name": "Pavel 'PK' Kaminsky",
