@@ -34,7 +34,7 @@ idea:forge  (pitch-ready synthesis)        idea:postmortem  (if the evidence say
 5. **One assumption per cycle.** Each interview guide and each experiment targets one row of `03-assumptions.md`. Confidence (0-10) on that row is the progress bar.
 6. **Price before you forge.** The Business Model dimension cannot score above 3 without a value metric and a willingness-to-pay signal.
 7. **Write kill criteria before you need them.** `05-experiments.md` carries the pass and kill thresholds. When a kill threshold is hit, run `idea:postmortem`, not another round of updates.
-8. **Forge before you show anyone.** Advisors and investors get the forge output, never the raw folder.
+8. **Forge before you show anyone, then report.** Advisors and investors get the `idea:report` HTML render, built from `idea:forge`'s synthesis, never the raw folder.
 
 ## Idea Folder State
 
@@ -50,6 +50,7 @@ Determine state from the idea folder before choosing a next step:
 | Pricing hypothesis exists | `pricing-*.md` |
 | Kill criteria hit | `05-experiments.md` results vs kill thresholds |
 | Forge exists | `forge-*.md` |
+| Report exists and is current | `report-*.html`, compare its date to the newest `forge-*.md` |
 
 ## Next Step Table
 
@@ -66,7 +67,8 @@ First matching row is the primary recommendation. Print it plus the next one or 
 | 7 | Docs changed since the newest evaluation | `idea:evaluate` (re-score) |
 | 8 | Label Good or better, riskiest assumption Confidence >= 6, no `pricing-*.md` | `idea:pricing` |
 | 9 | Two or more evaluations, label Good or better, no `forge-*.md` newer than the latest evaluation | `idea:forge` |
-| 10 | Everything above satisfied | `idea:forge` to refresh, then share it |
+| 10 | `forge-*.md` exists and no `report-*.html` newer than it | `idea:report` |
+| 11 | Everything above satisfied | `idea:forge` to refresh, then `idea:report` to re-render it, then share it |
 
 ## Output Format
 

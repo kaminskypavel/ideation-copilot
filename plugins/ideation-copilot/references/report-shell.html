@@ -1,0 +1,137 @@
+<!doctype html>
+<!--
+  Bare shell for any HTML output this plugin generates (evaluation, pushback,
+  forge, pricing, interview, postmortem). Copy this file, rename the
+  <script id="idea-data"> schema to what that output type needs (see
+  references/report-style.md "Section specs by output type"), and add one
+  card per row in that type's card list. Tokens and rules are documented in
+  full in report-style.md; this file is only the skeleton plus one worked
+  example so a new template starts from something real.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{idea_name}} - {{output_type}} - {{date}}</title>
+<style>
+  :root {
+    --bg:#faf7f1; --surface:#ffffff; --surface-sunk:#f3efe6;
+    --ink:#2a2723; --ink-muted:#5c574d; --ink-faint:#8b8477;
+    --rule:#e6dfd1; --rule-strong:#cfc6b3;
+    --teal:#0d7d76; --teal-wash:#e2f1ef;
+    --rust:#c2410c; --rust-wash:#fdf0e5;
+    --blue:#2563a8; --blue-wash:#e8f0f8;
+    --coral:#d6553a; --coral-wash:#fbe9e3;
+    --radius:14px; --pill:999px;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    color-scheme:light;
+  }
+  /* Dark tokens, fixed values, documented in report-style.md. OS default;
+     [data-theme] (toggle script below) always wins. */
+  @media (prefers-color-scheme:dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme:dark;
+      --bg:#211f1b; --surface:#2a2723; --surface-sunk:#38332c;
+      --ink:#f2ede4; --ink-muted:#c9c2b3; --ink-faint:#948c7b;
+      --rule:#3d3830; --rule-strong:#524c40;
+      --teal:#4fc0b8; --teal-wash:#163330;
+      --rust:#e8823f; --rust-wash:#3a2415;
+      --blue:#6badea; --blue-wash:#17293c;
+      --coral:#ea7e63; --coral-wash:#3a2018;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme:dark;
+    --bg:#211f1b; --surface:#2a2723; --surface-sunk:#38332c;
+    --ink:#f2ede4; --ink-muted:#c9c2b3; --ink-faint:#948c7b;
+    --rule:#3d3830; --rule-strong:#524c40;
+    --teal:#4fc0b8; --teal-wash:#163330;
+    --rust:#e8823f; --rust-wash:#3a2415;
+    --blue:#6badea; --blue-wash:#17293c;
+    --coral:#ea7e63; --coral-wash:#3a2018;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--font); font-size:15px; line-height:1.55; }
+  .theme-toggle { border:1px solid var(--rule-strong); background:var(--surface); color:var(--ink-muted); border-radius:var(--pill); font-size:12px; font-weight:600; padding:5px 12px; cursor:pointer; font-family:inherit; }
+  .shell { max-width:880px; margin:0 auto; padding:32px 20px 48px; }
+  .hdr { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:32px; }
+  .hdr h1 { font-size:28px; font-weight:700; line-height:1.15; letter-spacing:-0.01em; margin:0; }
+  .hdr .meta { font-size:13px; color:var(--ink-faint); margin-top:4px; }
+  .badge { display:inline-block; padding:4px 12px; border-radius:var(--pill); font-size:11.5px; font-weight:600; letter-spacing:0.02em; }
+  .badge--good { background:var(--teal-wash); color:var(--teal); }
+  .badge--fair { background:var(--rust-wash); color:var(--rust); }
+  .badge--critical { background:var(--coral-wash); color:var(--coral); }
+  .card { background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius); padding:20px; margin-bottom:20px; }
+  .card--flagged { border:2px solid var(--coral); background:var(--coral-wash); }
+  .card--flagged h2 { color:var(--coral); }
+  .card h2 { font-size:19px; font-weight:700; line-height:1.25; letter-spacing:-0.005em; margin:0 0 4px; }
+  .card .sub { font-size:13px; color:var(--ink-muted); margin:0 0 16px; }
+  .chip { display:inline-flex; align-items:center; gap:6px; padding:2px 10px; border-radius:var(--pill); font-size:12px; font-weight:600; }
+  .chip--teal { background:var(--teal-wash); color:var(--teal); }
+  .chip--rust { background:var(--rust-wash); color:var(--rust); }
+  .chip--coral { background:var(--coral-wash); color:var(--coral); }
+  .empty { color:var(--ink-faint); font-size:14px; }
+  .ftr { font-size:12px; color:var(--ink-faint); border-top:1px solid var(--rule); padding-top:16px; margin-top:12px; }
+  @media (max-width:480px) { .hdr { flex-direction:column; align-items:flex-start; } }
+  @media print { @page { margin:16mm; } body { background:#fff; } .card { break-inside:avoid; } }
+</style>
+</head>
+<body>
+
+<!-- Replace this schema with the output type's own fields; keep the id. -->
+<script type="application/json" id="idea-data">
+{
+  "idea": { "name": "{{idea_name}}", "folder": "{{idea_folder}}", "generated": "{{date}}" },
+  "output_type": "{{output_type}}"
+}
+</script>
+
+<div class="shell">
+
+  <header class="hdr">
+    <div>
+      <h1>{{idea_name}}</h1>
+      <div class="meta">{{output_type}} - {{date}} - source: {{idea_folder}}</div>
+    </div>
+    <div>
+      <!-- Scored surfaces only, add before the toggle: <span class="badge badge--good|fair|critical">{{grade_label}}</span> -->
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">Dark mode</button>
+    </div>
+  </header>
+
+  <!-- Worked example: a plain content card. Copy this block per row in the
+       output type's card list, or leave the empty-state paragraph when a
+       section's source doc does not exist. -->
+  <section class="card">
+    <h2>{{section_title}}</h2>
+    <p class="sub">{{section_subtitle}}</p>
+    <p>{{section_body}}</p>
+    <!-- No source data: replace the <p> above with -->
+    <!-- <p class="empty">No {{missing_doc}} yet. Run {{command}} once it exists.</p> -->
+  </section>
+
+  <footer class="ftr">
+    Generated {{date}} from {{idea_folder}}. This file is a render, not the record.
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var saved = localStorage.getItem('idea-report-theme');
+    if (saved) root.setAttribute('data-theme', saved);
+    var btn = document.getElementById('theme-toggle');
+    function isDark() { return (root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light')) === 'dark'; }
+    function label() { btn.textContent = isDark() ? 'Light mode' : 'Dark mode'; }
+    label();
+    btn.addEventListener('click', function () {
+      var next = isDark() ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('idea-report-theme', next);
+      label();
+    });
+  })();
+</script>
+</body>
+</html>

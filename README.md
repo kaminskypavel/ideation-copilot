@@ -74,6 +74,7 @@ Drop the folders in [`plugins/ideation-copilot/skills/`](plugins/ideation-copilo
 | `idea:pricing [idea-name]` | Work out a value metric, willingness-to-pay signal, and packaging tiers |
 | `idea:interview [idea-name]` | Generate a targeted customer interview guide and synthesize results |
 | `idea:forge [idea-name]` | Synthesize everything into a consolidated summary |
+| `idea:report [idea-name]` | Render a single-file HTML status report with inline charts |
 | `idea:postmortem [idea-name]` | Structured debrief when you kill an idea |
 | `idea:setup` | Check & configure optional integrations (Exa, etc.) |
 
@@ -100,6 +101,9 @@ idea:pricing    once demand signal is real
    |
    v
 idea:forge      pitch-ready synthesis       idea:postmortem  if the evidence says stop
+   |
+   v
+idea:report     shareable HTML status render
 ```
 
 ### Step 1: Pitch your idea
@@ -169,6 +173,18 @@ idea:forge pawguard
 Score trajectory, validated vs still assumed, investor objections, 12-slide pitch order. This is what you hand to an advisor or investor, never the raw folder.
 
 ```bash
+idea:report pawguard
+```
+
+Renders `forge`, the evaluations, and the assumptions into one self-contained HTML file: score trajectory, dimension bars, and an assumption confidence heatmap, all inline SVG, no dependencies, light and dark themes. Forge before you show anyone; report is what you actually hand them, or print.
+
+<p align="center">
+  <img src="./docs/readme/report-sample.png" alt="idea:report sample output" width="720" />
+</p>
+
+See [`docs/readme/report-sample.html`](docs/readme/report-sample.html) for the live, worked example (open it in a browser).
+
+```bash
 idea:postmortem pawguard
 ```
 
@@ -183,7 +199,7 @@ When the evidence says stop. Challenges revisionist history with the evaluations
 5. One assumption per cycle.
 6. Price before you forge.
 7. Write kill criteria before you need them.
-8. Forge before you show anyone.
+8. Forge before you show anyone; then report is the shareable render of forge.
 
 ## What's In an Idea Folder
 
@@ -211,6 +227,7 @@ Each idea lives in `ideas/YYYY-MM-DD-idea-name/`:
 | `interview-guide-*.md` | Interview guide targeting one assumption, plus recruiting plan |
 | `interview-synthesis-*.md` | Classified quotes and an assumption verdict with new confidence |
 | `pricing-*.md` | Value metric, price hypothesis, and the willingness-to-pay study to run |
+| `report-*.html` | Single-file HTML status render with inline SVG charts, for sharing or printing |
 
 ## Enhanced Research (Optional)
 

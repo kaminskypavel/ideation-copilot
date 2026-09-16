@@ -11,6 +11,7 @@ Skills for turning a raw idea into a validated, investor-ready concept. Full rul
 | `idea:pricing` | Value metric, willingness-to-pay signal, packaging tiers |
 | `idea:interview` | Targeted customer interview guide, plus synthesis of results |
 | `idea:forge` | Synthesize a pitch-ready summary |
+| `idea:report` | Render a single-file HTML status report with inline SVG charts |
 | `idea:postmortem` | Structured debrief when you kill it |
 | `idea:setup` | Optional Exa (and friends) |
 

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 460" width="1200" height="460" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,1 L9,5 L0,9" fill="none" stroke="#8b8477" stroke-width="1.4"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="460" fill="#faf7f1"/>
+  <text x="600" y="44" text-anchor="middle" font-size="20" font-weight="600" fill="#2a2723">One idea, one folder, one loop</text>
+  <text x="600" y="68" text-anchor="middle" font-size="13" fill="#5c574d">Every command ends by reading the folder state and naming the next step</text>
+
+  <!-- phase labels -->
+  <g font-size="11" font-weight="600" letter-spacing="1.2">
+    <text x="130" y="118" text-anchor="middle" fill="#2563a8">SCAFFOLD</text>
+    <text x="490" y="118" text-anchor="middle" fill="#0d7d76">EVIDENCE</text>
+    <text x="800" y="118" text-anchor="middle" fill="#c2410c">CHALLENGE</text>
+    <text x="1070" y="118" text-anchor="middle" fill="#2563a8">SHIP</text>
+  </g>
+  <g stroke-width="1" stroke-dasharray="3 4">
+    <line x1="60" y1="126" x2="200" y2="126" stroke="#2563a8"/>
+    <line x1="240" y1="126" x2="740" y2="126" stroke="#0d7d76"/>
+    <line x1="760" y1="126" x2="840" y2="126" stroke="#c2410c"/>
+    <line x1="960" y1="126" x2="1180" y2="126" stroke="#2563a8"/>
+  </g>
+
+  <!-- connectors, main row y=190 -->
+  <g stroke="#8b8477" stroke-width="1.4" fill="none" marker-end="url(#a)">
+    <line x1="200" y1="190" x2="240" y2="190"/>
+    <line x1="380" y1="190" x2="420" y2="190"/>
+    <line x1="560" y1="190" x2="600" y2="190"/>
+    <line x1="740" y1="190" x2="780" y2="190"/>
+    <line x1="920" y1="190" x2="960" y2="190"/>
+    <!-- loop back: pushback -> evaluate -->
+    <path d="M850,224 L850,270 L310,270 L310,224"/>
+    <!-- forge -> report -->
+    <line x1="1070" y1="224" x2="1070" y2="256"/>
+    <!-- postmortem branch from loop -->
+    <line x1="790" y1="270" x2="790" y2="312"/>
+  </g>
+
+  <!-- cards -->
+  <g font-size="14" font-weight="600" text-anchor="middle">
+    <rect x="60" y="156" width="140" height="68" rx="12" fill="#ffffff" stroke="#2563a8" stroke-width="1.5"/>
+    <text x="130" y="185" fill="#2a2723">idea:new</text>
+    <text x="130" y="206" font-size="11" font-weight="400" fill="#5c574d">6 docs, assumptions</text>
+
+    <rect x="240" y="156" width="140" height="68" rx="12" fill="#ffffff" stroke="#0d7d76" stroke-width="1.5"/>
+    <text x="310" y="185" fill="#2a2723">idea:evaluate</text>
+    <text x="310" y="206" font-size="11" font-weight="400" fill="#5c574d">baseline, then re-score</text>
+
+    <rect x="420" y="156" width="140" height="68" rx="12" fill="#ffffff" stroke="#0d7d76" stroke-width="1.5"/>
+    <text x="490" y="185" fill="#2a2723">idea:interview</text>
+    <text x="490" y="206" font-size="11" font-weight="400" fill="#5c574d">7-14 people, 1 assumption</text>
+
+    <rect x="600" y="156" width="140" height="68" rx="12" fill="#ffffff" stroke="#0d7d76" stroke-width="1.5"/>
+    <text x="670" y="185" fill="#2a2723">idea:update</text>
+    <text x="670" y="206" font-size="11" font-weight="400" fill="#5c574d">fold in evidence, same day</text>
+
+    <rect x="780" y="156" width="140" height="68" rx="12" fill="#ffffff" stroke="#c2410c" stroke-width="1.5"/>
+    <text x="850" y="185" fill="#2a2723">idea:pushback</text>
+    <text x="850" y="206" font-size="11" font-weight="400" fill="#5c574d">weakest dimension first</text>
+
+    <rect x="960" y="156" width="220" height="68" rx="12" fill="#ffffff" stroke="#2563a8" stroke-width="1.5"/>
+    <text x="1070" y="185" fill="#2a2723">idea:pricing, then idea:forge</text>
+    <text x="1070" y="206" font-size="11" font-weight="400" fill="#5c574d">once label reads Good or better</text>
+
+    <rect x="960" y="256" width="220" height="56" rx="12" fill="#e8f0f8" stroke="#2563a8" stroke-width="1.5"/>
+    <text x="1070" y="280" fill="#2a2723">idea:report</text>
+    <text x="1070" y="299" font-size="11" font-weight="400" fill="#5c574d">the HTML you share, never the raw folder</text>
+
+    <rect x="690" y="312" width="200" height="56" rx="12" fill="#fbe9e3" stroke="#d6553a" stroke-width="1.5"/>
+    <text x="790" y="336" fill="#2a2723">idea:postmortem</text>
+    <text x="790" y="355" font-size="11" font-weight="400" fill="#5c574d">kill criteria hit, or two scores dropped</text>
+  </g>
+
+  <!-- loop caption -->
+  <text x="540" y="290" text-anchor="middle" font-size="12" fill="#5c574d">repeat interview, update, pushback, evaluate until Good or better</text>
+
+  <!-- rules footer -->
+  <g font-size="12" fill="#5c574d">
+    <text x="60" y="412">1. Baseline first, then evidence</text>
+    <text x="60" y="432">2. Interview before you argue</text>
+    <text x="360" y="412">3. Update the same day</text>
+    <text x="360" y="432">4. Re-score only after docs changed</text>
+    <text x="640" y="412">5. One assumption per cycle</text>
+    <text x="640" y="432">6. Price before you forge</text>
+    <text x="900" y="412">7. Write kill criteria early</text>
+    <text x="900" y="432">8. Forge and report before you show anyone</text>
+  </g>
+</svg>

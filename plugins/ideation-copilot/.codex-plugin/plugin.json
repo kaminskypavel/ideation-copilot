@@ -1,7 +1,7 @@
 {
   "name": "ideation-copilot",
   "version": "0.13.0",
-  "description": "Structured business idea development with idea:new, idea:evaluate, idea:pushback, idea:update, idea:pricing, idea:interview, and idea:forge. Includes VC, Market, and YC evaluation agents.",
+  "description": "Structured business idea development with idea:new, idea:evaluate, idea:pushback, idea:update, idea:pricing, idea:interview, idea:forge, and idea:report. Includes VC, Market, and YC evaluation agents.",
   "author": {
     "name": "Pavel 'PK' Kaminsky",
     "url": "https://github.com/kaminskypavel"

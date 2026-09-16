@@ -1,0 +1,378 @@
+<!doctype html>
+<!--
+  idea:report template. Fill every {{placeholder}}. Blocks marked
+  <!-- REPEAT:name --> ... <!-- END REPEAT:name --> show ONE example item;
+  duplicate the block per real item and delete the example if no data exists
+  for that section (render its empty-state sentence instead, per
+  references/report-style.md).
+
+  Tokens, SVG rules, and the idea-data schema are defined in
+  references/report-style.md. Do not invent scores, dates, or quotes: if a
+  value is not in the idea folder, write "not recorded" and leave the visual
+  in its empty state.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{idea_name}} - Status Report - {{report_date}}</title>
+<style>
+  :root {
+    --bg:#faf7f1; --surface:#ffffff; --surface-sunk:#f3efe6;
+    --ink:#2a2723; --ink-muted:#5c574d; --ink-faint:#8b8477;
+    --rule:#e6dfd1; --rule-strong:#cfc6b3;
+    --teal:#0d7d76; --teal-wash:#e2f1ef; --teal-tint:#7fbdb6;
+    --rust:#c2410c; --rust-wash:#fdf0e5;
+    --blue:#2563a8; --blue-wash:#e8f0f8;
+    --coral:#d6553a; --coral-wash:#fbe9e3; --coral-tint:#e8927d;
+    --radius:14px; --pill:999px;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    color-scheme:light;
+  }
+  /* Dark tokens: same warm world, inverted, fixed values (not filled per
+     report). Follows the OS by default; [data-theme] (set by the toggle
+     script below, persisted to localStorage) always wins over the OS
+     setting. Every color below is documented in report-style.md. */
+  @media (prefers-color-scheme:dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme:dark;
+      --bg:#211f1b; --surface:#2a2723; --surface-sunk:#38332c;
+      --ink:#f2ede4; --ink-muted:#c9c2b3; --ink-faint:#948c7b;
+      --rule:#3d3830; --rule-strong:#524c40;
+      --teal:#4fc0b8; --teal-wash:#163330; --teal-tint:#2f7a72;
+      --rust:#e8823f; --rust-wash:#3a2415;
+      --blue:#6badea; --blue-wash:#17293c;
+      --coral:#ea7e63; --coral-wash:#3a2018; --coral-tint:#b85d47;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme:dark;
+    --bg:#211f1b; --surface:#2a2723; --surface-sunk:#38332c;
+    --ink:#f2ede4; --ink-muted:#c9c2b3; --ink-faint:#948c7b;
+    --rule:#3d3830; --rule-strong:#524c40;
+    --teal:#4fc0b8; --teal-wash:#163330; --teal-tint:#2f7a72;
+    --rust:#e8823f; --rust-wash:#3a2415;
+    --blue:#6badea; --blue-wash:#17293c;
+    --coral:#ea7e63; --coral-wash:#3a2018; --coral-tint:#b85d47;
+  }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--font); font-size:15px; line-height:1.55; transition:background .15s,color .15s; }
+  .shell { max-width:880px; margin:0 auto; padding:32px 20px 48px; }
+  .hdr { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:32px; }
+  .hdr h1 { font-size:28px; font-weight:700; line-height:1.15; letter-spacing:-0.01em; margin:0; }
+  .hdr .meta { font-size:13px; color:var(--ink-faint); margin-top:4px; }
+  .hdr .score-block { text-align:end; }
+  .hdr .score { font-size:28px; font-weight:700; font-variant-numeric:tabular-nums; }
+  .badge { display:inline-block; padding:4px 12px; border-radius:var(--pill); font-size:11.5px; font-weight:600; letter-spacing:0.02em; }
+  .badge--good { background:var(--teal-wash); color:var(--teal); }
+  .badge--fair { background:var(--rust-wash); color:var(--rust); }
+  .badge--critical { background:var(--coral-wash); color:var(--coral); }
+  .badge--neutral { background:var(--blue-wash); color:var(--blue); }
+  .card { background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius); padding:20px; margin-bottom:20px; }
+  .card--flagged { border:2px solid var(--coral); background:var(--coral-wash); }
+  .card--flagged h2 { color:var(--coral); }
+  .card--flagged .body-text { color:var(--ink-muted); }
+  .card h2 { font-size:19px; font-weight:700; line-height:1.25; letter-spacing:-0.005em; margin:0 0 4px; }
+  .card .sub { font-size:13px; color:var(--ink-muted); margin:0 0 16px; }
+  .chip { display:inline-flex; align-items:center; gap:6px; padding:2px 10px; border-radius:var(--pill); font-size:12px; font-weight:600; }
+  .chip--teal { background:var(--teal-wash); color:var(--teal); }
+  .chip--rust { background:var(--rust-wash); color:var(--rust); }
+  .chip--blue { background:var(--blue-wash); color:var(--blue); }
+  .chip--coral { background:var(--coral-wash); color:var(--coral); }
+  .dot { width:8px; height:8px; border-radius:50%; display:inline-block; }
+  .dot--teal { background:var(--teal); } .dot--rust { background:var(--rust); }
+  .dot--blue { background:var(--blue); } .dot--coral { background:var(--coral); }
+  .table-wrap { overflow-x:auto; }
+  table { width:100%; min-width:520px; border-collapse:collapse; font-size:14px; }
+  th { text-align:start; font-size:11.5px; font-weight:600; letter-spacing:0.02em; color:var(--ink-faint); border-bottom:1px solid var(--rule-strong); padding:6px 10px; }
+  td { padding:8px 10px; border-bottom:1px solid var(--rule); vertical-align:top; }
+  td.num, th.num { font-variant-numeric:tabular-nums; text-align:end; }
+  .cell-conf { text-align:center; font-weight:700; border-radius:6px; }
+  .legend { display:flex; flex-wrap:wrap; gap:16px; font-size:12px; color:var(--ink-muted); margin-top:10px; }
+  .legend span { display:inline-flex; align-items:center; gap:6px; }
+  .swatch { width:12px; height:12px; border-radius:3px; display:inline-block; }
+  .dim-row { display:grid; grid-template-columns:110px 1fr 48px; align-items:center; gap:8px; margin-bottom:6px; }
+  .dim-row .label { font-size:14px; font-weight:650; }
+  .dim-row .value { font-size:13px; font-variant-numeric:tabular-nums; }
+  .agent-block { margin-bottom:24px; }
+  .agent-block:last-child { margin-bottom:0; }
+  .agent-block h3 { font-size:15px; font-weight:650; margin:0 0 10px; display:flex; justify-content:space-between; }
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .col-teal { border-inline-start:2px solid var(--teal); padding-inline-start:14px; }
+  .col-rust { border-inline-start:2px solid var(--rust); padding-inline-start:14px; }
+  .col-teal h3, .col-rust h3 { font-size:13px; font-weight:650; margin:0 0 8px; }
+  .col-teal h3 { color:var(--teal); } .col-rust h3 { color:var(--rust); }
+  ul.plain { list-style:none; margin:0; padding:0; }
+  ul.plain li { font-size:14px; margin-bottom:10px; }
+  ul.plain li .src { display:block; font-size:12px; color:var(--ink-faint); margin-top:2px; }
+  .objection { border:1px solid var(--rule); border-radius:10px; padding:14px; margin-bottom:12px; }
+  .objection:last-child { margin-bottom:0; }
+  .objection .q { font-weight:650; margin:0 0 8px; }
+  .objection .row { font-size:13px; color:var(--ink-muted); margin-bottom:4px; }
+  .empty { color:var(--ink-faint); font-size:14px; }
+  .ftr { font-size:12px; color:var(--ink-faint); border-top:1px solid var(--rule); padding-top:16px; margin-top:12px; }
+  .theme-toggle { border:1px solid var(--rule-strong); background:var(--surface); color:var(--ink-muted); border-radius:var(--pill); font-size:12px; font-weight:600; padding:5px 12px; cursor:pointer; font-family:inherit; }
+  .theme-toggle:hover { border-color:var(--ink-faint); }
+  @media (max-width:480px) {
+    .hdr { flex-direction:column; align-items:flex-start; }
+    .hdr .score-block { text-align:start; }
+    .two-col { grid-template-columns:1fr; }
+    .dim-row { grid-template-columns:90px 1fr 40px; }
+  }
+  @media print {
+    @page { margin:16mm; }
+    body { background:#fff; }
+    .card { break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!--
+  Machine-readable record. Arrays show one example item; add one object per
+  real item and delete keys/sections this idea folder has no source for
+  (e.g. no agents block if only one agent ran). Fields with no evidence in
+  the docs stay null, never a guessed number. Full schema and rules:
+  references/report-style.md "The data block".
+-->
+<script type="application/json" id="idea-data">
+{
+  "idea": { "name": "{{idea_name}}", "folder": "{{idea_folder}}", "generated": "{{report_date}}" },
+  "stage": "{{stage}}",
+  "combined_score": {{combined_score}},
+  "label": "{{grade_label}}",
+  "loop_position": { "step": "{{loop_step}}", "evidence": "{{loop_evidence}}" },
+  "next_step": { "recommend": "{{next_step_command}}", "reason": "{{next_step_reason}}" },
+  "weakest_dimension": { "agent": "{{weak_agent}}", "dimension": "{{weak_dimension}}", "score": {{weak_score}} },
+  "deal_breakers": [ "{{deal_breaker_text}}" ],
+  "agents": {
+    "{{agent_key}}": {
+      "overall": {{agent_overall}},
+      "dimensions": {
+        "{{dimension_key}}": { "score": {{dimension_score}}, "weight": {{dimension_weight}}, "evidence_quality": {{evidence_quality}} }
+      }
+    }
+  },
+  "score_trajectory": [
+    { "date": "{{eval_date}}", "combined": {{eval_combined}}, "vc": {{eval_vc}}, "market_analyst": {{eval_market}}, "yc_founder_fit": {{eval_yc}} }
+  ],
+  "assumptions": [
+    { "id": "{{assumption_id}}", "category": "{{assumption_category}}", "assumption": "{{assumption_text}}", "risk": "{{assumption_risk}}", "confidence": {{assumption_confidence}} }
+  ],
+  "validated": [ { "claim": "{{validated_claim}}", "source": "{{validated_source}}" } ],
+  "assumed": [ { "claim": "{{assumed_claim}}", "test": "{{assumed_test}}" } ],
+  "objections": [ { "objection": "{{objection_text}}", "risk_category": "{{objection_category}}", "severity": "{{objection_severity}}", "deck_fix": "{{objection_fix}}" } ],
+  "changelog_tail": [ { "date": "{{changelog_date}}", "doc": "{{changelog_doc}}", "change": "{{changelog_change}}" } ]
+}
+</script>
+
+<div class="shell">
+
+  <header class="hdr">
+    <div>
+      <h1>{{idea_name}}</h1>
+      <div class="meta">Status report - {{report_date}} - stage: {{stage}} - source: {{idea_folder}}</div>
+    </div>
+    <div class="score-block">
+      <!-- No evaluation-*.md yet: badge class = neutral, grade_label = "Not yet scored", score text = "--" -->
+      <span class="badge badge--{{grade_band_class}}">{{grade_label}}</span>
+      <div class="score">{{combined_score}}</div>
+      <div style="margin-top:8px;"><button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">Dark mode</button></div>
+    </div>
+  </header>
+
+  <!-- Loop position -->
+  <section class="card">
+    <h2>Where this idea stands</h2>
+    <p class="sub">Position in the loop defined by references/workflow.md</p>
+    <svg viewBox="0 0 640 70" width="100%" height="70" role="img" aria-label="Loop position">
+      <!-- REPEAT:loop-node : one <g> per loop step (new, evaluate, interview/pushback, pricing, forge). Space x evenly, e.g. 40 + i*140. Completed = --teal fill, current = --blue fill + 2px ring, future = outline only var(--rule-strong). -->
+      <line x1="40" y1="30" x2="600" y2="30" stroke="var(--rule)" stroke-width="2"/>
+      <circle cx="{{node_x}}" cy="30" r="10" fill="var(--blue)"/>
+      <text x="{{node_x}}" y="55" font-size="11.5" fill="var(--ink-muted)" text-anchor="middle">{{node_label}}</text>
+      <!-- END REPEAT:loop-node -->
+    </svg>
+    <p style="margin:12px 0 0;"><strong>Current step:</strong> {{loop_step}} &mdash; {{loop_evidence}}</p>
+    <p style="margin:6px 0 0;"><span class="chip chip--blue">Next: {{next_step_command}}</span> {{next_step_reason}}</p>
+  </section>
+
+  <!-- Score trajectory -->
+  <section class="card">
+    <h2>Score trajectory</h2>
+    <p class="sub">One line per agent, plus Combined. Empty state: fewer than two evaluation-*.md files.</p>
+    <svg viewBox="0 0 640 220" width="100%" height="220" role="img" aria-label="Score trajectory">
+      <!-- gridlines at 0/25/50/75/100, y = 190 - value/100*180 -->
+      <line x1="40" y1="190" x2="630" y2="190" stroke="var(--rule)"/>
+      <line x1="40" y1="145" x2="630" y2="145" stroke="var(--rule)"/>
+      <line x1="40" y1="100" x2="630" y2="100" stroke="var(--rule)"/>
+      <line x1="40" y1="55"  x2="630" y2="55"  stroke="var(--rule)"/>
+      <line x1="40" y1="10"  x2="630" y2="10"  stroke="var(--rule)"/>
+      <text x="8" y="194" font-size="11.5" fill="var(--ink-faint)">0</text>
+      <text x="8" y="14" font-size="11.5" fill="var(--ink-faint)">100</text>
+      <!-- REPEAT:trajectory-series : one <polyline> per agent (stroke var(--blue)=VC, var(--teal)=Market, var(--rust)=YC) plus one 3px var(--ink) polyline for Combined. points = "x1,y1 x2,y2 ...", x = 40 + i*(590/(N-1)), y = 190 - value/100*180 -->
+      <polyline points="{{points}}" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <circle cx="{{last_x}}" cy="{{last_y}}" r="4" fill="var(--ink)" stroke="var(--bg)" stroke-width="2"/>
+      <text x="{{last_x_label}}" y="{{last_y}}" font-size="13" fill="var(--ink)">Combined {{last_value}}</text>
+      <!-- END REPEAT:trajectory-series -->
+      <!-- REPEAT:trajectory-tick : one <text> per evaluation date along the x axis, y=210 -->
+      <text x="{{tick_x}}" y="210" font-size="11.5" fill="var(--ink-faint)" text-anchor="middle">{{tick_date}}</text>
+      <!-- END REPEAT:trajectory-tick -->
+    </svg>
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--ink)"></i>Combined</span>
+      <span><i class="swatch" style="background:var(--blue)"></i>VC</span>
+      <span><i class="swatch" style="background:var(--teal)"></i>Market Analyst</span>
+      <span><i class="swatch" style="background:var(--rust)"></i>YC Founder-Fit</span>
+    </div>
+  </section>
+
+  <!-- Dimension bars -->
+  <section class="card">
+    <h2>Dimension scores</h2>
+    <p class="sub">Bar length is score / 5. The tick marks evidence quality, 0-10.</p>
+
+    <!-- REPEAT:agent-block : one per agent that ran -->
+    <div class="agent-block">
+      <h3><span>{{agent_name}}</span><span>{{agent_overall}}/100</span></h3>
+      <!-- REPEAT:dimension-row : one per dimension. Bar color: score 4-5 = var(--teal), 2-3 = var(--rust), 1 = var(--coral). Filled width = round(score/5*260). Tick x = 120 + evidence_quality/10*260. -->
+      <div class="dim-row">
+        <span class="label">{{dimension_name}}</span>
+        <svg viewBox="0 0 400 28" width="100%" height="28">
+          <rect x="120" y="6" width="260" height="16" rx="4" fill="var(--surface-sunk)"/>
+          <rect x="120" y="6" width="{{fill_width}}" height="16" rx="4" fill="var(--dimension_color)"/>
+          <line x1="{{tick_x}}" y1="4" x2="{{tick_x}}" y2="24" stroke="var(--ink)" stroke-opacity="0.6" stroke-width="3"/>
+        </svg>
+        <span class="value">{{dimension_score}}/5</span>
+      </div>
+      <!-- END REPEAT:dimension-row -->
+    </div>
+    <!-- END REPEAT:agent-block -->
+
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--teal)"></i>Strong (4-5)</span>
+      <span><i class="swatch" style="background:var(--rust)"></i>Adequate (2-3)</span>
+      <span><i class="swatch" style="background:var(--coral)"></i>Weak (1)</span>
+      <span>Tick = evidence quality, 0-10</span>
+    </div>
+  </section>
+
+  <!-- Assumption confidence heatmap -->
+  <section class="card">
+    <h2>Assumption confidence</h2>
+    <p class="sub">From 03-assumptions.md. Confidence scores evidence quality, not whether the assumption is believed true.</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Assumption</th><th>Category</th><th>Risk</th><th class="num">Confidence</th></tr></thead>
+      <tbody>
+        <!-- REPEAT:assumption-row : cell-conf background per report-style.md ramp: 0-2 var(--coral), 3-4 var(--coral-tint), 5-6 var(--surface-sunk), 7-8 var(--teal-tint), 9-10 var(--teal). Text white on 0-4 and 7-10, var(--ink) on 5-6. No recorded confidence: render "-" on var(--surface-sunk), never a guessed number. -->
+        <tr>
+          <td>{{assumption_id}}</td>
+          <td>{{assumption_text}}</td>
+          <td>{{assumption_category}}</td>
+          <td><span class="dot dot--{{risk_dot_class}}"></span> {{assumption_risk}}</td>
+          <td class="num"><span class="cell-conf" style="background:{{conf_bg}};color:{{conf_fg}};padding:4px 8px;">{{assumption_confidence}}</span></td>
+        </tr>
+        <!-- END REPEAT:assumption-row -->
+      </tbody>
+    </table>
+    </div>
+    <p class="empty" style="margin-top:8px;">{{unscored_confidence_note}}</p>
+  </section>
+
+  <!-- Validated vs assumed -->
+  <section class="card">
+    <h2>Validated vs. assumed</h2>
+    <div class="two-col">
+      <div class="col-teal">
+        <h3>Validated</h3>
+        <ul class="plain">
+          <!-- REPEAT:validated-item -->
+          <li>{{validated_claim}}<span class="src">{{validated_source}}</span></li>
+          <!-- END REPEAT:validated-item -->
+        </ul>
+      </div>
+      <div class="col-rust">
+        <h3>Still assumed</h3>
+        <ul class="plain">
+          <!-- REPEAT:assumed-item -->
+          <li>{{assumed_claim}}<span class="src">Test: {{assumed_test}}</span></li>
+          <!-- END REPEAT:assumed-item -->
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Investor objections -->
+  <section class="card">
+    <h2>Investor objections</h2>
+    <p class="sub">From forge-*.md or the newest pushback-session-*.md.</p>
+    <!-- REPEAT:objection : chip color by severity, High=coral, Medium=rust, Low=blue -->
+    <div class="objection">
+      <p class="q">{{objection_text}}</p>
+      <p class="row"><span class="chip chip--blue">{{objection_category}}</span> <span class="chip chip--{{severity_chip_class}}">{{objection_severity}}</span></p>
+      <p class="row"><strong>Deck fix:</strong> {{objection_fix}}</p>
+    </div>
+    <!-- END REPEAT:objection -->
+  </section>
+
+  <!-- Deal-breakers. Use class="card card--flagged" ONLY when at least one
+       deal-breaker exists; a card flagged coral for an empty list reads as a
+       false alarm. Zero deal-breakers, or no evaluation yet, both get the
+       plain "card" class with an empty-state sentence. -->
+  <section class="card card--flagged">
+    <h2>Deal-breakers</h2>
+    <ul class="plain body-text">
+      <!-- REPEAT:deal-breaker -->
+      <li>{{deal_breaker_text}}</li>
+      <!-- END REPEAT:deal-breaker -->
+    </ul>
+    <!-- None, or not yet evaluated: drop card--flagged, replace the list with
+         <p class="empty">No open deal-breakers.</p> or
+         <p class="empty">No evaluation-*.md yet; deal-breakers surface after the first idea:evaluate run.</p> -->
+  </section>
+
+  <!-- Changelog tail -->
+  <section class="card">
+    <h2>Recent changelog</h2>
+    <p class="sub">Last entries across 00-05 docs, most recent first.</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Date</th><th>Doc</th><th>Change</th></tr></thead>
+      <tbody>
+        <!-- REPEAT:changelog-row -->
+        <tr><td>{{changelog_date}}</td><td>{{changelog_doc}}</td><td>{{changelog_change}}</td></tr>
+        <!-- END REPEAT:changelog-row -->
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <footer class="ftr">
+    Generated {{report_date}} from {{idea_folder}}. This file is a render, not the record.
+    The idea folder's markdown stays the source of truth; re-run idea:report after any
+    idea:update, idea:evaluate, idea:pushback, idea:pricing, or idea:forge to refresh it.
+  </footer>
+
+</div>
+
+<!-- Theme toggle: flips data-theme on <html>, persists to localStorage, and
+     initializes from a saved choice or the OS preference on load. This is
+     the only script in the file; every value it touches is CSS, not markup. -->
+<script>
+  (function () {
+    var root = document.documentElement;
+    var saved = localStorage.getItem('idea-report-theme');
+    if (saved) root.setAttribute('data-theme', saved);
+    var btn = document.getElementById('theme-toggle');
+    function isDark() { return (root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light')) === 'dark'; }
+    function label() { btn.textContent = isDark() ? 'Light mode' : 'Dark mode'; }
+    label();
+    btn.addEventListener('click', function () {
+      var next = isDark() ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('idea-report-theme', next);
+      label();
+    });
+  })();
+</script>
+</body>
+</html>
