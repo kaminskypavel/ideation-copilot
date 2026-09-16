@@ -16,7 +16,7 @@ Follow these phases in order.
 
 ### Phase 1: Load
 
-1. Parse `<argument>` for the idea folder name and an optional agent filter (`vc` or `market`)
+1. Parse `<argument>` for the idea folder name and an optional agent filter (`vc`, `market`, or `yc`)
 2. Search for the idea folder:
 
 ```
@@ -24,19 +24,20 @@ ideas/*{idea-folder-name}*/
 ```
 
 3. Read all documents in the folder (00-overview through 05-experiments). Note which docs exist and which are missing.
-4. Read the shared evaluation framework:
+4. Determine the idea's stage from `04-pmf-strategy.md`'s milestones and PMF ladder checkboxes: `pre-product` (no MVP built), `prototype` (MVP exists, pre-revenue traction only), or `early-revenue` (paying customers or revenue). If `04-pmf-strategy.md` is missing or inconclusive, ask the user or default to `pre-product`.
+5. Read the shared evaluation framework:
 
 ```
 references/evaluation-framework.md
 ```
 
-5. Read the Exa research guide (if it exists):
+6. Read the Exa research guide (if it exists):
 
 ```
 references/exa-research.md
 ```
 
-6. If `03-assumptions.md` exists, flag it for cross-referencing.
+7. If `03-assumptions.md` exists, flag it for cross-referencing.
 
 ### Phase 2: Dispatch Agents
 
@@ -45,6 +46,7 @@ Prepare the context block for agents — combine:
 - The Exa research guide (if loaded)
 - All idea documents content
 - The assumptions document (if it exists)
+- The detected stage, plus one line telling agents to apply the framework's Stage Calibration section: relax Traction and Business Model expectations for `pre-product`, expect early usage signals for `prototype`, and apply the full rubric for `early-revenue`.
 
 **If an agent filter was specified** (`vc`, `market`, or `yc`), run only that agent.
 
@@ -86,12 +88,14 @@ Present a summary table:
 ```markdown
 ## Evaluation Summary
 
+**Stage:** [pre-product / prototype / early-revenue]: [one line stating which dimensions were relaxed, if any]
+
 | Agent | Score | Deal-breakers |
 |-------|-------|---------------|
 | VC Investability | [score]/100 | [list or None] |
 | Market Opportunity | [score]/100 | — |
 | YC Founder-Fit | [score]/100 | — |
-| **Combined** | **[score]/100** | **[count] deal-breaker(s)** |
+| **Combined** | **[score]/100 ([grade label from evaluation-framework.md])** | **[count] deal-breaker(s)** |
 
 **Weakest dimension:** [agent] → [dimension] ([score]/5) — address this first.
 ```
@@ -111,6 +115,7 @@ The file starts with YAML frontmatter containing all scores in a machine-readabl
 ---
 type: evaluation
 date: YYYY-MM-DD
+stage: pre-product
 agents: [vc, market-analyst, yc-founder-fit]
 combined_score: 59
 deal_breakers: ["Team scored 1/5"]

@@ -47,6 +47,8 @@ Look for `evaluation-*.md` files in the idea folder. If one or more exist, read 
 
 If no evaluation exists, proceed normally — decompose from the docs alone.
 
+**Tarpit pre-check:** before decomposing, check the idea against four tarpit criteria: (1) a lot of people independently come up with it, (2) it seems like an unsolved problem, (3) friends and early users give lots of positive feedback, (4) people have been trying and failing to build it since the 90s. If three or more fire, make "this is not a tarpit idea" the first claim to spar on, ahead of the seven lenses below.
+
 Break the idea into **discrete, testable claims** organized by the 7 business lenses from the framework. **If an evaluation exists, order claims by weakest score first:**
 
 1. **Problem Validity** — Is this a real problem? Vitamin or painkiller?
@@ -113,6 +115,7 @@ Construct the strongest opposing position. Use the **reasoning tools from the ev
 - *Historical analogy* — what resembles this? How did it play out?
 - *Incentive analysis* — who benefits, who loses, how does that shape behavior?
 - *Competitive simulation* — what does an incumbent do when they notice this?
+- *Here Be Dragons*: someone probably tried this before and failed. What's different this time? Use this for Market & Timing claims, then research prior attempts in step 3b before accepting the "why now" story.
 
 Say "I'm inverting this —" or "Let me check the base rate —" so the reasoning is visible.
 

@@ -63,6 +63,10 @@ Read all pushback sessions and compile:
 - Compile from changelog entries across all docs
 - Track how the thesis evolved from the original pitch
 
+**Investor objections:**
+- Turn each Refuted or Unresolved claim, and each deal-breaker, into an objection an investor would actually raise in a partner meeting
+- Tag its risk category and severity, and note a deck fix, not just a rebuttal
+
 ### Step 4: Write the Forge Summary
 
 Create `forge-YYYYMMDD.md` in the idea folder:
@@ -92,7 +96,32 @@ Pushback sessions analyzed: <count>
 <Compiled from all sessions and docs>
 
 ## Pitch-Ready Summary
-<3-5 bullet points a founder could use to pitch this idea right now, grounded in validated evidence>
+<One line per slide, in this canonical order. Ground each line in a validated claim (cite the evaluation, pushback verdict, or experiment result). If the docs can't support a slide yet, write "(not yet validated)" instead of inventing content.>
+
+1. **Hook / Opening:**
+2. **Problem:**
+3. **Solution:**
+4. **Product / Demo:**
+5. **Traction / Validation:**
+6. **Market Size:**
+7. **Business Model:**
+8. **Competition:**
+9. **Team:**
+10. **Financials:**
+11. **The Ask:**
+12. **Vision / Close:**
+
+**Missing slides:** <which of the twelve above the idea docs cannot yet support, and what's needed to fill them>
+
+## Investor Objections
+<Populate from Refuted and Unresolved claims across all pushback sessions, and from any deal-breakers in the evaluations. One entry per objection. Tag each with the risk category it falls under: Market, Execution, Technical, Competitive, Business Model, Timing, Regulatory, or Capital Efficiency.>
+
+### Objection: <state it exactly as an investor would phrase it in a partner meeting>
+- **Risk category:** Market / Execution / Technical / Competitive / Business Model / Timing / Regulatory / Capital Efficiency
+- **Why they'll raise it:**
+- **Severity:** High / Medium / Low
+- **Suggested response:**
+- **Deck fix:** <what to change in the pitch itself so this objection lands softer>
 
 ## Verdict
 **Idea strength:** [Strong / Promising / Needs work / Reconsider]

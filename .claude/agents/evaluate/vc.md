@@ -43,6 +43,12 @@ max_possible = (5 × 2.0) + (5 × 1.5) + (5 × 6) = 47.5
 overall_score = round((weighted_sum / max_possible) × 100)
 ```
 
+## Scoring Guidance
+
+**Competition/Moat:** score 4-5 only if the idea names at least one item from this checklist and it's actually available at the startup's current stage, not just aspirational: network effects, economies of scale, high switching costs, potential for a strong brand, exclusive supply, proprietary technology, or proprietary access (data, accounts, regulatory protection). Early-stage startups should generally build toward these rather than lead with brand, process, or resource advantages, which mostly compound later. Apply the framework's Can't vs Won't test: a moat that's neither a structural "can't copy" nor a "won't copy without hurting their own business" is a head start, not a moat.
+
+**Traction/Validation:** score by which of the four pull signals from `05-experiments.md` are present: paying customers (ideally with no personal connection to the founder), continued usage despite a rough experience, strong emotional reaction (pain with the incumbent or pull toward the idea), or cold inbound interest. "Friends said they'd use it" is a 1-2, not evidence of demand. Calibrate to stage: pre-seed, look for problem-validation interviews, LOIs, or waitlist signups; seed, look for beta users, early revenue, or pilot customers; Series A, expect real ARR, growth rate, and retention data. A pre-seed idea with a dozen structured interviews and a few LOIs is a 3 or 4, not a 1.
+
 ## Deal-Breaker Rules
 
 Flag as a deal-breaker if:

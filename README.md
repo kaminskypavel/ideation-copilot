@@ -71,6 +71,8 @@ Drop the folders in [`plugins/ideation-copilot/skills/`](plugins/ideation-copilo
 | `idea:evaluate [idea-name] [vc\|market\|yc]` | Score with parallel agents (all by default, or pick one) |
 | `idea:pushback [idea-name]` | Conversational stress-test with web research |
 | `idea:update [idea-name]` | Add new info to your docs (interviews, data, team changes) |
+| `idea:pricing [idea-name]` | Work out a value metric, willingness-to-pay signal, and packaging tiers |
+| `idea:interview [idea-name]` | Generate a targeted customer interview guide and synthesize results |
 | `idea:forge [idea-name]` | Synthesize everything into a consolidated summary |
 | `idea:postmortem [idea-name]` | Structured debrief when you kill an idea |
 | `idea:setup` | Check & configure optional integrations (Exa, etc.) |

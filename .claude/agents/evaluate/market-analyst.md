@@ -38,6 +38,37 @@ Score each dimension 1-5 using the scale from the evaluation framework. All dime
 overall_score = round((sum_of_5_dimensions / 25) × 100)
 ```
 
+## Market Sizing Method
+
+For the Market Size & Growth dimension, require both methods below and cross-check them. Use whichever method fits the available data; use the Value Theory method when no analyst report exists for the category.
+
+**Top-down:**
+```
+TAM = total market category size
+SAM = TAM x geographic % x segment %
+SOM = SAM x realistic capture rate (2-5%)
+```
+
+**Bottom-up:**
+```
+TAM = sum(segment size x annual revenue per customer)
+SAM = TAM x (segments you can serve / total segments)
+SOM = SAM x realistic penetration rate (year 3-5)
+```
+
+**Value Theory (for new categories with no comparable market report):**
+```
+Value per customer = problem cost x % of the problem solved by the solution
+Price per customer = value per customer x willingness-to-pay % (10-30%)
+TAM = total potential customers x price per customer
+```
+
+**Guardrails, apply automatically:**
+- Compare the top-down and bottom-up results. They should land within 30% of each other; a gap over 50% is a red flag worth naming explicitly.
+- New entrants rarely capture more than 5% of a market within 5 years. An SOM claim above that needs a specific, stated reason.
+- A single top-down number with no bottom-up cross-check caps this dimension at 3, regardless of how large or credible the top-down figure looks.
+- Where a public comparable exists, validate the estimate against it (revenue, market share, category size) and cite the comparable by name.
+
 ## Web Research
 
 **Every dimension must include at least one researched data point.** If `web_search_advanced_exa` is available, prefer it for category-specific queries (see the Exa research guide for details). Otherwise use WebSearch. Always state what you searched for, which tool you used, and what you found.

@@ -57,6 +57,14 @@ web_search_advanced_exa: query="[technology] adoption curve enterprise", categor
 web_search_advanced_exa: query="[founder name] [company] background", category="linkedin profile", numResults=10
 ```
 
+### Graveyard Research ("Here Be Dragons")
+Use this before accepting a "why now" claim at face value. Someone likely tried this before; find out what happened to them.
+```
+web_search_advanced_exa: query="[category] startup shut down OR failed OR pivoted", category="news", numResults=10
+web_search_advanced_exa: query="[category] startups", category="company", numResults=20
+```
+Look for domains in the results that are dead or redirected. That's the graveyard the "why now" story needs to explain.
+
 ## Agent Category Map
 
 Each evaluation agent should prefer specific categories for their dimensions:

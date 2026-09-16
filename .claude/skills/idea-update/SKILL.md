@@ -30,6 +30,13 @@ Ask the user or infer from context:
 - **New data?** Ask the user what new information they have (customer interviews, market data, competitor analysis, experiment results).
 - **Pivot?** Has the core thesis changed? If so, flag which documents need major rewrites vs. minor updates.
 
+**When the new data is customer interview results, classify each quoted response before it moves any assumption toward Validated:**
+
+- **Positive signals:** the interviewee reacts with something like "does that really work?" or "I'd sign up for the wait list today," or shows demonstrated behavior like asking to meet again or requesting the deck.
+- **Negative signals, even when phrased politely:** "that sounds kind of interesting" (interesting means no), "we don't have the budget," or "not the right time, let's talk next year." Treat all three as a no.
+- **The Gusto emotional-reaction test, for desirability assumptions specifically:** polite interest ("yeah, that's cool, I may buy it") is a weak signal and reads as a no. Unprompted frustration or genuine excitement (they start cursing at the incumbent, or get visibly worked up about your idea) is a strong signal. A D-row assumption cannot flip to Validated on polite interest alone.
+- **Sample size sanity check:** 7-14 interviews is the useful range, fewer than 7 is too little data, more than 14 is usually diminishing returns. A practical stopping rule: stop once you can predict 70-80% of what the next interviewee will say.
+
 ### Step 3: Update Each Document
 
 Work through documents in order, making targeted updates:
@@ -53,6 +60,7 @@ Work through documents in order, making targeted updates:
 
 #### 03-assumptions.md
 - Mark tested assumptions with result: **Validated** / **Invalidated** / **Partially validated**
+- Update each touched row's Confidence (0-10) score using the legend at the top of the doc. Moving to Validated requires the confidence score to actually climb, not just a longer Evidence cell.
 - Add newly discovered assumptions from challenges
 - Re-rank the assumption stack based on current knowledge
 - Update "The Riskiest Assumption" if it shifted
@@ -65,6 +73,7 @@ Work through documents in order, making targeted updates:
 
 #### 05-experiments.md
 - Fill in results and learnings for completed experiments
+- Before marking an experiment a pass, check the result against the four pull signals at the top of the doc (payment, continued usage, strong emotion, cold inbound). Interest alone is not a pass.
 - Add new experiments based on challenge findings or new assumptions
 - Update the Decision Log with pivot/persevere decisions
 - Re-prioritize the experiment backlog
@@ -107,7 +116,7 @@ What's next?
 
 ## Principles
 
-- **Evidence over opinion.** Only upgrade confidence when there's real data backing it. "I think customers want this" stays as an assumption. "12/15 interviewees said they'd pay $30/mo" is evidence.
+- **Evidence over opinion.** Only upgrade confidence when there's real data backing it. "I think customers want this" stays as an assumption. "12/15 interviewees said they'd pay $30/mo" is evidence, but check that the interview count itself is meaningful: 7-14 interviews is the useful range for a claim like this, and the signal classification above still applies to each one.
 - **Track provenance.** When updating a claim, note where the evidence came from (interview #, experiment result, market report).
 - **Don't delete history.** Use strikethrough for invalidated assumptions rather than removing them — the graveyard of bad assumptions is valuable learning.
 - **Compound knowledge.** Each forge pass should make the documents more precise, not just longer. Remove fluff, tighten language, increase specificity.

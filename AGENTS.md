@@ -8,6 +8,8 @@ Skills for turning a raw idea into a validated, investor-ready concept. Full rul
 | `idea:evaluate` | Score via VC / market / YC agents |
 | `idea:pushback` | Adversarial stress-test |
 | `idea:update` | Fold new evidence into the docs |
+| `idea:pricing` | Value metric, willingness-to-pay signal, packaging tiers |
+| `idea:interview` | Targeted customer interview guide, plus synthesis of results |
 | `idea:forge` | Synthesize a pitch-ready summary |
 | `idea:postmortem` | Structured debrief when you kill it |
 | `idea:setup` | Optional Exa (and friends) |

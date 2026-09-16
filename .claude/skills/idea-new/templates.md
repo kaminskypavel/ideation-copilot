@@ -18,6 +18,12 @@ What pain point or inefficiency exists today? Who suffers from it?
 
 What do you see that others don't? Why now?
 
+## Founding Hypothesis
+
+Fill in the one-sentence form. This is the claim every other document should either support or challenge.
+
+> If we help **{customer}** solve **{problem}** with **{approach}**, they will choose it over **{competitors}** because **{differentiator}**.
+
 ## The Solution (High Level)
 
 One paragraph describing what you'd build.
@@ -48,6 +54,12 @@ What makes this a potentially disruptive, not incremental, business?
 |-----------------|------|------|------|
 | | | | |
 
+### How much better is your solution? (Delta-4)
+<!-- A solution needs to be roughly 4 points better on a 1-10 scale before anyone bothers switching. If the incumbent already scores 6+, replacing it (think Excel) is an uphill fight. -->
+- Rate the incumbent, 1-10: __
+- Rate yours, 1-10: __
+- Delta: __ (need 4+)
+
 ### Why do current solutions fail?
 -
 
@@ -75,8 +87,13 @@ What makes this a potentially disruptive, not incremental, business?
 ### What adjacent markets have been disrupted similarly?
 -
 
-### Relevant trends supporting this idea
--
+### Why now? (check what applies)
+- [ ] An inflection in a technology, or in adoption of a technology
+- [ ] A change in regulation
+- [ ] A change in a long-held belief
+- [ ] A new distribution channel has opened up
+- [ ] Costs have fallen, or price points have risen, dramatically
+- [ ] None of the above yet (treat "why now" as unanswered, not assumed)
 
 ## Open Questions
 - [ ]
@@ -135,32 +152,45 @@ What makes this a potentially disruptive, not incremental, business?
 
 Assumptions are the silent killers of startups. Every idea rests on a stack of beliefs — most are never examined until it's too late.
 
+### Confidence scale (evidence quality, not correctness)
+
+Score how strong the evidence behind each assumption is, not whether you think it's true:
+
+| Confidence | Meaning |
+|---|---|
+| 0-1 | Opinions, pitch decks, themes |
+| 1-3 | Colleague reviews, back-of-envelope estimates |
+| 3-5 | Anecdotal data, surveys |
+| 5-10 | Fake door tests, alphas, betas, A/B experiments |
+
+An assumption only moves toward "Validated" (see `idea:update`) when its Confidence score climbs, not when the Evidence cell gets longer.
+
 ## Desirability Assumptions (Will people want this?)
 
-| # | Assumption | Risk Level | Evidence For | Evidence Against |
-|---|-----------|------------|-------------|-----------------|
+| # | Assumption | Risk Level | Evidence | Confidence (0-10) |
+|---|-----------|------------|----------|--------------------|
 | D1 | | | | |
 | D2 | | | | |
 | D3 | | | | |
 
 ## Feasibility Assumptions (Can we build this?)
 
-| # | Assumption | Risk Level | Evidence For | Evidence Against |
-|---|-----------|------------|-------------|-----------------|
+| # | Assumption | Risk Level | Evidence | Confidence (0-10) |
+|---|-----------|------------|----------|--------------------|
 | F1 | | | | |
 | F2 | | | | |
 
 ## Viability Assumptions (Will this make money?)
 
-| # | Assumption | Risk Level | Evidence For | Evidence Against |
-|---|-----------|------------|-------------|-----------------|
+| # | Assumption | Risk Level | Evidence | Confidence (0-10) |
+|---|-----------|------------|----------|--------------------|
 | V1 | | | | |
 | V2 | | | | |
 
 ## Market Assumptions
 
-| # | Assumption | Risk Level | Evidence For | Evidence Against |
-|---|-----------|------------|-------------|-----------------|
+| # | Assumption | Risk Level | Evidence | Confidence (0-10) |
+|---|-----------|------------|----------|--------------------|
 | M1 | | | | |
 | M2 | | | | |
 
@@ -247,6 +277,15 @@ Order all assumptions by: (Impact if wrong) x (Uncertainty level)
 # Experiments: {Idea Name}
 
 Test your riskiest assumptions with the cheapest, fastest experiments possible.
+
+## What counts as a pass
+
+Score every experiment's "Success criteria" against these four pull signals. Anything weaker is a polite no, not evidence:
+
+1. **People pay money**, ideally people you have no personal connection to.
+2. **Continued usage**: they keep coming back even when the experience is hacky or bad.
+3. **Strong emotion**: real frustration with the incumbent, or a strong pull toward what you're offering.
+4. **Cold inbound interest**: someone you didn't reach out to comes looking for this.
 
 ## Experiment Backlog
 
